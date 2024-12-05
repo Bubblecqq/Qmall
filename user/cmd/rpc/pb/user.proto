@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+option go_package="./pb";
+import "google/protobuf/timestamp.proto";
+package pb;
+
+
+message User {
+  int64 id = 1;
+  google.protobuf.Timestamp create_time = 2;
+  google.protobuf.Timestamp update_time = 3;
+  int32 isDeleted = 4;
+  string nickname = 5;
+  string account = 6;
+  string avatar = 7;
+  int32 gender = 8;
+  string phone = 9;
+  string password = 10;
+  string id_card = 11;
+  int32 source = 12;
+  int32 system_id = 13;
+  int32 client_id = 14;
+  string UnionId = 15;
+  int32 is_enable = 16;
+  google.protobuf.Timestamp last_login_time = 17;
+  int64 create_user = 18;
+  int64 update_user = 19;
+  string token= 20;
+  string session_id = 21;
+  string token_expire_time = 22;
+}
+
+// 创建用户请求
+message CreateUserReq {
+  int32 client_id = 1;
+  int32 system_id = 2;
+  string phone = 3;
+  string password = 4;
+}
+message CreateUserResp {}
+
+// 删除用户
+message DeleteUserReq {
+  int64 id = 1;
+}
+message DeleteUserResp {}
+
+// 根据id获取用户
+message GetUserByIdReq {
+  int64 id = 1;
+}
+message GetUserByIdResp {
+  User user = 1;
+}
+
+
+//登录
+message LoginUserReq {
+  int32 client_id = 1;
+  string phone = 2;
+  int32 system_id = 3;
+  string verificationCode = 4;
+}
+
+message LoginUserResp {
+  User user = 1;
+}
+
+
+// rpc func
+service user {
+  rpc CreateUser(CreateUserReq) returns (CreateUserResp);
+  rpc DeleteUser(DeleteUserReq) returns (DeleteUserResp);
+  rpc GetUserById(GetUserByIdReq) returns (GetUserByIdResp);
+  rpc LoginUser(LoginUserReq) returns (LoginUserResp);
+}

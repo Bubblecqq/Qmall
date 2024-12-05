@@ -1,0 +1,40 @@
+syntax = "v1"
+
+info (
+	title:   "用户中心服务"
+	desc:    "用户中心服务"
+	author:  "cqq"
+	email:   "1342982166@qq.com"
+	version: "v1"
+)
+
+import (
+	"user/user.api"
+)
+
+@server (
+	prefix: user/v1
+	group:  user
+)
+service user {
+	@doc "获取用户列表"
+	@handler getUsers
+	post /getUsers (GetUserListReq) returns (GetUserListResp)
+
+	@doc "创建用户"
+	@handler createUser
+	post /createUser (CreateUserReq) returns (CreateUserResp)
+
+	@doc "根据id删除用户"
+	@handler deleteUser
+	post /deleteUser (DeleteUserReq) returns (DeleteUserResp)
+
+	@doc "根据id获取用户"
+	@handler getUserById
+	post /getUserById (GetUserByIdReq) returns (GetUserByIdResp)
+
+	@doc "单点用户登录"
+	@handler loginUser
+	post /loginUser (LoginUserReq) returns (LoginUserResp)
+}
+

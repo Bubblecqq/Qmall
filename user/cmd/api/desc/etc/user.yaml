@@ -1,0 +1,17 @@
+Name: user
+Host: 127.0.0.1
+Port: 1001
+Mode: dev
+Mysql:
+  Host: "192.168.23.233:3306"
+  User: "root"
+  Pass: "000000"
+  Database: "user_center"
+  Charset: "utf8mb4"
+Cache:
+  - Host: 192.168.23.233:6379
+    Pass: "123456"
+UserRpcConf:
+  Endpoints:
+    - 127.0.0.1:2001
+  NonBlock: true

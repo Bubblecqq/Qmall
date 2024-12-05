@@ -1,0 +1,83 @@
+syntax = "v1"
+
+info(
+    title: "用户中心服务"
+    desc: "用户中心服务"
+    author: "cqq"
+    email: "1342982166@qq.com"
+    version: "v1"
+)
+
+type User{
+    Id int64 `json:"id"`
+    CreateTime string `json:"create_time"`
+    UpdateTime string `json:"update_time"`
+    IsDeleted  int32 `json:"isDeleted"`
+    Account string `json:"account"`
+    Avatar string `json:"avatar"`
+    Gender int32 `json:"gender"`
+    Phone string `json:"phone"`
+    Password string `json:"password"`
+    IDCard string `json:"id_card"`
+    Source int32 `json:"source"`
+    SystemId int32 `json:"system_id"`
+    ClientId int32 `json:"client_id"`
+    unionId string `json:"union_id"`
+    IsEnable int32 `json:"is_enable"`
+    LastLoginTime string `json:"last_login_time"`
+    CreateUser int64 `json:"create_user"`
+    UpdateUser int64 `json:"update_user"`
+    Token string `json:"token"`
+    SessionId string `json:"session_id"`
+    TokenExpireTime string `json:"token_expire_time"`
+}
+
+// 创建用户
+type (
+    CreateUserReq {
+        ClientId int32 `json:"client_id"`
+        SystemId int32 `json:"system_id"`
+        Phone string `json:"phone"`
+        Password string `json:"password"`
+    }
+    CreateUserResp {
+    }
+)
+
+// 获取用户列表
+type (
+    GetUserListReq {}
+    GetUserListResp {
+        UserList    []User `json:"users"`
+    }
+)
+// 删除用户
+type (
+    DeleteUserReq {
+        Id int64 `json:"id"`
+    }
+    DeleteUserResp {}
+)
+
+// 根据id获取用户
+type (
+    GetUserByIdReq {
+        Id int64 `json:"id"`
+    }
+    GetUserByIdResp {
+        user User `json:"user"`
+    }
+)
+
+// 登录
+type (
+    LoginUserReq {
+        ClientId int32 `json:"client_id"`
+        phone string `json:"phone"`
+        systemId int32 `json:"system_id"`
+        verificationCode string `json:"verificationCode"`
+    }
+    LoginUserResp {
+        user User `json:"user"`
+    }
+)
