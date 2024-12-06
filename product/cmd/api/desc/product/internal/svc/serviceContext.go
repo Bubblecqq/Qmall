@@ -1,9 +1,9 @@
 package svc
 
 import (
+	"QMall/product/cmd/api/desc/product/internal/config"
+	"QMall/product/cmd/rpc/product/product"
 	"github.com/zeromicro/go-zero/zrpc"
-	"goZeroDemo4/product/cmd/api/desc/product/internal/config"
-	"goZeroDemo4/product/cmd/rpc/product/product"
 )
 
 type ServiceContext struct {

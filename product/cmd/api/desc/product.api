@@ -49,5 +49,10 @@ service product {
 	@doc "创建商品关联"
 	@handler createProductSku
 	post /createProductSku (CreateProductSkuReq) returns (CreateProductSkuResp)
+
+	// 商品分页
+	@doc "商品分页"
+	@handler ProductIndex
+	post /ProductIndex (PageReq) returns (PageResp)
 }
 

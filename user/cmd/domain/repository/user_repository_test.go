@@ -1,9 +1,9 @@
 package repository
 
 import (
+	"QMall/common"
 	"fmt"
 	"github.com/redis/go-redis/v9"
-	"goZeroDemo4/common"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

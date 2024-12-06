@@ -1,10 +1,10 @@
 package user
 
 import (
+	"QMall/user/cmd/api/desc/user/internal/svc"
+	"QMall/user/cmd/api/desc/user/internal/types"
 	"context"
 	"github.com/zeromicro/go-zero/core/logx"
-	"goZeroDemo4/user/cmd/api/desc/user/internal/svc"
-	"goZeroDemo4/user/cmd/api/desc/user/internal/types"
 )
 
 type DeleteUserLogic struct {

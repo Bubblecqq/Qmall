@@ -1,10 +1,10 @@
 package user
 
 import (
-	"goZeroDemo4/common"
-	"goZeroDemo4/user/cmd/api/desc/user/internal/logic/user"
-	"goZeroDemo4/user/cmd/api/desc/user/internal/svc"
-	"goZeroDemo4/user/cmd/api/desc/user/internal/types"
+	"QMall/common"
+	"QMall/user/cmd/api/desc/user/internal/logic/user"
+	"QMall/user/cmd/api/desc/user/internal/svc"
+	"QMall/user/cmd/api/desc/user/internal/types"
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"

@@ -1,8 +1,10 @@
 package repository
 
 import (
+	"QMall/product/cmd/domain/model"
+	"errors"
+	"fmt"
 	"github.com/redis/go-redis/v9"
-	"goZeroDemo4/product/cmd/domain/model"
 	"gorm.io/gorm"
 )
 
@@ -13,11 +15,25 @@ type IProductRepository interface {
 	DeleteProduct(id int64) error
 	CreateProduct(name string, product_type int32, category_id int32, starting_price float64, total_stock int32, main_picture string, remote_area_postage float64, single_buy_limit int32, remark string) error
 	//UpdateProduct(product *model.Product)
+	Page(length int32, pageIndex int32) ([]model.Product, error)
 }
 
 type ProductRepository struct {
 	mysqlClient *gorm.DB
 	redisClient *redis.Client
+}
+
+func (p *ProductRepository) Page(length int32, pageIndex int32) ([]model.Product, error) {
+	pageProductList := make([]model.Product, length)
+	if length > 0 && pageIndex > 0 {
+		if err := p.mysqlClient.Model(&model.Product{}).Limit(int(length)).Offset(int(pageIndex-1) * int(length)).Find(&pageProductList).Error; err != nil {
+			fmt.Println("[ProductRepository] Query product error with:", err)
+			return pageProductList, err
+		}
+	} else {
+		return pageProductList, errors.New("参数有误，请重新输入！")
+	}
+	return pageProductList, nil
 }
 
 func (p *ProductRepository) FindProduct(id int64) (*model.Product, error) {

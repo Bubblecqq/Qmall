@@ -1,11 +1,11 @@
 package svc
 
 import (
+	"QMall/common"
+	"QMall/product/cmd/domain/repository"
+	"QMall/product/cmd/rpc/product/internal/config"
 	"fmt"
 	"github.com/redis/go-redis/v9"
-	"goZeroDemo4/common"
-	"goZeroDemo4/product/cmd/domain/repository"
-	"goZeroDemo4/product/cmd/rpc/product/internal/config"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

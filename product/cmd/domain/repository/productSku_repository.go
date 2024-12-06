@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"goZeroDemo4/product/cmd/domain/model"
+	"QMall/product/cmd/domain/model"
 )
 
 type IProductSkuRepository interface {

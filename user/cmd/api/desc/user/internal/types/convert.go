@@ -1,6 +1,6 @@
 package types
 
-import "goZeroDemo4/user/cmd/domain/model"
+import "QMall/user/cmd/domain/model"
 
 func ConvertResponseUser(usermodel *model.User) User {
 	typeUser := User{

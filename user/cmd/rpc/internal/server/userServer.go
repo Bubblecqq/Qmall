@@ -7,9 +7,9 @@ package server
 import (
 	"context"
 
-	"goZeroDemo4/user/cmd/rpc/internal/logic"
-	"goZeroDemo4/user/cmd/rpc/internal/svc"
-	"goZeroDemo4/user/cmd/rpc/pb"
+	"QMall/user/cmd/rpc/internal/logic"
+	"QMall/user/cmd/rpc/internal/svc"
+	"QMall/user/cmd/rpc/pb"
 )
 
 type UserServer struct {

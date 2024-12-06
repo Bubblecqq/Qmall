@@ -1,4 +1,4 @@
-module goZeroDemo4
+module QMall
 
 go 1.22.1
 

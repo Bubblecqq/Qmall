@@ -4,8 +4,8 @@
 package handler
 
 import (
-	user2 "goZeroDemo4/user/cmd/api/desc/user/internal/handler/user"
-	"goZeroDemo4/user/cmd/api/desc/user/internal/svc"
+	user2 "QMall/user/cmd/api/desc/user/internal/handler/user"
+	"QMall/user/cmd/api/desc/user/internal/svc"
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest"

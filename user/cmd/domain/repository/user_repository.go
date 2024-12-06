@@ -1,12 +1,12 @@
 package repository
 
 import (
+	"QMall/common"
+	"QMall/user/cmd/domain/model"
 	"context"
 	"errors"
 	"fmt"
 	"github.com/redis/go-redis/v9"
-	"goZeroDemo4/common"
-	"goZeroDemo4/user/cmd/domain/model"
 	"gorm.io/gorm"
 	"log"
 	"time"

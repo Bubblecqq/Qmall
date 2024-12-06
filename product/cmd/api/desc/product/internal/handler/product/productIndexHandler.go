@@ -9,17 +9,17 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 )
 
-// 创建商品
-func CreateProductHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
+// 商品分页
+func ProductIndexHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.CreateProductReq
+		var req types.PageReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
-		l := product.NewCreateProductLogic(r.Context(), svcCtx)
-		resp, err := l.CreateProduct(&req)
+		l := product.NewProductIndexLogic(r.Context(), svcCtx)
+		resp, err := l.ProductIndex(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 		} else {

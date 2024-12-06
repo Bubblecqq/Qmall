@@ -4,9 +4,9 @@ import (
 	"flag"
 	"fmt"
 
-	"goZeroDemo4/product/cmd/api/desc/product/internal/config"
-	"goZeroDemo4/product/cmd/api/desc/product/internal/handler"
-	"goZeroDemo4/product/cmd/api/desc/product/internal/svc"
+	"QMall/product/cmd/api/desc/product/internal/config"
+	"QMall/product/cmd/api/desc/product/internal/handler"
+	"QMall/product/cmd/api/desc/product/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"

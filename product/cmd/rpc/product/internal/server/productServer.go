@@ -7,9 +7,9 @@ package server
 import (
 	"context"
 
-	"goZeroDemo4/product/cmd/rpc/product/internal/logic"
-	"goZeroDemo4/product/cmd/rpc/product/internal/svc"
-	"goZeroDemo4/product/cmd/rpc/product/pb"
+	"QMall/product/cmd/rpc/product/internal/logic"
+	"QMall/product/cmd/rpc/product/internal/svc"
+	"QMall/product/cmd/rpc/product/pb"
 )
 
 type ProductServer struct {
@@ -41,6 +41,11 @@ func (s *ProductServer) DeleteProduct(ctx context.Context, in *pb.DeleteProductR
 func (s *ProductServer) GetProduct(ctx context.Context, in *pb.GetProductByIdReq) (*pb.GetProductByIdResp, error) {
 	l := logic.NewGetProductLogic(ctx, s.svcCtx)
 	return l.GetProduct(in)
+}
+
+func (s *ProductServer) PageIndex(ctx context.Context, in *pb.PageReq) (*pb.PageResp, error) {
+	l := logic.NewPageIndexLogic(ctx, s.svcCtx)
+	return l.PageIndex(in)
 }
 
 func (s *ProductServer) CreateProductSku(ctx context.Context, in *pb.CreateProductSkuReq) (*pb.CreateProductSkuResp, error) {

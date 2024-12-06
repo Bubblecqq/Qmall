@@ -23,6 +23,7 @@ const (
 	Product_GetProductList_FullMethodName    = "/pb.product/GetProductList"
 	Product_DeleteProduct_FullMethodName     = "/pb.product/DeleteProduct"
 	Product_GetProduct_FullMethodName        = "/pb.product/GetProduct"
+	Product_PageIndex_FullMethodName         = "/pb.product/PageIndex"
 	Product_CreateProductSku_FullMethodName  = "/pb.product/CreateProductSku"
 	Product_GetProductListSku_FullMethodName = "/pb.product/GetProductListSku"
 	Product_DeleteProductSku_FullMethodName  = "/pb.product/DeleteProductSku"
@@ -37,6 +38,7 @@ type ProductClient interface {
 	GetProductList(ctx context.Context, in *GetProductListReq, opts ...grpc.CallOption) (*GetProductListResp, error)
 	DeleteProduct(ctx context.Context, in *DeleteProductReq, opts ...grpc.CallOption) (*DeleteProductResp, error)
 	GetProduct(ctx context.Context, in *GetProductByIdReq, opts ...grpc.CallOption) (*GetProductByIdResp, error)
+	PageIndex(ctx context.Context, in *PageReq, opts ...grpc.CallOption) (*PageResp, error)
 	CreateProductSku(ctx context.Context, in *CreateProductSkuReq, opts ...grpc.CallOption) (*CreateProductSkuResp, error)
 	GetProductListSku(ctx context.Context, in *GetProductSkuListReq, opts ...grpc.CallOption) (*GetProductSkuListResp, error)
 	DeleteProductSku(ctx context.Context, in *DeleteProductSkuReq, opts ...grpc.CallOption) (*DeleteProductSkuResp, error)
@@ -91,6 +93,16 @@ func (c *productClient) GetProduct(ctx context.Context, in *GetProductByIdReq, o
 	return out, nil
 }
 
+func (c *productClient) PageIndex(ctx context.Context, in *PageReq, opts ...grpc.CallOption) (*PageResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PageResp)
+	err := c.cc.Invoke(ctx, Product_PageIndex_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *productClient) CreateProductSku(ctx context.Context, in *CreateProductSkuReq, opts ...grpc.CallOption) (*CreateProductSkuResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateProductSkuResp)
@@ -139,6 +151,7 @@ type ProductServer interface {
 	GetProductList(context.Context, *GetProductListReq) (*GetProductListResp, error)
 	DeleteProduct(context.Context, *DeleteProductReq) (*DeleteProductResp, error)
 	GetProduct(context.Context, *GetProductByIdReq) (*GetProductByIdResp, error)
+	PageIndex(context.Context, *PageReq) (*PageResp, error)
 	CreateProductSku(context.Context, *CreateProductSkuReq) (*CreateProductSkuResp, error)
 	GetProductListSku(context.Context, *GetProductSkuListReq) (*GetProductSkuListResp, error)
 	DeleteProductSku(context.Context, *DeleteProductSkuReq) (*DeleteProductSkuResp, error)
@@ -164,6 +177,9 @@ func (UnimplementedProductServer) DeleteProduct(context.Context, *DeleteProductR
 }
 func (UnimplementedProductServer) GetProduct(context.Context, *GetProductByIdReq) (*GetProductByIdResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProduct not implemented")
+}
+func (UnimplementedProductServer) PageIndex(context.Context, *PageReq) (*PageResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PageIndex not implemented")
 }
 func (UnimplementedProductServer) CreateProductSku(context.Context, *CreateProductSkuReq) (*CreateProductSkuResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateProductSku not implemented")
@@ -270,6 +286,24 @@ func _Product_GetProduct_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Product_PageIndex_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServer).PageIndex(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Product_PageIndex_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServer).PageIndex(ctx, req.(*PageReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Product_CreateProductSku_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateProductSkuReq)
 	if err := dec(in); err != nil {
@@ -364,6 +398,10 @@ var Product_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetProduct",
 			Handler:    _Product_GetProduct_Handler,
+		},
+		{
+			MethodName: "PageIndex",
+			Handler:    _Product_PageIndex_Handler,
 		},
 		{
 			MethodName: "CreateProductSku",

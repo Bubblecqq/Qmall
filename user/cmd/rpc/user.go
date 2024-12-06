@@ -4,10 +4,10 @@ import (
 	"flag"
 	"fmt"
 
-	"goZeroDemo4/user/cmd/rpc/internal/config"
-	"goZeroDemo4/user/cmd/rpc/internal/server"
-	"goZeroDemo4/user/cmd/rpc/internal/svc"
-	"goZeroDemo4/user/cmd/rpc/pb"
+	"QMall/user/cmd/rpc/internal/config"
+	"QMall/user/cmd/rpc/internal/server"
+	"QMall/user/cmd/rpc/internal/svc"
+	"QMall/user/cmd/rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"
@@ -16,7 +16,7 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-var configFile = flag.String("f", "D:\\development\\MicroService\\goZeroDemo4\\user\\cmd\\rpc\\etc\\user.yaml", "the config file")
+var configFile = flag.String("f", "D:\\development\\MicroService\\QMall\\user\\cmd\\rpc\\etc\\user.yaml", "the config file")
 
 func main() {
 	flag.Parse()
