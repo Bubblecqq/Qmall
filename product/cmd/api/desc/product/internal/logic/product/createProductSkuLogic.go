@@ -2,6 +2,7 @@ package product
 
 import (
 	"context"
+	"goZeroDemo4/product/cmd/rpc/product/product"
 
 	"goZeroDemo4/product/cmd/api/desc/product/internal/svc"
 	"goZeroDemo4/product/cmd/api/desc/product/internal/types"
@@ -25,7 +26,16 @@ func NewCreateProductSkuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *CreateProductSkuLogic) CreateProductSku(req *types.CreateProductSkuReq) (resp *types.CreateProductSkuReq, err error) {
-	// todo: add your logic here and delete this line
+
+	_, err = l.svcCtx.ProductRpcConf.CreateProductSku(l.ctx, &product.CreateProductSkuReq{
+		Name:                req.Name,
+		ProductId:           req.ProductId,
+		AttributeSymbolList: req.AttributeSymbolList,
+		SellPrice:           req.SellPrice,
+		CostPrice:           req.CostPrice,
+		Stock:               req.Stock,
+		StockWarn:           req.StockWarn,
+	})
 
 	return
 }

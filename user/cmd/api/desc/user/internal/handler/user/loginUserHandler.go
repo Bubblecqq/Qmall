@@ -2,12 +2,12 @@ package user
 
 import (
 	"goZeroDemo4/common"
+	"goZeroDemo4/user/cmd/api/desc/user/internal/logic/user"
+	"goZeroDemo4/user/cmd/api/desc/user/internal/svc"
+	"goZeroDemo4/user/cmd/api/desc/user/internal/types"
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
-	"goZeroDemo4/user/cmd/api/desc/internal/logic/user"
-	"goZeroDemo4/user/cmd/api/desc/internal/svc"
-	"goZeroDemo4/user/cmd/api/desc/internal/types"
 )
 
 // LoginUserHandler 单点用户登录

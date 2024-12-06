@@ -24,7 +24,11 @@ func NewCreateProductLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cre
 }
 
 func (l *CreateProductLogic) CreateProduct(in *pb.CreateProductReq) (*pb.CreateProductResp, error) {
-	// todo: add your logic here and delete this line
+
+	err := l.svcCtx.ProductRepository.CreateProduct(in.Name, in.ProductType, in.CategoryId, in.StartingPrice, in.TotalStock, in.MainPicture, in.RemoteAreaPostage, in.SingleBuyLimit, in.Remark)
+	if err != nil {
+		return &pb.CreateProductResp{}, err
+	}
 
 	return &pb.CreateProductResp{}, nil
 }

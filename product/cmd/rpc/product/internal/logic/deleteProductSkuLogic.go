@@ -24,7 +24,17 @@ func NewDeleteProductSkuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *DeleteProductSkuLogic) DeleteProductSku(in *pb.DeleteProductSkuReq) (*pb.DeleteProductSkuResp, error) {
-	// todo: add your logic here and delete this line
 
+	productSku, err := l.svcCtx.ProductRepository.FindProductSku(in.Id)
+
+	if err != nil {
+		return &pb.DeleteProductSkuResp{}, err
+	}
+	l.Info("[ProductRPC] The product_sku ID to be deleted currently is", productSku.Id)
+
+	err = l.svcCtx.ProductRepository.DeleteProductSku(productSku.Id)
+	if err != nil {
+		return &pb.DeleteProductSkuResp{}, err
+	}
 	return &pb.DeleteProductSkuResp{}, nil
 }

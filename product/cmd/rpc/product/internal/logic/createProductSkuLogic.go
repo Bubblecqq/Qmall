@@ -24,7 +24,12 @@ func NewCreateProductSkuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 }
 
 func (l *CreateProductSkuLogic) CreateProductSku(in *pb.CreateProductSkuReq) (*pb.CreateProductSkuResp, error) {
-	// todo: add your logic here and delete this line
+
+	err := l.svcCtx.ProductRepository.CreateProductSku(in.ProductId, in.AttributeSymbolList, in.Name, in.SellPrice, in.CostPrice, in.Stock, in.StockWarn)
+
+	if err != nil {
+		return &pb.CreateProductSkuResp{}, err
+	}
 
 	return &pb.CreateProductSkuResp{}, nil
 }

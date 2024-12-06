@@ -2,10 +2,9 @@ package user
 
 import (
 	"context"
+	"goZeroDemo4/user/cmd/api/desc/user/internal/svc"
+	"goZeroDemo4/user/cmd/api/desc/user/internal/types"
 	"goZeroDemo4/user/cmd/rpc/user"
-
-	"goZeroDemo4/user/cmd/api/desc/internal/svc"
-	"goZeroDemo4/user/cmd/api/desc/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

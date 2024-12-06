@@ -4,10 +4,9 @@
 package handler
 
 import (
+	user2 "goZeroDemo4/user/cmd/api/desc/user/internal/handler/user"
+	"goZeroDemo4/user/cmd/api/desc/user/internal/svc"
 	"net/http"
-
-	user "goZeroDemo4/user/cmd/api/desc/internal/handler/user"
-	"goZeroDemo4/user/cmd/api/desc/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
 )
@@ -19,31 +18,31 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				// 创建用户
 				Method:  http.MethodPost,
 				Path:    "/createUser",
-				Handler: user.CreateUserHandler(serverCtx),
+				Handler: user2.CreateUserHandler(serverCtx),
 			},
 			{
 				// 根据id删除用户
 				Method:  http.MethodPost,
 				Path:    "/deleteUser",
-				Handler: user.DeleteUserHandler(serverCtx),
+				Handler: user2.DeleteUserHandler(serverCtx),
 			},
 			{
 				// 根据id获取用户
 				Method:  http.MethodPost,
 				Path:    "/getUserById",
-				Handler: user.GetUserByIdHandler(serverCtx),
+				Handler: user2.GetUserByIdHandler(serverCtx),
 			},
 			{
 				// 获取用户列表
 				Method:  http.MethodPost,
 				Path:    "/getUsers",
-				Handler: user.GetUsersHandler(serverCtx),
+				Handler: user2.GetUsersHandler(serverCtx),
 			},
 			{
 				// 单点用户登录
 				Method:  http.MethodPost,
 				Path:    "/loginUser",
-				Handler: user.LoginUserHandler(serverCtx),
+				Handler: user2.LoginUserHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/user/v1"),

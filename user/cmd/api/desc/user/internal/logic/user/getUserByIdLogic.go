@@ -2,11 +2,10 @@ package user
 
 import (
 	"context"
+	"goZeroDemo4/user/cmd/api/desc/user/internal/svc"
+	types2 "goZeroDemo4/user/cmd/api/desc/user/internal/types"
 	"goZeroDemo4/user/cmd/domain/model"
 	"goZeroDemo4/user/cmd/rpc/user"
-
-	"goZeroDemo4/user/cmd/api/desc/internal/svc"
-	"goZeroDemo4/user/cmd/api/desc/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
@@ -26,7 +25,7 @@ func NewGetUserByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetUs
 	}
 }
 
-func (l *GetUserByIdLogic) GetUserById(req *types.GetUserByIdReq) (resp *types.GetUserByIdResp, err error) {
+func (l *GetUserByIdLogic) GetUserById(req *types2.GetUserByIdReq) (resp *types2.GetUserByIdResp, err error) {
 
 	result, err := l.svcCtx.UserRpc.GetUserById(l.ctx, &user.GetUserByIdReq{
 		Id: req.Id,
@@ -58,8 +57,8 @@ func (l *GetUserByIdLogic) GetUserById(req *types.GetUserByIdReq) (resp *types.G
 	//	SessionId:       usermodel.SessionId,
 	//	TokenExpireTime: usermodel.TokenExpireTime,
 	//}
-	resp = new(types.GetUserByIdResp)
-	resp.User = types.ConvertResponseUser(usermodel)
+	resp = new(types2.GetUserByIdResp)
+	resp.User = types2.ConvertResponseUser(usermodel)
 	//resp.User = getUser
 	l.Info("current user>\n", resp.User)
 	return

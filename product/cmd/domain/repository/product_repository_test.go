@@ -25,7 +25,7 @@ func TestProduct(t *testing.T) {
 		fmt.Println(err.Error())
 	}
 	productRepository := NewProductRepository(db, nil)
-	list := productRepository.GetProductList()
+	list := productRepository.GetProductSkuList()
 
 	fmt.Println("list>", list)
 	fmt.Println("len?", len(list))

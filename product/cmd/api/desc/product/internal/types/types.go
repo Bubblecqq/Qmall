@@ -25,7 +25,7 @@ type CreateProductSkuReq struct {
 	SellPrice           float64 `json:"sell_price"`
 	CostPrice           float64 `json:"cost_price"`
 	Stock               int32   `json:"stock"`
-	StockWarn           int     `json:"stock_warn"`
+	StockWarn           int64   `json:"stock_warn"`
 }
 
 type CreateProductSkuResp struct {
@@ -50,6 +50,7 @@ type GetProductByIdReq struct {
 }
 
 type GetProductByIdResp struct {
+	Product Product `json:"product"`
 }
 
 type GetProductListReq struct {
@@ -64,6 +65,7 @@ type GetProductSkuByIdReq struct {
 }
 
 type GetProductSkuByIdResp struct {
+	ProductSku ProductSku `json:"productSku"`
 }
 
 type GetProductSkuListReq struct {
@@ -99,7 +101,7 @@ type ProductSku struct {
 	SellPrice           float64 `json:"sell_price"`
 	CostPrice           float64 `json:"cost_price"`
 	Stock               int32   `json:"stock"`
-	StockWarn           int     `json:"stock_warn"`
+	StockWarn           int64   `json:"stock_warn"`
 	CreateTime          string  `json:"create_time"`
 	UpdateTime          string  `json:"update_time"`
 	IsEnabled           int32   `json:"is_enable"`

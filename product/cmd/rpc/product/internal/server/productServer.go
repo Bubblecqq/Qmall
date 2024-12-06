@@ -38,7 +38,7 @@ func (s *ProductServer) DeleteProduct(ctx context.Context, in *pb.DeleteProductR
 	return l.DeleteProduct(in)
 }
 
-func (s *ProductServer) GetProduct(ctx context.Context, in *pb.GetProductReq) (*pb.GetProductResp, error) {
+func (s *ProductServer) GetProduct(ctx context.Context, in *pb.GetProductByIdReq) (*pb.GetProductByIdResp, error) {
 	l := logic.NewGetProductLogic(ctx, s.svcCtx)
 	return l.GetProduct(in)
 }

@@ -2,6 +2,8 @@ package product
 
 import (
 	"context"
+	"goZeroDemo4/product/cmd/domain/model"
+	"goZeroDemo4/product/cmd/rpc/product/product"
 
 	"goZeroDemo4/product/cmd/api/desc/product/internal/svc"
 	"goZeroDemo4/product/cmd/api/desc/product/internal/types"
@@ -25,7 +27,15 @@ func NewGetProductSkusLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 func (l *GetProductSkusLogic) GetProductSkus(req *types.GetProductSkuListReq) (resp *types.GetProductSkuListResp, err error) {
-	// todo: add your logic here and delete this line
+
+	productSku, err := l.svcCtx.ProductRpcConf.GetProductListSku(l.ctx, &product.GetProductSkuListReq{})
+
+	responseProductSkuList := make([]types.ProductSku, len(productSku.ProductSkuList))
+
+	for i := 0; i < len(productSku.ProductSkuList); i++ {
+		responseProductSkuList[i] = types.ConvertResponseProductSku(model.PbProductSkuModelConvert(productSku.ProductSkuList[i]))
+	}
+	resp.ProductSkuList = responseProductSkuList
 
 	return
 }

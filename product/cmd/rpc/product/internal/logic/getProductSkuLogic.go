@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"goZeroDemo4/product/cmd/domain/model"
 
 	"goZeroDemo4/product/cmd/rpc/product/internal/svc"
 	"goZeroDemo4/product/cmd/rpc/product/pb"
@@ -24,7 +25,14 @@ func NewGetProductSkuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Get
 }
 
 func (l *GetProductSkuLogic) GetProductSku(in *pb.GetProductSkuByIdReq) (*pb.GetProductSkuByIdResp, error) {
-	// todo: add your logic here and delete this line
 
-	return &pb.GetProductSkuByIdResp{}, nil
+	productSku, err := l.svcCtx.ProductRepository.FindProductSku(in.Id)
+
+	if err != nil {
+		return &pb.GetProductSkuByIdResp{}, err
+	}
+
+	return &pb.GetProductSkuByIdResp{
+		ProductSku: model.ProductSkuModelConvertPbProductSku(productSku),
+	}, nil
 }

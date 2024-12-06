@@ -45,10 +45,12 @@ message DeleteProductReq {
 }
 message DeleteProductResp {}
 
-message GetProductReq {
+message GetProductByIdReq {
   int64 id = 1;
 }
-message GetProductResp {}
+message GetProductByIdResp {
+  Product product = 1;
+}
 
 // product_sku
 
@@ -92,13 +94,15 @@ message DeleteProductSkuResp {}
 message GetProductSkuByIdReq {
   int64 id = 1;
 }
-message GetProductSkuByIdResp {}
+message GetProductSkuByIdResp {
+  ProductSku productSku = 1;
+}
 
 service product {
   rpc CreateProduct (CreateProductReq) returns (CreateProductResp);
   rpc GetProductList (GetProductListReq) returns (GetProductListResp);
   rpc DeleteProduct (DeleteProductReq) returns (DeleteProductResp);
-  rpc GetProduct (GetProductReq) returns (GetProductResp);
+  rpc GetProduct (GetProductByIdReq) returns (GetProductByIdResp);
 
   rpc CreateProductSku (CreateProductSkuReq) returns (CreateProductSkuResp);
   rpc GetProductListSku (GetProductSkuListReq) returns (GetProductSkuListResp);

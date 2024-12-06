@@ -27,11 +27,11 @@ service product {
 
 	@doc "根据id获取商品"
 	@handler getProductById
-	post /getProductById (GetProductByIdReq) returns (GetProductByIdReq)
+	post /getProductById (GetProductByIdReq) returns (GetProductByIdResp)
 
 	@doc "创建商品"
 	@handler createProduct
-	post /createProduct (CreateProductReq) returns (CreateProductReq)
+	post /createProduct (CreateProductReq) returns (CreateProductResp)
 
 	// sku
 	@doc "获取商品关联列表"
@@ -44,10 +44,10 @@ service product {
 
 	@doc "根据id获取商品关联"
 	@handler getProductSkuById
-	post /getProductSkuById (GetProductSkuByIdReq) returns (GetProductSkuByIdReq)
+	post /getProductSkuById (GetProductSkuByIdReq) returns (GetProductSkuByIdResp)
 
 	@doc "创建商品关联"
 	@handler createProductSku
-	post /createProductSku (CreateProductSkuReq) returns (CreateProductSkuReq)
+	post /createProductSku (CreateProductSkuReq) returns (CreateProductSkuResp)
 }
 

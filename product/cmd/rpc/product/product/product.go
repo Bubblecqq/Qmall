@@ -22,10 +22,10 @@ type (
 	DeleteProductResp     = pb.DeleteProductResp
 	DeleteProductSkuReq   = pb.DeleteProductSkuReq
 	DeleteProductSkuResp  = pb.DeleteProductSkuResp
+	GetProductByIdReq     = pb.GetProductByIdReq
+	GetProductByIdResp    = pb.GetProductByIdResp
 	GetProductListReq     = pb.GetProductListReq
 	GetProductListResp    = pb.GetProductListResp
-	GetProductReq         = pb.GetProductReq
-	GetProductResp        = pb.GetProductResp
 	GetProductSkuByIdReq  = pb.GetProductSkuByIdReq
 	GetProductSkuByIdResp = pb.GetProductSkuByIdResp
 	GetProductSkuListReq  = pb.GetProductSkuListReq
@@ -37,7 +37,7 @@ type (
 		CreateProduct(ctx context.Context, in *CreateProductReq, opts ...grpc.CallOption) (*CreateProductResp, error)
 		GetProductList(ctx context.Context, in *GetProductListReq, opts ...grpc.CallOption) (*GetProductListResp, error)
 		DeleteProduct(ctx context.Context, in *DeleteProductReq, opts ...grpc.CallOption) (*DeleteProductResp, error)
-		GetProduct(ctx context.Context, in *GetProductReq, opts ...grpc.CallOption) (*GetProductResp, error)
+		GetProduct(ctx context.Context, in *GetProductByIdReq, opts ...grpc.CallOption) (*GetProductByIdResp, error)
 		CreateProductSku(ctx context.Context, in *CreateProductSkuReq, opts ...grpc.CallOption) (*CreateProductSkuResp, error)
 		GetProductListSku(ctx context.Context, in *GetProductSkuListReq, opts ...grpc.CallOption) (*GetProductSkuListResp, error)
 		DeleteProductSku(ctx context.Context, in *DeleteProductSkuReq, opts ...grpc.CallOption) (*DeleteProductSkuResp, error)
@@ -70,7 +70,7 @@ func (m *defaultProductZrpcClient) DeleteProduct(ctx context.Context, in *Delete
 	return client.DeleteProduct(ctx, in, opts...)
 }
 
-func (m *defaultProductZrpcClient) GetProduct(ctx context.Context, in *GetProductReq, opts ...grpc.CallOption) (*GetProductResp, error) {
+func (m *defaultProductZrpcClient) GetProduct(ctx context.Context, in *GetProductByIdReq, opts ...grpc.CallOption) (*GetProductByIdResp, error) {
 	client := pb.NewProductClient(m.cli.Conn())
 	return client.GetProduct(ctx, in, opts...)
 }
