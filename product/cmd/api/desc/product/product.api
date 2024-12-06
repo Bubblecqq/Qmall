@@ -119,3 +119,14 @@ type (
         productSku ProductSku `json:"productSku"`
     }
 )
+
+
+type (
+    PageReq {
+        Length int32 `json:"length"`
+        pageIndex int32 `json:"pageIndex"`
+    }
+    PageResp {
+        responsePageIndex []Product `json:"product"`
+    }
+)

@@ -75,6 +75,15 @@ type GetProductSkuListResp struct {
 	ProductSkuList []ProductSku `json:"productSkus"`
 }
 
+type PageReq struct {
+	Length    int32 `json:"length"`
+	PageIndex int32 `json:"pageIndex"`
+}
+
+type PageResp struct {
+	ResponsePageIndex []Product `json:"product"`
+}
+
 type Product struct {
 	Id                int64   `json:"id"`
 	Name              string  `json:"name"`

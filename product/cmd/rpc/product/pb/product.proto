@@ -52,6 +52,15 @@ message GetProductByIdResp {
   Product product = 1;
 }
 
+
+message PageReq {
+  int32 length = 1;
+  int32 pageIndex = 2;
+}
+message PageResp {
+  repeated Product pageProductList = 1;
+}
+
 // product_sku
 
 message ProductSku {
@@ -95,7 +104,7 @@ message GetProductSkuByIdReq {
   int64 id = 1;
 }
 message GetProductSkuByIdResp {
-  ProductSku productSku = 1;
+  repeated ProductSku productSku = 1;
 }
 
 service product {
@@ -104,9 +113,10 @@ service product {
   rpc DeleteProduct (DeleteProductReq) returns (DeleteProductResp);
   rpc GetProduct (GetProductByIdReq) returns (GetProductByIdResp);
 
+  rpc PageIndex (PageReq) returns (PageResp);
+
   rpc CreateProductSku (CreateProductSkuReq) returns (CreateProductSkuResp);
   rpc GetProductListSku (GetProductSkuListReq) returns (GetProductSkuListResp);
   rpc DeleteProductSku (DeleteProductSkuReq) returns (DeleteProductSkuResp);
   rpc GetProductSku (GetProductSkuByIdReq) returns (GetProductSkuByIdResp);
-
 }

@@ -30,6 +30,8 @@ type (
 	GetProductSkuByIdResp = pb.GetProductSkuByIdResp
 	GetProductSkuListReq  = pb.GetProductSkuListReq
 	GetProductSkuListResp = pb.GetProductSkuListResp
+	PageReq               = pb.PageReq
+	PageResp              = pb.PageResp
 	Product               = pb.Product
 	ProductSku            = pb.ProductSku
 
@@ -38,6 +40,7 @@ type (
 		GetProductList(ctx context.Context, in *GetProductListReq, opts ...grpc.CallOption) (*GetProductListResp, error)
 		DeleteProduct(ctx context.Context, in *DeleteProductReq, opts ...grpc.CallOption) (*DeleteProductResp, error)
 		GetProduct(ctx context.Context, in *GetProductByIdReq, opts ...grpc.CallOption) (*GetProductByIdResp, error)
+		PageIndex(ctx context.Context, in *PageReq, opts ...grpc.CallOption) (*PageResp, error)
 		CreateProductSku(ctx context.Context, in *CreateProductSkuReq, opts ...grpc.CallOption) (*CreateProductSkuResp, error)
 		GetProductListSku(ctx context.Context, in *GetProductSkuListReq, opts ...grpc.CallOption) (*GetProductSkuListResp, error)
 		DeleteProductSku(ctx context.Context, in *DeleteProductSkuReq, opts ...grpc.CallOption) (*DeleteProductSkuResp, error)
@@ -73,6 +76,11 @@ func (m *defaultProductZrpcClient) DeleteProduct(ctx context.Context, in *Delete
 func (m *defaultProductZrpcClient) GetProduct(ctx context.Context, in *GetProductByIdReq, opts ...grpc.CallOption) (*GetProductByIdResp, error) {
 	client := pb.NewProductClient(m.cli.Conn())
 	return client.GetProduct(ctx, in, opts...)
+}
+
+func (m *defaultProductZrpcClient) PageIndex(ctx context.Context, in *PageReq, opts ...grpc.CallOption) (*PageResp, error) {
+	client := pb.NewProductClient(m.cli.Conn())
+	return client.PageIndex(ctx, in, opts...)
 }
 
 func (m *defaultProductZrpcClient) CreateProductSku(ctx context.Context, in *CreateProductSkuReq, opts ...grpc.CallOption) (*CreateProductSkuResp, error) {
