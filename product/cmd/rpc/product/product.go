@@ -4,10 +4,10 @@ import (
 	"flag"
 	"fmt"
 
-	"goZeroDemo4/product/cmd/rpc/product/internal/config"
-	"goZeroDemo4/product/cmd/rpc/product/internal/server"
-	"goZeroDemo4/product/cmd/rpc/product/internal/svc"
-	"goZeroDemo4/product/cmd/rpc/product/pb"
+	"QMall/product/cmd/rpc/product/internal/config"
+	"QMall/product/cmd/rpc/product/internal/server"
+	"QMall/product/cmd/rpc/product/internal/svc"
+	"QMall/product/cmd/rpc/product/pb"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/service"

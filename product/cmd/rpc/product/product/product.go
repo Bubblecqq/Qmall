@@ -7,7 +7,7 @@ package product
 import (
 	"context"
 
-	"goZeroDemo4/product/cmd/rpc/product/pb"
+	"QMall/product/cmd/rpc/product/pb"
 
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"

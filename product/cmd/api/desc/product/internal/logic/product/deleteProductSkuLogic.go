@@ -1,11 +1,11 @@
 package product
 
 import (
+	"QMall/product/cmd/rpc/product/product"
 	"context"
-	"goZeroDemo4/product/cmd/rpc/product/product"
 
-	"goZeroDemo4/product/cmd/api/desc/product/internal/svc"
-	"goZeroDemo4/product/cmd/api/desc/product/internal/types"
+	"QMall/product/cmd/api/desc/product/internal/svc"
+	"QMall/product/cmd/api/desc/product/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

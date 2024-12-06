@@ -7,9 +7,9 @@ package server
 import (
 	"context"
 
-	"goZeroDemo4/product/cmd/rpc/product/internal/logic"
-	"goZeroDemo4/product/cmd/rpc/product/internal/svc"
-	"goZeroDemo4/product/cmd/rpc/product/pb"
+	"QMall/product/cmd/rpc/product/internal/logic"
+	"QMall/product/cmd/rpc/product/internal/svc"
+	"QMall/product/cmd/rpc/product/pb"
 )
 
 type ProductServer struct {

@@ -6,8 +6,8 @@ package handler
 import (
 	"net/http"
 
-	product "goZeroDemo4/product/cmd/api/desc/product/internal/handler/product"
-	"goZeroDemo4/product/cmd/api/desc/product/internal/svc"
+	product "QMall/product/cmd/api/desc/product/internal/handler/product"
+	"QMall/product/cmd/api/desc/product/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
 )

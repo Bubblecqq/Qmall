@@ -1,7 +1,7 @@
 package model
 
 import (
-	"goZeroDemo4/product/cmd/rpc/product/pb"
+	"QMall/product/cmd/rpc/product/pb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 

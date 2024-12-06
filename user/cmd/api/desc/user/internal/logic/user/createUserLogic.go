@@ -1,10 +1,10 @@
 package user
 
 import (
+	"QMall/user/cmd/api/desc/user/internal/svc"
+	"QMall/user/cmd/api/desc/user/internal/types"
+	"QMall/user/cmd/rpc/user"
 	"context"
-	"goZeroDemo4/user/cmd/api/desc/user/internal/svc"
-	"goZeroDemo4/user/cmd/api/desc/user/internal/types"
-	"goZeroDemo4/user/cmd/rpc/user"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

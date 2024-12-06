@@ -1,10 +1,10 @@
 package logic
 
 import (
+	"QMall/user/cmd/domain/model"
+	"QMall/user/cmd/rpc/internal/svc"
+	"QMall/user/cmd/rpc/pb"
 	"context"
-	"goZeroDemo4/user/cmd/domain/model"
-	"goZeroDemo4/user/cmd/rpc/internal/svc"
-	"goZeroDemo4/user/cmd/rpc/pb"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

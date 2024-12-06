@@ -1,6 +1,6 @@
 package types
 
-import "goZeroDemo4/product/cmd/domain/model"
+import "QMall/product/cmd/domain/model"
 
 func ConvertResponseProduct(product *model.Product) Product {
 	return Product{

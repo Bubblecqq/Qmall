@@ -1,8 +1,8 @@
 package repository
 
 import (
+	"QMall/product/cmd/domain/model"
 	"github.com/redis/go-redis/v9"
-	"goZeroDemo4/product/cmd/domain/model"
 	"gorm.io/gorm"
 )
 

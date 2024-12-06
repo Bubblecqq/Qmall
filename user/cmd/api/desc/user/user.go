@@ -1,17 +1,17 @@
 package main
 
 import (
+	"QMall/user/cmd/api/desc/user/internal/config"
+	"QMall/user/cmd/api/desc/user/internal/handler"
+	"QMall/user/cmd/api/desc/user/internal/svc"
 	"flag"
 	"fmt"
-	"goZeroDemo4/user/cmd/api/desc/user/internal/config"
-	"goZeroDemo4/user/cmd/api/desc/user/internal/handler"
-	"goZeroDemo4/user/cmd/api/desc/user/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
 )
 
-var configFile = flag.String("f", "D:\\development\\MicroService\\goZeroDemo4\\user\\cmd\\api\\desc\\etc\\user.yaml", "the config file")
+var configFile = flag.String("f", "D:\\development\\MicroService\\QMall\\user\\cmd\\api\\desc\\etc\\user.yaml", "the config file")
 
 func main() {
 	flag.Parse()

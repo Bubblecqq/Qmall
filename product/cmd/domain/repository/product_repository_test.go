@@ -1,8 +1,8 @@
 package repository
 
 import (
+	"QMall/common"
 	"fmt"
-	"goZeroDemo4/common"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"

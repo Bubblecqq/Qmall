@@ -1,10 +1,10 @@
 package model
 
 import (
+	"QMall/common"
+	"QMall/user/cmd/rpc/pb"
 	"fmt"
 	"github.com/go-playground/validator/v10"
-	"goZeroDemo4/common"
-	"goZeroDemo4/user/cmd/rpc/pb"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"time"
 )

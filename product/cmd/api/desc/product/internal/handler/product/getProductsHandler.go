@@ -3,10 +3,10 @@ package product
 import (
 	"net/http"
 
+	"QMall/product/cmd/api/desc/product/internal/logic/product"
+	"QMall/product/cmd/api/desc/product/internal/svc"
+	"QMall/product/cmd/api/desc/product/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
-	"goZeroDemo4/product/cmd/api/desc/product/internal/logic/product"
-	"goZeroDemo4/product/cmd/api/desc/product/internal/svc"
-	"goZeroDemo4/product/cmd/api/desc/product/internal/types"
 )
 
 // 获取商品列表

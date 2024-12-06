@@ -7,7 +7,7 @@ package user
 import (
 	"context"
 
-	"goZeroDemo4/user/cmd/rpc/pb"
+	"QMall/user/cmd/rpc/pb"
 
 	"github.com/zeromicro/go-zero/zrpc"
 	"google.golang.org/grpc"
