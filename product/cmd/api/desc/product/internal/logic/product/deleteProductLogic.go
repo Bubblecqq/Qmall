@@ -2,6 +2,7 @@ package product
 
 import (
 	"context"
+	"goZeroDemo4/product/cmd/rpc/product/product"
 
 	"goZeroDemo4/product/cmd/api/desc/product/internal/svc"
 	"goZeroDemo4/product/cmd/api/desc/product/internal/types"
@@ -25,7 +26,10 @@ func NewDeleteProductLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 }
 
 func (l *DeleteProductLogic) DeleteProduct(req *types.DeleteProductReq) (resp *types.DeleteProductResp, err error) {
-	// todo: add your logic here and delete this line
+
+	_, err = l.svcCtx.ProductRpcConf.DeleteProduct(l.ctx, &product.DeleteProductReq{
+		Id: req.Id,
+	})
 
 	return
 }

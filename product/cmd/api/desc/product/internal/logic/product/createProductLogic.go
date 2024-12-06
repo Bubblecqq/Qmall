@@ -2,6 +2,7 @@ package product
 
 import (
 	"context"
+	"goZeroDemo4/product/cmd/rpc/product/product"
 
 	"goZeroDemo4/product/cmd/api/desc/product/internal/svc"
 	"goZeroDemo4/product/cmd/api/desc/product/internal/types"
@@ -24,8 +25,19 @@ func NewCreateProductLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Cre
 	}
 }
 
-func (l *CreateProductLogic) CreateProduct(req *types.CreateProductReq) (resp *types.CreateProductReq, err error) {
-	// todo: add your logic here and delete this line
+func (l *CreateProductLogic) CreateProduct(req *types.CreateProductReq) (resp *types.CreateProductResp, err error) {
+
+	_, err = l.svcCtx.ProductRpcConf.CreateProduct(l.ctx, &product.CreateProductReq{
+		Name:              req.Name,
+		ProductType:       req.ProductType,
+		CategoryId:        req.CategoryId,
+		StartingPrice:     req.StartingPrice,
+		TotalStock:        req.TotalStock,
+		MainPicture:       req.MainPicture,
+		RemoteAreaPostage: req.RemoteAreaPostage,
+		SingleBuyLimit:    req.SingleBuyLimit,
+		Remark:            req.Remark,
+	})
 
 	return
 }

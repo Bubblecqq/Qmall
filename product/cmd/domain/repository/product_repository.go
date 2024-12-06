@@ -7,9 +7,10 @@ import (
 )
 
 type IProductRepository interface {
-	FindOne(id int64) (*model.Product, error)
+	IProductSkuRepository
+	FindProduct(id int64) (*model.Product, error)
 	GetProductList() []model.Product
-	DeleteOne(id int64) error
+	DeleteProduct(id int64) error
 	CreateProduct(name string, product_type int32, category_id int32, starting_price float64, total_stock int32, main_picture string, remote_area_postage float64, single_buy_limit int32, remark string) error
 	//UpdateProduct(product *model.Product)
 }
@@ -19,7 +20,7 @@ type ProductRepository struct {
 	redisClient *redis.Client
 }
 
-func (p *ProductRepository) FindOne(id int64) (*model.Product, error) {
+func (p *ProductRepository) FindProduct(id int64) (*model.Product, error) {
 	product := &model.Product{}
 	err := p.mysqlClient.Model(&model.Product{}).Find(&product, id).Error
 	return product, err
@@ -31,7 +32,7 @@ func (p *ProductRepository) GetProductList() []model.Product {
 	return productList
 }
 
-func (p *ProductRepository) DeleteOne(id int64) error {
+func (p *ProductRepository) DeleteProduct(id int64) error {
 	return p.mysqlClient.Delete(&model.Product{}, id).Error
 }
 

@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"goZeroDemo4/product/cmd/domain/model"
 
 	"goZeroDemo4/product/cmd/rpc/product/internal/svc"
 	"goZeroDemo4/product/cmd/rpc/product/pb"
@@ -24,7 +25,15 @@ func NewGetProductListLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 func (l *GetProductListLogic) GetProductList(in *pb.GetProductListReq) (*pb.GetProductListResp, error) {
-	// todo: add your logic here and delete this line
 
-	return &pb.GetProductListResp{}, nil
+	productList := l.svcCtx.ProductRepository.GetProductList()
+
+	pbProductList := make([]*pb.Product, len(productList))
+	for i := 0; i < len(productList); i++ {
+		pbProductList[i] = model.ProductModelConvertPbProduct(&productList[i])
+	}
+
+	return &pb.GetProductListResp{
+		ProductList: pbProductList,
+	}, nil
 }

@@ -24,7 +24,18 @@ func NewDeleteProductLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Del
 }
 
 func (l *DeleteProductLogic) DeleteProduct(in *pb.DeleteProductReq) (*pb.DeleteProductResp, error) {
-	// todo: add your logic here and delete this line
+
+	product, err := l.svcCtx.ProductRepository.FindProduct(in.Id)
+
+	if err != nil {
+		return &pb.DeleteProductResp{}, err
+	}
+	l.Info("[ProductRPC] The current user ID to be deleted is", product.Id)
+	err = l.svcCtx.ProductRepository.DeleteProduct(in.Id)
+
+	if err != nil {
+		return &pb.DeleteProductResp{}, err
+	}
 
 	return &pb.DeleteProductResp{}, nil
 }

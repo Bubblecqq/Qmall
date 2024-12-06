@@ -2,6 +2,8 @@ package product
 
 import (
 	"context"
+	"goZeroDemo4/product/cmd/domain/model"
+	"goZeroDemo4/product/cmd/rpc/product/product"
 
 	"goZeroDemo4/product/cmd/api/desc/product/internal/svc"
 	"goZeroDemo4/product/cmd/api/desc/product/internal/types"
@@ -24,8 +26,10 @@ func NewGetProductByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 	}
 }
 
-func (l *GetProductByIdLogic) GetProductById(req *types.GetProductByIdReq) (resp *types.GetProductByIdReq, err error) {
-	// todo: add your logic here and delete this line
-
+func (l *GetProductByIdLogic) GetProductById(req *types.GetProductByIdReq) (resp *types.GetProductByIdResp, err error) {
+	getProduct, err := l.svcCtx.ProductRpcConf.GetProduct(l.ctx, &product.GetProductByIdReq{
+		Id: req.Id,
+	})
+	resp.Product = types.ConvertResponseProduct(model.PbProductModelConvert(getProduct.Product))
 	return
 }
