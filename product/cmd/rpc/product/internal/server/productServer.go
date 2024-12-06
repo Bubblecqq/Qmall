@@ -42,3 +42,23 @@ func (s *ProductServer) GetProduct(ctx context.Context, in *pb.GetProductReq) (*
 	l := logic.NewGetProductLogic(ctx, s.svcCtx)
 	return l.GetProduct(in)
 }
+
+func (s *ProductServer) CreateProductSku(ctx context.Context, in *pb.CreateProductSkuReq) (*pb.CreateProductSkuResp, error) {
+	l := logic.NewCreateProductSkuLogic(ctx, s.svcCtx)
+	return l.CreateProductSku(in)
+}
+
+func (s *ProductServer) GetProductListSku(ctx context.Context, in *pb.GetProductSkuListReq) (*pb.GetProductSkuListResp, error) {
+	l := logic.NewGetProductListSkuLogic(ctx, s.svcCtx)
+	return l.GetProductListSku(in)
+}
+
+func (s *ProductServer) DeleteProductSku(ctx context.Context, in *pb.DeleteProductSkuReq) (*pb.DeleteProductSkuResp, error) {
+	l := logic.NewDeleteProductSkuLogic(ctx, s.svcCtx)
+	return l.DeleteProductSku(in)
+}
+
+func (s *ProductServer) GetProductSku(ctx context.Context, in *pb.GetProductSkuByIdReq) (*pb.GetProductSkuByIdResp, error) {
+	l := logic.NewGetProductSkuLogic(ctx, s.svcCtx)
+	return l.GetProductSku(in)
+}

@@ -1,30 +1,31 @@
-package logic
+package product
 
 import (
 	"context"
 
-	"goZeroDemo4/product/cmd/rpc/productSku/internal/svc"
-	"goZeroDemo4/product/cmd/rpc/productSku/pb"
+	"goZeroDemo4/product/cmd/api/desc/product/internal/svc"
+	"goZeroDemo4/product/cmd/api/desc/product/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )
 
 type CreateProductSkuLogic struct {
+	logx.Logger
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
-	logx.Logger
 }
 
+// 创建商品关联
 func NewCreateProductSkuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *CreateProductSkuLogic {
 	return &CreateProductSkuLogic{
+		Logger: logx.WithContext(ctx),
 		ctx:    ctx,
 		svcCtx: svcCtx,
-		Logger: logx.WithContext(ctx),
 	}
 }
 
-func (l *CreateProductSkuLogic) CreateProductSku(in *pb.CreateProductSkuReq) (*pb.CreateProductSkuResp, error) {
+func (l *CreateProductSkuLogic) CreateProductSku(req *types.CreateProductSkuReq) (resp *types.CreateProductSkuReq, err error) {
 	// todo: add your logic here and delete this line
 
-	return &pb.CreateProductSkuResp{}, nil
+	return
 }

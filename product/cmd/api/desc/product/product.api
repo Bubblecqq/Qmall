@@ -61,3 +61,57 @@ type (
     }
     GetProductByIdResp {}
 )
+
+
+
+// product_sku
+
+type ProductSku {
+    Id                  int64       `json:"id"`
+    Name                string      `json:"name"`
+    ProductId           int32       `json:"product_id"`
+    AttributeSymbolList string      `json:"attribute_symbol_list"`
+    SellPrice           float64     `json:"sell_price"`
+    CostPrice           float64     `json:"cost_price"`
+    Stock               int32       `json:"stock"`
+    StockWarn           int         `json:"stock_warn"`
+    CreateTime          string      `json:"create_time"`
+    UpdateTime          string      `json:"update_time"`
+    IsEnabled           int32       `json:"is_enable"`
+    CreateUser          string      `json:"create_user"`
+    UpdateUser          string      `json:"update_user"`
+}
+
+
+type (
+    CreateProductSkuReq {
+        Name                string      `json:"name"`
+        ProductId           int32       `json:"product_id"`
+        AttributeSymbolList string      `json:"attribute_symbol_list"`
+        SellPrice           float64     `json:"sell_price"`
+        CostPrice           float64     `json:"cost_price"`
+        Stock               int32       `json:"stock"`
+        StockWarn           int         `json:"stock_warn"`
+    }
+    CreateProductSkuResp {}
+)
+
+type (
+    GetProductSkuListReq {}
+    GetProductSkuListResp {
+        ProductSkuList  []ProductSku `json:"productSkus"`
+    }
+)
+
+type (
+    DeleteProductSkuReq {
+        Id  int64 `json:"id"`
+    }
+    DeleteProductSkuResp {}
+)
+type (
+    GetProductSkuByIdReq {
+        Id  int64 `json:"id"`
+    }
+    GetProductSkuByIdResp {}
+)

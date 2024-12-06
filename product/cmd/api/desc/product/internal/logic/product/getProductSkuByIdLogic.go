@@ -1,10 +1,10 @@
-package productSku
+package product
 
 import (
 	"context"
 
-	"goZeroDemo4/product/cmd/api/desc/productSku/internal/svc"
-	"goZeroDemo4/product/cmd/api/desc/productSku/internal/types"
+	"goZeroDemo4/product/cmd/api/desc/product/internal/svc"
+	"goZeroDemo4/product/cmd/api/desc/product/internal/types"
 
 	"github.com/zeromicro/go-zero/core/logx"
 )

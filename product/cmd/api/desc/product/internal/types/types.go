@@ -18,11 +18,31 @@ type CreateProductReq struct {
 type CreateProductResp struct {
 }
 
+type CreateProductSkuReq struct {
+	Name                string  `json:"name"`
+	ProductId           int32   `json:"product_id"`
+	AttributeSymbolList string  `json:"attribute_symbol_list"`
+	SellPrice           float64 `json:"sell_price"`
+	CostPrice           float64 `json:"cost_price"`
+	Stock               int32   `json:"stock"`
+	StockWarn           int     `json:"stock_warn"`
+}
+
+type CreateProductSkuResp struct {
+}
+
 type DeleteProductReq struct {
 	Id int64 `json:"id"`
 }
 
 type DeleteProductResp struct {
+}
+
+type DeleteProductSkuReq struct {
+	Id int64 `json:"id"`
+}
+
+type DeleteProductSkuResp struct {
 }
 
 type GetProductByIdReq struct {
@@ -37,6 +57,20 @@ type GetProductListReq struct {
 
 type GetProductListResp struct {
 	ProductList []Product `json:"products"`
+}
+
+type GetProductSkuByIdReq struct {
+	Id int64 `json:"id"`
+}
+
+type GetProductSkuByIdResp struct {
+}
+
+type GetProductSkuListReq struct {
+}
+
+type GetProductSkuListResp struct {
+	ProductSkuList []ProductSku `json:"productSkus"`
 }
 
 type Product struct {
@@ -55,4 +89,20 @@ type Product struct {
 	IsEnabled         int32   `json:"is_enable;default:1"`
 	CreateUser        string  `json:"create_user"`
 	UpdateUser        string  `json:"update_user"`
+}
+
+type ProductSku struct {
+	Id                  int64   `json:"id"`
+	Name                string  `json:"name"`
+	ProductId           int32   `json:"product_id"`
+	AttributeSymbolList string  `json:"attribute_symbol_list"`
+	SellPrice           float64 `json:"sell_price"`
+	CostPrice           float64 `json:"cost_price"`
+	Stock               int32   `json:"stock"`
+	StockWarn           int     `json:"stock_warn"`
+	CreateTime          string  `json:"create_time"`
+	UpdateTime          string  `json:"update_time"`
+	IsEnabled           int32   `json:"is_enable"`
+	CreateUser          string  `json:"create_user"`
+	UpdateUser          string  `json:"update_user"`
 }

@@ -50,10 +50,59 @@ message GetProductReq {
 }
 message GetProductResp {}
 
+// product_sku
+
+message ProductSku {
+  int64 id = 1;
+  string name = 2;
+  int32 product_id = 3;
+  string attribute_symbol_list = 4;
+  double sell_price = 5;
+  double cost_price = 6;
+  int32 stock = 7;
+  int64 stock_warn = 8;
+  google.protobuf.Timestamp  create_time = 9;
+  google.protobuf.Timestamp  update_time = 10;
+  int32 is_enable = 11;
+  string create_user = 12;
+  string update_user = 13;
+}
+
+message CreateProductSkuReq {
+  string name = 1;
+  int32 product_id = 2;
+  string attribute_symbol_list = 3;
+  double sell_price = 4;
+  double cost_price = 5;
+  int32 stock = 6;
+  int64 stock_warn = 7;
+}
+message CreateProductSkuResp {}
+
+message GetProductSkuListReq{}
+message GetProductSkuListResp{
+  repeated ProductSku ProductSkuList = 1;
+}
+
+message DeleteProductSkuReq {
+  int64 id = 1;
+}
+message DeleteProductSkuResp {}
+
+message GetProductSkuByIdReq {
+  int64 id = 1;
+}
+message GetProductSkuByIdResp {}
 
 service product {
   rpc CreateProduct (CreateProductReq) returns (CreateProductResp);
   rpc GetProductList (GetProductListReq) returns (GetProductListResp);
   rpc DeleteProduct (DeleteProductReq) returns (DeleteProductResp);
   rpc GetProduct (GetProductReq) returns (GetProductResp);
+
+  rpc CreateProductSku (CreateProductSkuReq) returns (CreateProductSkuResp);
+  rpc GetProductListSku (GetProductSkuListReq) returns (GetProductSkuListResp);
+  rpc DeleteProductSku (DeleteProductSkuReq) returns (DeleteProductSkuResp);
+  rpc GetProductSku (GetProductSkuByIdReq) returns (GetProductSkuByIdResp);
+
 }

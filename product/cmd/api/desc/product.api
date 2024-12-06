@@ -32,5 +32,22 @@ service product {
 	@doc "创建商品"
 	@handler createProduct
 	post /createProduct (CreateProductReq) returns (CreateProductReq)
+
+	// sku
+	@doc "获取商品关联列表"
+	@handler getProductSkus
+	post /getProductSkus (GetProductSkuListReq) returns (GetProductSkuListResp)
+
+	@doc "根据id删除商品关联"
+	@handler deleteProductSku
+	post /deleteProductSku (DeleteProductSkuReq) returns (DeleteProductSkuResp)
+
+	@doc "根据id获取商品关联"
+	@handler getProductSkuById
+	post /getProductSkuById (GetProductSkuByIdReq) returns (GetProductSkuByIdReq)
+
+	@doc "创建商品关联"
+	@handler createProductSku
+	post /createProductSku (CreateProductSkuReq) returns (CreateProductSkuReq)
 }
 

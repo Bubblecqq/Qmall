@@ -1,12 +1,12 @@
-package productSku
+package product
 
 import (
 	"net/http"
 
 	"github.com/zeromicro/go-zero/rest/httpx"
-	"goZeroDemo4/product/cmd/api/desc/productSku/internal/logic/productSku"
-	"goZeroDemo4/product/cmd/api/desc/productSku/internal/svc"
-	"goZeroDemo4/product/cmd/api/desc/productSku/internal/types"
+	"goZeroDemo4/product/cmd/api/desc/product/internal/logic/product"
+	"goZeroDemo4/product/cmd/api/desc/product/internal/svc"
+	"goZeroDemo4/product/cmd/api/desc/product/internal/types"
 )
 
 // 获取商品关联列表
@@ -18,7 +18,7 @@ func GetProductSkusHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 			return
 		}
 
-		l := productSku.NewGetProductSkusLogic(r.Context(), svcCtx)
+		l := product.NewGetProductSkusLogic(r.Context(), svcCtx)
 		resp, err := l.GetProductSkus(&req)
 		if err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
