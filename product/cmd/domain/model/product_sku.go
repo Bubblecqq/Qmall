@@ -11,3 +11,7 @@ type ProductSku struct {
 	Stock               int32   `gorm:"column:stock"`
 	StockWarn           int     `gorm:"column:stock_warn"`
 }
+
+func (p *ProductSku) TableName() string {
+	return "product_sku"
+}

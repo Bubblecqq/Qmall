@@ -1,0 +1,63 @@
+syntax = "v1"
+
+info(
+    title: "商品服务中心"
+    desc: "商品服务中心"
+    author: "cqq"
+    email: "1342982166@qq.com"
+    version: "v1"
+)
+
+type Product {
+    Id                int64    `json:"id"`
+    Name              string    `json:"name"`
+    ProductType       int32     `json:"product_type"`
+    CategoryId        int32     `json:"category_id"`
+    StartingPrice     float64   `json:"starting_price"`
+    TotalStock        int32     `json:"total_stock"`
+    MainPicture       string    `json:"main_picture"`
+    RemoteAreaPostage float64   `json:"remote_area_postage"`
+    SingleBuyLimit    int32     `json:"single_buy_limit"`
+    Remark            string    `json:"remark"`
+    CreateTime        string    `json:"create_time"`
+    UpdateTime        string    `json:"update_time"`
+    IsEnabled         int32     `json:"is_enable;default:1"`
+    CreateUser        string    `json:"create_user"`
+    UpdateUser        string    `json:"update_user"`
+}
+
+type (
+    CreateProductReq {
+        Name              string    `json:"name"`
+        ProductType       int32     `json:"product_type"`
+        CategoryId        int32     `json:"category_id"`
+        StartingPrice     float64   `json:"starting_price"`
+        TotalStock        int32     `json:"total_stock"`
+        MainPicture       string    `json:"main_picture"`
+        RemoteAreaPostage float64   `json:"remote_area_postage"`
+        SingleBuyLimit    int32     `json:"single_buy_limit"`
+        Remark            string    `json:"remark"`
+    }
+    CreateProductResp {}
+)
+
+type (
+    GetProductListReq {}
+    GetProductListResp {
+        ProductList  []Product `json:"products"`
+    }
+)
+
+type (
+    DeleteProductReq {
+        Id  int64 `json:"id"`
+    }
+    DeleteProductResp {}
+)
+
+type (
+    GetProductByIdReq {
+        Id  int64 `json:"id"`
+    }
+    GetProductByIdResp {}
+)
