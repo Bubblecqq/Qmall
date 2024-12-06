@@ -1,0 +1,36 @@
+syntax = "v1"
+
+info (
+	title:   "商品服务中心"
+	desc:    "商品服务中心"
+	author:  "cqq"
+	email:   "1342982166@qq.com"
+	version: "v1"
+)
+
+import (
+	"product/product.api"
+)
+
+@server (
+	prefix: product/v1
+	group:  product
+)
+service product {
+	@doc "获取商品列表"
+	@handler getProducts
+	post /getProducts (GetProductListReq) returns (GetProductListResp)
+
+	@doc "根据id删除商品"
+	@handler deleteProduct
+	post /deleteProduct (DeleteProductReq) returns (DeleteProductResp)
+
+	@doc "根据id获取商品"
+	@handler getProductById
+	post /getProductById (GetProductByIdReq) returns (GetProductByIdReq)
+
+	@doc "创建商品"
+	@handler createProduct
+	post /createProduct (CreateProductReq) returns (CreateProductReq)
+}
+

@@ -1,0 +1,36 @@
+syntax = "v1"
+
+info (
+	title:   "商品关联服务中心"
+	desc:    "商品关联服务中心"
+	author:  "cqq"
+	email:   "1342982166@qq.com"
+	version: "v1"
+)
+
+import (
+	"productSku/productSku.api"
+)
+
+@server (
+	prefix: productSku/v1
+	group:  productSku
+)
+service productSku {
+	@doc "获取商品关联列表"
+	@handler getProductSkus
+	post /getProductSkus (GetProductSkuListReq) returns (GetProductSkuListResp)
+
+	@doc "根据id删除商品关联"
+	@handler deleteProductSku
+	post /deleteProductSku (DeleteProductSkuReq) returns (DeleteProductSkuResp)
+
+	@doc "根据id获取商品关联"
+	@handler getProductSkuById
+	post /getProductSkuById (GetProductSkuByIdReq) returns (GetProductSkuByIdReq)
+
+	@doc "创建商品关联"
+	@handler createProductSku
+	post /createProductSku (CreateProductSkuReq) returns (CreateProductSkuReq)
+}
+
