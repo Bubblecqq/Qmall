@@ -2,6 +2,7 @@ package repository
 
 import (
 	"QMall/common"
+	"QMall/product/cmd/domain/model"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -25,8 +26,14 @@ func TestProduct(t *testing.T) {
 		fmt.Println(err.Error())
 	}
 	productRepository := NewProductRepository(db, nil)
-	list, _ := productRepository.Page(11, 3)
+	_, list, _ := productRepository.Page(11, 3)
 
 	fmt.Println("list>", list)
 	fmt.Println("len?", len(list))
+	fmt.Println("count>", productRepository.CountNum())
+
+	var p model.Product
+	db.Model(&model.Product{}).Preload("Detail").Preload("PictureList").Find(&p, 2)
+	fmt.Println("product Detail>", p.Detail)
+	fmt.Println("product pictureList>", p.PictureList)
 }

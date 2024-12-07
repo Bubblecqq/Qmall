@@ -104,7 +104,7 @@ message GetProductSkuByIdReq {
   int64 id = 1;
 }
 message GetProductSkuByIdResp {
-  repeated ProductSku productSku = 1;
+   ProductSku productSku = 1;
 }
 
 service product {

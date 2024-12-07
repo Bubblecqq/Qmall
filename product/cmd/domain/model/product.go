@@ -11,6 +11,9 @@ type Product struct {
 	RemoteAreaPostage float64 `gorm:"column:remote_area_postage"`
 	SingleBuyLimit    int32   `gorm:"column:single_buy_limit"`
 	Remark            string  `gorm:"column:remark;default:'1'"`
+
+	Detail      ProductDetail    `gorm:"foreignKey:product_id"`
+	PictureList []ProductPicture `gorm:"foreignKey:product_id"`
 }
 
 func (p *Product) TableName() string {
