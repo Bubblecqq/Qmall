@@ -7,7 +7,7 @@ func ConvertResponseProduct(product *model.Product) Product {
 		Id:                product.Id,
 		CreateTime:        product.CreateTime.String(),
 		UpdateTime:        product.UpdateTime.String(),
-		IsEnabled:         product.IsEnabled,
+		IsEnabled:         product.IsEnabled == 1,
 		CreateUser:        product.CreateUser,
 		UpdateUser:        product.UpdateUser,
 		Name:              product.Name,

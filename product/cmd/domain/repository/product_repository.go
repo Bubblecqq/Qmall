@@ -10,6 +10,7 @@ import (
 
 type IProductRepository interface {
 	IProductSkuRepository
+	IProductAttributeRepository
 	FindProduct(id int64) (*model.Product, error)
 	GetProductList() []model.Product
 	DeleteProduct(id int64) error
@@ -17,11 +18,18 @@ type IProductRepository interface {
 	//UpdateProduct(product *model.Product)
 	Page(length int32, pageIndex int32) (int64, []model.Product, error)
 	CountNum() int64
+	ShowProductDetail(id int64) (*model.Product, error)
 }
 
 type ProductRepository struct {
 	mysqlClient *gorm.DB
 	redisClient *redis.Client
+}
+
+func (p *ProductRepository) ShowProductDetail(id int64) (*model.Product, error) {
+	product := &model.Product{}
+	err := p.mysqlClient.Model(&model.Product{}).Preload("Detail").Preload("PictureList").Find(&product, id).Error
+	return product, err
 }
 
 func (p *ProductRepository) CountNum() int64 {

@@ -35,6 +35,7 @@ func (l *GetProductSkusLogic) GetProductSkus(req *types.GetProductSkuListReq) (r
 	for i := 0; i < len(productSku.ProductSkuList); i++ {
 		responseProductSkuList[i] = types.ConvertResponseProductSku(model.PbProductSkuModelConvert(productSku.ProductSkuList[i]))
 	}
+	resp = new(types.GetProductSkuListResp)
 	resp.ProductSkuList = responseProductSkuList
 
 	return

@@ -33,7 +33,10 @@ func TestProduct(t *testing.T) {
 	fmt.Println("count>", productRepository.CountNum())
 
 	var p model.Product
-	db.Model(&model.Product{}).Preload("Detail").Preload("PictureList").Find(&p, 2)
-	fmt.Println("product Detail>", p.Detail)
-	fmt.Println("product pictureList>", p.PictureList)
+	db.Model(&model.Product{}).Preload("Detail").Preload("PictureList").Find(&p, 15)
+	//fmt.Println("product Detail>", p.Detail)
+	//fmt.Println("product pictureList>", p.PictureList)
+
+	detail, err := productRepository.ShowProductDetail(15)
+	fmt.Println("detail>", *detail)
 }

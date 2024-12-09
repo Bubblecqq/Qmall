@@ -45,6 +45,26 @@ type DeleteProductSkuReq struct {
 type DeleteProductSkuResp struct {
 }
 
+type DetailProduct struct {
+	Id                int64    `json:"id"`
+	Name              string   `json:"name"`
+	ProductType       int32    `json:"product_type"`
+	CategoryId        int32    `json:"category_id"`
+	StartingPrice     float64  `json:"starting_price"`
+	TotalStock        int32    `json:"total_stock"`
+	MainPicture       string   `json:"main_picture"`
+	RemoteAreaPostage float64  `json:"remote_area_postage"`
+	SingleBuyLimit    int32    `json:"single_buy_limit"`
+	Remark            string   `json:"remark"`
+	CreateTime        string   `json:"create_time"`
+	UpdateTime        string   `json:"update_time"`
+	IsEnabled         bool     `json:"is_enable"`
+	CreateUser        string   `json:"create_user"`
+	UpdateUser        string   `json:"update_user"`
+	Detail            string   `json:"detail"`
+	PictureList       []string `json:"pictureList"`
+}
+
 type GetProductByIdReq struct {
 	Id int64 `json:"id"`
 }
@@ -97,7 +117,7 @@ type Product struct {
 	Remark            string  `json:"remark"`
 	CreateTime        string  `json:"create_time"`
 	UpdateTime        string  `json:"update_time"`
-	IsEnabled         int32   `json:"is_enable;default:1"`
+	IsEnabled         bool    `json:"is_enable"`
 	CreateUser        string  `json:"create_user"`
 	UpdateUser        string  `json:"update_user"`
 }
@@ -116,4 +136,12 @@ type ProductSku struct {
 	IsEnabled           int32   `json:"is_enable"`
 	CreateUser          string  `json:"create_user"`
 	UpdateUser          string  `json:"update_user"`
+}
+
+type ShowProductDetailReq struct {
+	Id int64 `json:"id"`
+}
+
+type ShowProductDetailResp struct {
+	DetailProduct DetailProduct `json:"detail_product"`
 }

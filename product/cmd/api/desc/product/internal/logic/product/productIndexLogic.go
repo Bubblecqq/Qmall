@@ -38,6 +38,7 @@ func (l *ProductIndexLogic) ProductIndex(req *types.PageReq) (resp *types.PageRe
 	for i := 0; i < len(responsePageIndex); i++ {
 		responsePageIndex[i] = types.ConvertResponseProduct(model.PbProductModelConvert(pageIndex.PageProductList[i]))
 	}
+	resp = new(types.PageResp)
 	resp.ResponsePageIndex = responsePageIndex
 	return
 }

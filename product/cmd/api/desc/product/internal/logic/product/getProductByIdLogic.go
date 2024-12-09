@@ -30,6 +30,7 @@ func (l *GetProductByIdLogic) GetProductById(req *types.GetProductByIdReq) (resp
 	getProduct, err := l.svcCtx.ProductRpcConf.GetProduct(l.ctx, &product.GetProductByIdReq{
 		Id: req.Id,
 	})
+	resp = new(types.GetProductByIdResp)
 	resp.Product = types.ConvertResponseProduct(model.PbProductModelConvert(getProduct.Product))
 	return
 }

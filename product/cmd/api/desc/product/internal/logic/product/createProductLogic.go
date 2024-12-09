@@ -38,6 +38,6 @@ func (l *CreateProductLogic) CreateProduct(req *types.CreateProductReq) (resp *t
 		SingleBuyLimit:    req.SingleBuyLimit,
 		Remark:            req.Remark,
 	})
-
+	resp = new(types.CreateProductResp)
 	return
 }

@@ -21,7 +21,7 @@ type Product {
     Remark            string    `json:"remark"`
     CreateTime        string    `json:"create_time"`
     UpdateTime        string    `json:"update_time"`
-    IsEnabled         int32     `json:"is_enable;default:1"`
+    IsEnabled         bool     `json:"is_enable"`
     CreateUser        string    `json:"create_user"`
     UpdateUser        string    `json:"update_user"`
 }
@@ -76,7 +76,7 @@ type ProductSku {
     SellPrice           float64     `json:"sell_price"`
     CostPrice           float64     `json:"cost_price"`
     Stock               int32       `json:"stock"`
-    StockWarn           int64         `json:"stock_warn"`
+    StockWarn           int64        `json:"stock_warn"`
     CreateTime          string      `json:"create_time"`
     UpdateTime          string      `json:"update_time"`
     IsEnabled           int32       `json:"is_enable"`
@@ -93,7 +93,7 @@ type (
         SellPrice           float64     `json:"sell_price"`
         CostPrice           float64     `json:"cost_price"`
         Stock               int32       `json:"stock"`
-        StockWarn           int64         `json:"stock_warn"`
+        StockWarn           int64        `json:"stock_warn"`
     }
     CreateProductSkuResp {}
 )
@@ -128,5 +128,36 @@ type (
     }
     PageResp {
         responsePageIndex []Product `json:"product"`
+    }
+)
+
+// 展示商品详情
+type DetailProduct {
+    Id                int64    `json:"id"`
+    Name              string    `json:"name"`
+    ProductType       int32     `json:"product_type"`
+    CategoryId        int32     `json:"category_id"`
+    StartingPrice     float64   `json:"starting_price"`
+    TotalStock        int32     `json:"total_stock"`
+    MainPicture       string    `json:"main_picture"`
+    RemoteAreaPostage float64   `json:"remote_area_postage"`
+    SingleBuyLimit    int32     `json:"single_buy_limit"`
+    Remark            string    `json:"remark"`
+    CreateTime        string    `json:"create_time"`
+    UpdateTime        string    `json:"update_time"`
+    IsEnabled         bool      `json:"is_enable"`
+    CreateUser        string    `json:"create_user"`
+    UpdateUser        string    `json:"update_user"`
+    Detail            string    `json:"detail"`
+    PictureList       []string  `json:"pictureList"`
+}
+
+
+type (
+    ShowProductDetailReq {
+        Id  int64 `json:"id"`
+    }
+    ShowProductDetailResp {
+        DetailProduct  DetailProduct `json:"detail_product"`
     }
 )

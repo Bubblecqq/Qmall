@@ -31,6 +31,7 @@ func (l *GetProductSkuByIdLogic) GetProductSkuById(req *types.GetProductSkuByIdR
 	sku, err := l.svcCtx.ProductRpcConf.GetProductSku(l.ctx, &product.GetProductSkuByIdReq{
 		Id: req.Id,
 	})
+	resp = new(types.GetProductSkuByIdResp)
 	resp.ProductSku = types.ConvertResponseProductSku(model.PbProductSkuModelConvert(sku.ProductSku))
 	return
 }

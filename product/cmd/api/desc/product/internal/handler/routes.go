@@ -16,6 +16,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				// 获取商品详情
+				Method:  http.MethodPost,
+				Path:    "/ProductDetail",
+				Handler: product.ProductDetailHandler(serverCtx),
+			},
+			{
 				// 商品分页
 				Method:  http.MethodPost,
 				Path:    "/ProductIndex",

@@ -30,6 +30,6 @@ func (l *DeleteProductLogic) DeleteProduct(req *types.DeleteProductReq) (resp *t
 	_, err = l.svcCtx.ProductRpcConf.DeleteProduct(l.ctx, &product.DeleteProductReq{
 		Id: req.Id,
 	})
-
+	resp = new(types.DeleteProductResp)
 	return
 }
