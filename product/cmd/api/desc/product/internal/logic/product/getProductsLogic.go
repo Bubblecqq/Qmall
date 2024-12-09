@@ -35,7 +35,7 @@ func (l *GetProductsLogic) GetProducts(req *types.GetProductListReq) (resp *type
 	for i := 0; i < len(products.ProductList); i++ {
 		responseProductList[i] = types.ConvertResponseProduct(model.PbProductModelConvert(products.ProductList[i]))
 	}
-
+	resp = new(types.GetProductListResp)
 	resp.ProductList = responseProductList
 	return
 }

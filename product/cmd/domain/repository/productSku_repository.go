@@ -19,7 +19,7 @@ type IProductSkuRepository interface {
 
 func (p *ProductRepository) FindProductSku(id int64) (*model.ProductSku, error) {
 	productSku := &model.ProductSku{}
-	err := p.mysqlClient.Model(&model.ProductSku{}).Find(&productSku).Error
+	err := p.mysqlClient.Model(&model.ProductSku{}).Find(&productSku, id).Error
 	return productSku, err
 }
 

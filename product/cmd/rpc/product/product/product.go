@@ -22,6 +22,7 @@ type (
 	DeleteProductResp     = pb.DeleteProductResp
 	DeleteProductSkuReq   = pb.DeleteProductSkuReq
 	DeleteProductSkuResp  = pb.DeleteProductSkuResp
+	DetailProduct         = pb.DetailProduct
 	GetProductByIdReq     = pb.GetProductByIdReq
 	GetProductByIdResp    = pb.GetProductByIdResp
 	GetProductListReq     = pb.GetProductListReq
@@ -34,6 +35,8 @@ type (
 	PageResp              = pb.PageResp
 	Product               = pb.Product
 	ProductSku            = pb.ProductSku
+	ShowProductDetailReq  = pb.ShowProductDetailReq
+	ShowProductDetailResp = pb.ShowProductDetailResp
 
 	ProductZrpcClient interface {
 		CreateProduct(ctx context.Context, in *CreateProductReq, opts ...grpc.CallOption) (*CreateProductResp, error)
@@ -41,6 +44,7 @@ type (
 		DeleteProduct(ctx context.Context, in *DeleteProductReq, opts ...grpc.CallOption) (*DeleteProductResp, error)
 		GetProduct(ctx context.Context, in *GetProductByIdReq, opts ...grpc.CallOption) (*GetProductByIdResp, error)
 		PageIndex(ctx context.Context, in *PageReq, opts ...grpc.CallOption) (*PageResp, error)
+		ShowProductDetail(ctx context.Context, in *ShowProductDetailReq, opts ...grpc.CallOption) (*ShowProductDetailResp, error)
 		CreateProductSku(ctx context.Context, in *CreateProductSkuReq, opts ...grpc.CallOption) (*CreateProductSkuResp, error)
 		GetProductListSku(ctx context.Context, in *GetProductSkuListReq, opts ...grpc.CallOption) (*GetProductSkuListResp, error)
 		DeleteProductSku(ctx context.Context, in *DeleteProductSkuReq, opts ...grpc.CallOption) (*DeleteProductSkuResp, error)
@@ -81,6 +85,11 @@ func (m *defaultProductZrpcClient) GetProduct(ctx context.Context, in *GetProduc
 func (m *defaultProductZrpcClient) PageIndex(ctx context.Context, in *PageReq, opts ...grpc.CallOption) (*PageResp, error) {
 	client := pb.NewProductClient(m.cli.Conn())
 	return client.PageIndex(ctx, in, opts...)
+}
+
+func (m *defaultProductZrpcClient) ShowProductDetail(ctx context.Context, in *ShowProductDetailReq, opts ...grpc.CallOption) (*ShowProductDetailResp, error) {
+	client := pb.NewProductClient(m.cli.Conn())
+	return client.ShowProductDetail(ctx, in, opts...)
 }
 
 func (m *defaultProductZrpcClient) CreateProductSku(ctx context.Context, in *CreateProductSkuReq, opts ...grpc.CallOption) (*CreateProductSkuResp, error) {

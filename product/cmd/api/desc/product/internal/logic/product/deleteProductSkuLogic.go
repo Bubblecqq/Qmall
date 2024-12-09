@@ -30,6 +30,6 @@ func (l *DeleteProductSkuLogic) DeleteProductSku(req *types.DeleteProductSkuReq)
 	_, err = l.svcCtx.ProductRpcConf.DeleteProductSku(l.ctx, &product.DeleteProductSkuReq{
 		Id: req.Id,
 	})
-
+	resp = new(types.DeleteProductSkuResp)
 	return
 }

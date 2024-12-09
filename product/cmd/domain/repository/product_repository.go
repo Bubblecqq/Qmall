@@ -10,12 +10,15 @@ import (
 
 type IProductRepository interface {
 	IProductSkuRepository
+	IProductAttributeRepository
 	FindProduct(id int64) (*model.Product, error)
 	GetProductList() []model.Product
 	DeleteProduct(id int64) error
 	CreateProduct(name string, product_type int32, category_id int32, starting_price float64, total_stock int32, main_picture string, remote_area_postage float64, single_buy_limit int32, remark string) error
 	//UpdateProduct(product *model.Product)
-	Page(length int32, pageIndex int32) ([]model.Product, error)
+	Page(length int32, pageIndex int32) (int64, []model.Product, error)
+	CountNum() int64
+	ShowProductDetail(id int64) (*model.Product, error)
 }
 
 type ProductRepository struct {
@@ -23,17 +26,32 @@ type ProductRepository struct {
 	redisClient *redis.Client
 }
 
-func (p *ProductRepository) Page(length int32, pageIndex int32) ([]model.Product, error) {
+func (p *ProductRepository) ShowProductDetail(id int64) (*model.Product, error) {
+	product := &model.Product{}
+	err := p.mysqlClient.Model(&model.Product{}).Preload("Detail").Preload("PictureList").Find(&product, id).Error
+	return product, err
+}
+
+func (p *ProductRepository) CountNum() int64 {
+
+	var result int64
+	p.mysqlClient.Model(&model.Product{}).Limit(-1).Offset(-1).Count(&result)
+	return result
+}
+
+func (p *ProductRepository) Page(length int32, pageIndex int32) (int64, []model.Product, error) {
 	pageProductList := make([]model.Product, length)
+	var count int64
 	if length > 0 && pageIndex > 0 {
+		count = p.CountNum()
 		if err := p.mysqlClient.Model(&model.Product{}).Limit(int(length)).Offset(int(pageIndex-1) * int(length)).Find(&pageProductList).Error; err != nil {
 			fmt.Println("[ProductRepository] Query product error with:", err)
-			return pageProductList, err
+			return count, pageProductList, err
 		}
 	} else {
-		return pageProductList, errors.New("参数有误，请重新输入！")
+		return count, pageProductList, errors.New("参数有误，请重新输入！")
 	}
-	return pageProductList, nil
+	return count, pageProductList, nil
 }
 
 func (p *ProductRepository) FindProduct(id int64) (*model.Product, error) {

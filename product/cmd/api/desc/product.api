@@ -54,5 +54,9 @@ service product {
 	@doc "商品分页"
 	@handler ProductIndex
 	post /ProductIndex (PageReq) returns (PageResp)
+
+	@doc "获取商品详情"
+	@handler ProductDetail
+	post /ProductDetail (ShowProductDetailReq) returns (ShowProductDetailResp)
 }
 

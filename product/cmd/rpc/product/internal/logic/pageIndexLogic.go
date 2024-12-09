@@ -26,7 +26,7 @@ func NewPageIndexLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PageInd
 
 func (l *PageIndexLogic) PageIndex(in *pb.PageReq) (*pb.PageResp, error) {
 
-	page, err := l.svcCtx.ProductRepository.Page(in.Length, in.PageIndex)
+	_, page, err := l.svcCtx.ProductRepository.Page(in.Length, in.PageIndex)
 
 	if err != nil {
 		return &pb.PageResp{}, nil

@@ -6,12 +6,13 @@ import (
 	"QMall/user/cmd/api/desc/user/internal/svc"
 	"flag"
 	"fmt"
+	_ "github.com/zeromicro/zero-contrib/zrpc/registry/consul"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
 )
 
-var configFile = flag.String("f", "D:\\development\\MicroService\\QMall\\user\\cmd\\api\\desc\\etc\\user.yaml", "the config file")
+var configFile = flag.String("f", "D:\\development\\MicroService\\QMall\\user\\cmd\\api\\desc\\user\\etc\\user.yaml", "the config file")
 
 func main() {
 	flag.Parse()

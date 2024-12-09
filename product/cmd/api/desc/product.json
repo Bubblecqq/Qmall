@@ -1,0 +1,808 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/product/v1/ProductDetail": {
+      "post": {
+        "summary": "获取商品详情",
+        "operationId": "ProductDetail",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/ShowProductDetailResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ShowProductDetailReq"
+            }
+          }
+        ],
+        "tags": [
+          "product"
+        ]
+      }
+    },
+    "/product/v1/ProductIndex": {
+      "post": {
+        "summary": "商品分页",
+        "operationId": "ProductIndex",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PageReq"
+            }
+          }
+        ],
+        "tags": [
+          "product"
+        ]
+      }
+    },
+    "/product/v1/createProduct": {
+      "post": {
+        "summary": "创建商品",
+        "operationId": "createProduct",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CreateProductResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateProductReq"
+            }
+          }
+        ],
+        "tags": [
+          "product"
+        ]
+      }
+    },
+    "/product/v1/createProductSku": {
+      "post": {
+        "summary": "创建商品关联",
+        "operationId": "createProductSku",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/CreateProductSkuResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateProductSkuReq"
+            }
+          }
+        ],
+        "tags": [
+          "product"
+        ]
+      }
+    },
+    "/product/v1/deleteProduct": {
+      "post": {
+        "summary": "根据id删除商品",
+        "operationId": "deleteProduct",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/DeleteProductResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteProductReq"
+            }
+          }
+        ],
+        "tags": [
+          "product"
+        ]
+      }
+    },
+    "/product/v1/deleteProductSku": {
+      "post": {
+        "summary": "根据id删除商品关联",
+        "operationId": "deleteProductSku",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/DeleteProductSkuResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DeleteProductSkuReq"
+            }
+          }
+        ],
+        "tags": [
+          "product"
+        ]
+      }
+    },
+    "/product/v1/getProductById": {
+      "post": {
+        "summary": "根据id获取商品",
+        "operationId": "getProductById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetProductByIdResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetProductByIdReq"
+            }
+          }
+        ],
+        "tags": [
+          "product"
+        ]
+      }
+    },
+    "/product/v1/getProductSkuById": {
+      "post": {
+        "summary": "根据id获取商品关联",
+        "operationId": "getProductSkuById",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetProductSkuByIdResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetProductSkuByIdReq"
+            }
+          }
+        ],
+        "tags": [
+          "product"
+        ]
+      }
+    },
+    "/product/v1/getProductSkus": {
+      "post": {
+        "summary": "获取商品关联列表",
+        "operationId": "getProductSkus",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetProductSkuListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetProductSkuListReq"
+            }
+          }
+        ],
+        "tags": [
+          "product"
+        ]
+      }
+    },
+    "/product/v1/getProducts": {
+      "post": {
+        "summary": "获取商品列表",
+        "operationId": "getProducts",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetProductListResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetProductListReq"
+            }
+          }
+        ],
+        "tags": [
+          "product"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "CreateProductReq": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "product_type": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "category_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "starting_price": {
+          "type": "number",
+          "format": "double"
+        },
+        "total_stock": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "main_picture": {
+          "type": "string"
+        },
+        "remote_area_postage": {
+          "type": "number",
+          "format": "double"
+        },
+        "single_buy_limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "remark": {
+          "type": "string"
+        }
+      },
+      "title": "CreateProductReq",
+      "required": [
+        "name",
+        "product_type",
+        "category_id",
+        "starting_price",
+        "total_stock",
+        "main_picture",
+        "remote_area_postage",
+        "single_buy_limit",
+        "remark"
+      ]
+    },
+    "CreateProductResp": {
+      "type": "object",
+      "title": "CreateProductResp"
+    },
+    "CreateProductSkuReq": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "product_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "attribute_symbol_list": {
+          "type": "string"
+        },
+        "sell_price": {
+          "type": "number",
+          "format": "double"
+        },
+        "cost_price": {
+          "type": "number",
+          "format": "double"
+        },
+        "stock": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "stock_warn": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "CreateProductSkuReq",
+      "required": [
+        "name",
+        "product_id",
+        "attribute_symbol_list",
+        "sell_price",
+        "cost_price",
+        "stock",
+        "stock_warn"
+      ]
+    },
+    "CreateProductSkuResp": {
+      "type": "object",
+      "title": "CreateProductSkuResp"
+    },
+    "DeleteProductReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "DeleteProductReq",
+      "required": [
+        "id"
+      ]
+    },
+    "DeleteProductResp": {
+      "type": "object",
+      "title": "DeleteProductResp"
+    },
+    "DeleteProductSkuReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "DeleteProductSkuReq",
+      "required": [
+        "id"
+      ]
+    },
+    "DeleteProductSkuResp": {
+      "type": "object",
+      "title": "DeleteProductSkuResp"
+    },
+    "DetailProduct": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "product_type": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "category_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "starting_price": {
+          "type": "number",
+          "format": "double"
+        },
+        "total_stock": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "main_picture": {
+          "type": "string"
+        },
+        "remote_area_postage": {
+          "type": "number",
+          "format": "double"
+        },
+        "single_buy_limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "remark": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "string"
+        },
+        "update_time": {
+          "type": "string"
+        },
+        "is_enable;default:1": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "create_user": {
+          "type": "string"
+        },
+        "update_user": {
+          "type": "string"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "pictureList": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "title": "DetailProduct",
+      "required": [
+        "id",
+        "name",
+        "product_type",
+        "category_id",
+        "starting_price",
+        "total_stock",
+        "main_picture",
+        "remote_area_postage",
+        "single_buy_limit",
+        "remark",
+        "create_time",
+        "update_time",
+        "is_enable;default:1",
+        "create_user",
+        "update_user",
+        "detail",
+        "pictureList"
+      ]
+    },
+    "GetProductByIdReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetProductByIdReq",
+      "required": [
+        "id"
+      ]
+    },
+    "GetProductByIdResp": {
+      "type": "object",
+      "properties": {
+        "product": {
+          "$ref": "#/definitions/Product"
+        }
+      },
+      "title": "GetProductByIdResp",
+      "required": [
+        "product"
+      ]
+    },
+    "GetProductListReq": {
+      "type": "object",
+      "title": "GetProductListReq"
+    },
+    "GetProductListResp": {
+      "type": "object",
+      "properties": {
+        "products": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Product"
+          }
+        }
+      },
+      "title": "GetProductListResp",
+      "required": [
+        "products"
+      ]
+    },
+    "GetProductSkuByIdReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetProductSkuByIdReq",
+      "required": [
+        "id"
+      ]
+    },
+    "GetProductSkuByIdResp": {
+      "type": "object",
+      "properties": {
+        "productSku": {
+          "$ref": "#/definitions/ProductSku"
+        }
+      },
+      "title": "GetProductSkuByIdResp",
+      "required": [
+        "productSku"
+      ]
+    },
+    "GetProductSkuListReq": {
+      "type": "object",
+      "title": "GetProductSkuListReq"
+    },
+    "GetProductSkuListResp": {
+      "type": "object",
+      "properties": {
+        "productSkus": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ProductSku"
+          }
+        }
+      },
+      "title": "GetProductSkuListResp",
+      "required": [
+        "productSkus"
+      ]
+    },
+    "PageReq": {
+      "type": "object",
+      "properties": {
+        "length": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageIndex": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "PageReq",
+      "required": [
+        "length",
+        "pageIndex"
+      ]
+    },
+    "PageResp": {
+      "type": "object",
+      "properties": {
+        "product": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Product"
+          }
+        }
+      },
+      "title": "PageResp",
+      "required": [
+        "product"
+      ]
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "product_type": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "category_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "starting_price": {
+          "type": "number",
+          "format": "double"
+        },
+        "total_stock": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "main_picture": {
+          "type": "string"
+        },
+        "remote_area_postage": {
+          "type": "number",
+          "format": "double"
+        },
+        "single_buy_limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "remark": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "string"
+        },
+        "update_time": {
+          "type": "string"
+        },
+        "is_enable;default:1": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "create_user": {
+          "type": "string"
+        },
+        "update_user": {
+          "type": "string"
+        }
+      },
+      "title": "Product",
+      "required": [
+        "id",
+        "name",
+        "product_type",
+        "category_id",
+        "starting_price",
+        "total_stock",
+        "main_picture",
+        "remote_area_postage",
+        "single_buy_limit",
+        "remark",
+        "create_time",
+        "update_time",
+        "is_enable;default:1",
+        "create_user",
+        "update_user"
+      ]
+    },
+    "ProductSku": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "product_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "attribute_symbol_list": {
+          "type": "string"
+        },
+        "sell_price": {
+          "type": "number",
+          "format": "double"
+        },
+        "cost_price": {
+          "type": "number",
+          "format": "double"
+        },
+        "stock": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "stock_warn": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "create_time": {
+          "type": "string"
+        },
+        "update_time": {
+          "type": "string"
+        },
+        "is_enable": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "create_user": {
+          "type": "string"
+        },
+        "update_user": {
+          "type": "string"
+        }
+      },
+      "title": "ProductSku",
+      "required": [
+        "id",
+        "name",
+        "product_id",
+        "attribute_symbol_list",
+        "sell_price",
+        "cost_price",
+        "stock",
+        "stock_warn",
+        "create_time",
+        "update_time",
+        "is_enable",
+        "create_user",
+        "update_user"
+      ]
+    },
+    "ShowProductDetailReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "ShowProductDetailReq",
+      "required": [
+        "id"
+      ]
+    },
+    "ShowProductDetailResp": {
+      "type": "object",
+      "properties": {
+        "product_detail": {
+          "$ref": "#/definitions/DetailProduct"
+        }
+      },
+      "title": "ShowProductDetailResp",
+      "required": [
+        "product_detail"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

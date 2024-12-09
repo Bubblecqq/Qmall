@@ -4,7 +4,7 @@ Redis:
   Host: 192.168.23.233:6379
   Type: node
   Pass: "123456"
-  Key: user-rpc
+  Key: product-rpc
 #  Cluster:
 #    - 192.168.23.233:6379
 #    - 192.168.23.234:6379
@@ -18,6 +18,10 @@ Mysql:
 Cache:
   - Host: 192.168.23.233:6379
     Pass: "123456"
+##########不使用时需要再internal/config/config.go注释Consul
+Consul:
+  Host: 192.168.23.233:8500
+  Key: product.rpc
 #Etcd:
 #  Hosts:
 #  - 127.0.0.1:2379

@@ -104,8 +104,47 @@ message GetProductSkuByIdReq {
   int64 id = 1;
 }
 message GetProductSkuByIdResp {
-  repeated ProductSku productSku = 1;
+   ProductSku productSku = 1;
 }
+
+
+message DetailProduct {
+  int64 id = 1;
+  string name = 2;
+  int32 product_type = 3;
+  int32 category_id = 4;
+  double starting_price = 5;
+  int32 total_stock = 6;
+  string main_picture = 7;
+  double remote_area_postage = 8;
+  int32 single_buy_limit = 9;
+  string remark = 10;
+  google.protobuf.Timestamp  create_time = 11;
+  google.protobuf.Timestamp  update_time = 12;
+  int32 is_enable = 13;
+  string create_user = 14;
+  string update_user = 15;
+  string detail = 16;
+  repeated string picture_list = 17;
+}
+
+
+
+message ShowProductDetailReq {
+  int64 id = 1;
+}
+message ShowProductDetailResp {
+  DetailProduct product_detail = 1;
+}
+
+
+
+
+
+
+
+
+// RPC FUNCTION
 
 service product {
   rpc CreateProduct (CreateProductReq) returns (CreateProductResp);
@@ -114,6 +153,7 @@ service product {
   rpc GetProduct (GetProductByIdReq) returns (GetProductByIdResp);
 
   rpc PageIndex (PageReq) returns (PageResp);
+  rpc ShowProductDetail (ShowProductDetailReq) returns (ShowProductDetailResp);
 
   rpc CreateProductSku (CreateProductSkuReq) returns (CreateProductSkuResp);
   rpc GetProductListSku (GetProductSkuListReq) returns (GetProductSkuListResp);

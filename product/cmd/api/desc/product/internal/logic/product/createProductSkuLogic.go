@@ -25,7 +25,7 @@ func NewCreateProductSkuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *CreateProductSkuLogic) CreateProductSku(req *types.CreateProductSkuReq) (resp *types.CreateProductSkuReq, err error) {
+func (l *CreateProductSkuLogic) CreateProductSku(req *types.CreateProductSkuReq) (resp *types.CreateProductSkuResp, err error) {
 
 	_, err = l.svcCtx.ProductRpcConf.CreateProductSku(l.ctx, &product.CreateProductSkuReq{
 		Name:                req.Name,
@@ -36,6 +36,6 @@ func (l *CreateProductSkuLogic) CreateProductSku(req *types.CreateProductSkuReq)
 		Stock:               req.Stock,
 		StockWarn:           req.StockWarn,
 	})
-
+	resp = new(types.CreateProductSkuResp)
 	return
 }

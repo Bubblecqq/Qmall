@@ -48,6 +48,11 @@ func (s *ProductServer) PageIndex(ctx context.Context, in *pb.PageReq) (*pb.Page
 	return l.PageIndex(in)
 }
 
+func (s *ProductServer) ShowProductDetail(ctx context.Context, in *pb.ShowProductDetailReq) (*pb.ShowProductDetailResp, error) {
+	l := logic.NewShowProductDetailLogic(ctx, s.svcCtx)
+	return l.ShowProductDetail(in)
+}
+
 func (s *ProductServer) CreateProductSku(ctx context.Context, in *pb.CreateProductSkuReq) (*pb.CreateProductSkuResp, error) {
 	l := logic.NewCreateProductSkuLogic(ctx, s.svcCtx)
 	return l.CreateProductSku(in)
