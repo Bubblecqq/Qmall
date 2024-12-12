@@ -1,0 +1,118 @@
+syntax = "proto3";
+
+option go_package="./pb";
+import "google/protobuf/timestamp.proto";
+//import "product/cmd/rpc/product/pb/product.proto";
+package pb;
+
+message Product {
+  int64 id = 1;
+  string name = 2;
+  int32 product_type = 3;
+  int32 category_id = 4;
+  double starting_price = 5;
+  int32 total_stock = 6;
+  string main_picture = 7;
+  double remote_area_postage = 8;
+  int32 single_buy_limit = 9;
+  string remark = 10;
+  google.protobuf.Timestamp  create_time = 11;
+  google.protobuf.Timestamp  update_time = 12;
+  int32 is_enable = 13;
+  int64 create_user = 14;
+  int64 update_user = 15;
+}
+
+message ProductSku {
+  int64 id = 1;
+  string name = 2;
+  int32 product_id = 3;
+  string attribute_symbol_list = 4;
+  double sell_price = 5;
+  double cost_price = 6;
+  int32 stock = 7;
+  int64 stock_warn = 8;
+  google.protobuf.Timestamp  create_time = 9;
+  google.protobuf.Timestamp  update_time = 10;
+  int32 is_enable = 11;
+  int64 create_user = 12;
+  int64 update_user = 13;
+}
+
+message ShoppingCart {
+  int64 id = 1;
+  int64 user_id = 2;
+  int64 product_id = 3;
+  int64 product_sku_id = 4;
+  string product_name = 5;
+  string product_main_picture = 6;
+  int64 number = 7;
+  google.protobuf.Timestamp create_time = 8;
+  google.protobuf.Timestamp update_time = 9;
+  int64 create_user = 10;
+  int64 update_user = 11;
+  int32 is_delete =12;
+}
+
+
+message AddCartReq {
+  int64 number = 1;
+  int64 product_id = 2;
+  int64 product_sku_id = 3;
+  int64 user_id = 4;
+  string product_name = 5;
+  string product_main_picture = 6;
+  int64 id = 7;
+}
+
+message AddCartResp {
+  Product productSimple = 1;
+  ProductSku productSkuSimple = 2;
+  int64 shoppingCartNumber = 3;
+  int64 CanSetShoppingCartNumber = 4;
+  bool isBeyondMaxLimit = 5;
+  int64 id = 6;
+}
+
+
+message UpdateCartReq {
+    int64 id = 1;
+    int64 user_id = 2;
+    int64 product_id = 3;
+    int64 product_sku_id = 4;
+    string product_name = 5;
+    string product_main_picture = 6;
+    int32 is_delete =7;
+//    google.protobuf.Timestamp update_time = 8;
+}
+
+message UpdateCartResp {
+  int64 id = 1;
+  int64 user_id = 2;
+  int64 product_id = 3;
+  string product_name = 4;
+  Product product = 5;
+  int64 product_sku_id = 6;
+  ProductSku product_sku = 7;
+  int64 number = 8;
+}
+
+message FindCartReq {
+  int64 id = 1;
+  int64 user_id = 2;
+}
+message FindCartResp {
+  ShoppingCart shoppingCart = 1;
+}
+
+
+service shopping_cart {
+  rpc AddCart (AddCartReq) returns (AddCartResp);
+
+  rpc UpdateCart (UpdateCartReq) returns (UpdateCartResp);
+
+  rpc FindCart (FindCartReq) returns (FindCartResp);
+
+
+}
+

@@ -1,6 +1,6 @@
-Name: product
+Name: shoppingCart
 Host: 127.0.0.1
-Port: 1002
+Port: 1003
 Mode: dev
 Mysql:
   Host: "192.168.23.233:3306"
@@ -11,9 +11,9 @@ Mysql:
 Cache:
   - Host: 192.168.23.233:6379
     Pass: "123456"
-ProductRpcConf:
+ShoppingCartRpcConf:
   Endpoints:
     - 127.0.0.1:2002
   NonBlock: true
   # 不使用Consul时注释掉target
-  Target: consul://192.168.23.233:8500/product.rpc?wait=14s
+  Target: consul://192.168.23.233:8500/shoppingCart.rpc?wait=14s

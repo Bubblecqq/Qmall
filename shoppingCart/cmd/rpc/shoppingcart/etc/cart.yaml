@@ -1,0 +1,24 @@
+Name: shoppingCart.rpc
+ListenOn: 127.0.0.1:2003
+Redis:
+  Host: 192.168.23.233:6379
+  Type: node
+  Pass: "123456"
+  Key: shoppingCart-rpc
+#  Cluster:
+#    - 192.168.23.233:6379
+#    - 192.168.23.234:6379
+#    - 192.168.23.235:6379
+Mysql:
+  Host: "192.168.23.233:3306"
+  User: "root"
+  Pass: "000000"
+  Database: "mall_product"
+  Charset: "utf8mb4"
+Cache:
+  - Host: 192.168.23.233:6379
+    Pass: "123456"
+##########不使用时需要再internal/config/config.go注释Consul
+Consul:
+  Host: 192.168.23.233:8500
+  Key: shoppingCart.rpc

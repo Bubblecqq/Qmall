@@ -1,0 +1,32 @@
+syntax = "v1"
+
+info (
+	title:   "购物车服务"
+	desc:    "购物车服务"
+	author:  "cqq"
+	email:   "1342982166@qq.com"
+	version: "v1"
+)
+
+import (
+	"shoppingCart/cart.api"
+)
+
+@server (
+	prefix: shoppingCart/v1
+	group:  shoppingCart
+)
+service shoppingCart {
+	@doc "添加购物车"
+	@handler increaseCart
+	post /increaseCart (IncreaseShoppingCartRep) returns (IncreaseShoppingCartResp)
+
+	@doc "修改购物车"
+	@handler updateCart
+	post /updateCart (UpdateShoppingCartReq) returns (UpdateShoppingCartResp)
+
+	@doc "查看购物车"
+	@handler findCart
+	post /findCart (FindShoppingCartReq) returns (FindShoppingCartResp)
+}
+
