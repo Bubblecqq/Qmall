@@ -1,0 +1,134 @@
+syntax = "v1"
+
+info (
+    title:   "购物车服务"
+    desc:    "购物车服务"
+    author:  "cqq"
+    email:   "1342982166@qq.com"
+    version: "v1"
+)
+
+//import (
+//    "../../../../../product/cmd/api/desc/product/product.api"
+////    "product/cmd/api/desc/product/product.api"
+//)
+
+type Product {
+    Id                int64    `json:"id"`
+    Name              string    `json:"name"`
+    ProductType       int32     `json:"product_type"`
+    CategoryId        int32     `json:"category_id"`
+    StartingPrice     float64   `json:"starting_price"`
+    TotalStock        int32     `json:"total_stock"`
+    MainPicture       string    `json:"main_picture"`
+    RemoteAreaPostage float64   `json:"remote_area_postage"`
+    SingleBuyLimit    int32     `json:"single_buy_limit"`
+    Remark            string    `json:"remark"`
+    CreateTime        string    `json:"create_time"`
+    UpdateTime        string    `json:"update_time"`
+    IsEnabled         bool     `json:"is_enable"`
+    CreateUser        string    `json:"create_user"`
+    UpdateUser        string    `json:"update_user"`
+}
+type ProductSku {
+    Id                  int64       `json:"id"`
+    Name                string      `json:"name"`
+    ProductId           int32       `json:"product_id"`
+    AttributeSymbolList string      `json:"attribute_symbol_list"`
+    SellPrice           float64     `json:"sell_price"`
+    CostPrice           float64     `json:"cost_price"`
+    Stock               int32       `json:"stock"`
+    StockWarn           int64        `json:"stock_warn"`
+    CreateTime          string      `json:"create_time"`
+    UpdateTime          string      `json:"update_time"`
+    IsEnabled           int32       `json:"is_enable"`
+    CreateUser          int64      `json:"create_user"`
+    UpdateUser          int64      `json:"update_user"`
+}
+
+type ShoppingCart {
+    Id                 int64    `json:"id"`
+    UserId             int64    `json:"user_id"`
+    ProductId          int64    `json:"product_id"`
+    ProductSkuId       int64    `json:"product_sku_id"`
+    ProductName        string   `json:"product_name"`
+    ProductMainPicture string   `json:"product_main_picture"`
+    Number             int64    `json:"number"`
+    CreateTime         string `json:"create_time"`
+    UpdateTime         string `json:"update_time"`
+    CreateUser         int64 `json:"create_user"`
+    UpdateUser         int64 `json:"update_user"`
+    IsDeleted           int32 `json:"is_deleted"`
+}
+
+type ProductSimple {
+    Id                  int64     `json:"id"`
+    Name                string    `json:"name"`
+    MainPicture         string    `json:"mainPicture"`
+    lablelist           string    `json:"lablelist"`
+    SingleBuyLimit      float64   `json:"singleBuyLimit"`
+    isEnable            bool      `json:"isEnable"`
+    ProductType         int32     `json:"productType"`
+}
+
+type ProductSkuSimple {
+    SkuId               int64       `json:"skuId"`
+    AttributeSymbolList string      `json:"attributeSymbolList"`
+    Name                string      `json:"name"`
+    SellPrice           float64     `json:"sellPrice"`
+    Stock               int32       `json:"stock"`
+}
+
+//添加购物车
+type (
+    IncreaseShoppingCartRep {
+        Number          int64 `json:"number"`
+        ProductId       int64 `json:"product_id"`
+        ProductSkuId    int64 `json:"product_sku_id"`
+        UserId          int64 `json:"user_id"`
+        ProductName     string `json:"product_name"`
+        ProductMainPicture string `json:"product_main_picture"`
+        Id              int64 `json:"id"`
+    }
+
+    IncreaseShoppingCartResp {
+        ProductSimple               Product       `json:"product"`
+        ProductSkuSimple            ProductSku    `json:"product_sku"`
+        ShoppingCartNumber          int64               `json:"shopping_cart_number"`
+        CanSetShoppingCartNumber    int64               `json:"can_set_shopping_cart_number"`
+        IsBeyondMaxLimit            bool                `json:"is_beyond_max_limit"`
+    }
+)
+
+
+type (
+    UpdateShoppingCartReq {
+        Id int64        `json:"id"`
+        UserId int64        `json:"user_id"`
+        ProductId int64 `json:"product_id"`
+        ProductSkuId int64 `json:"product_sku_id"`
+        ProductName string `json:"product_name"`
+        ProductMainPicture string `json:"product_main_picture"`
+        IsDeleted       int32 `json:"is_deleted"`
+        UpdateTime  string `json:"update_time"`
+    }
+    UpdateShoppingCartResp {
+        Id int64        `json:"id"`
+        UserId int64        `json:"user_id"`
+        ProductId int64 `json:"product_id"`
+        ProductName string `json:"product_name"`
+        Product Product `json:"product"`
+        ProductSkuId int64 `json:"product_sku_id"`
+        ProductSku  ProductSku `json:"product_sku"`
+        Number int64 `json:"number"`
+    }
+)
+type (
+    FindShoppingCartReq {
+        Id int64 `json:"id"`
+        UserId int64 `json:"user_id"`
+    }
+    FindShoppingCartResp {
+        shoppingCart ShoppingCart `json:"shopping_cart"`
+    }
+)
