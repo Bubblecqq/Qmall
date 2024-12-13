@@ -1,6 +1,7 @@
 package shoppingCart
 
 import (
+	"QMall/common"
 	"net/http"
 
 	"QMall/shoppingCart/cmd/api/desc/shoppingCart/internal/logic/shoppingCart"
@@ -12,18 +13,21 @@ import (
 // 添加购物车
 func IncreaseCartHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.IncreaseShoppingCartRep
+		var req types.IncreaseShoppingCartReq
 		if err := httpx.Parse(r, &req); err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			common.RespOk(r.Context(), w, "", "请求失败！", common.TOKEN_FAIL)
+			//httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
 		l := shoppingCart.NewIncreaseCartLogic(r.Context(), svcCtx)
 		resp, err := l.IncreaseCart(&req)
 		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			common.RespOk(r.Context(), w, resp, "获取失败！", common.TOKEN_FAIL)
+			//httpx.ErrorCtx(r.Context(), w, err)
 		} else {
-			httpx.OkJsonCtx(r.Context(), w, resp)
+			common.RespOk(r.Context(), w, resp, "获取成功！", common.SUCCESS)
+			//httpx.OkJsonCtx(r.Context(), w, resp)
 		}
 	}
 }

@@ -14,15 +14,15 @@ import (
 )
 
 type (
-	AddCartReq     = pb.AddCartReq
-	AddCartResp    = pb.AddCartResp
-	FindCartReq    = pb.FindCartReq
-	FindCartResp   = pb.FindCartResp
-	Product        = pb.Product
-	ProductSku     = pb.ProductSku
-	ShoppingCart   = pb.ShoppingCart
-	UpdateCartReq  = pb.UpdateCartReq
-	UpdateCartResp = pb.UpdateCartResp
+	AddCartReq       = pb.AddCartReq
+	AddCartResp      = pb.AddCartResp
+	FindCartReq      = pb.FindCartReq
+	FindCartResp     = pb.FindCartResp
+	ProductSimple    = pb.ProductSimple
+	ProductSkuSimple = pb.ProductSkuSimple
+	ShoppingCart     = pb.ShoppingCart
+	UpdateCartReq    = pb.UpdateCartReq
+	UpdateCartResp   = pb.UpdateCartResp
 
 	ShoppingCartZrpcClient interface {
 		AddCart(ctx context.Context, in *AddCartReq, opts ...grpc.CallOption) (*AddCartResp, error)

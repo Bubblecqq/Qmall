@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/zeromicro/zero-contrib/zrpc/registry/consul"
 
 	"QMall/shoppingCart/cmd/rpc/shoppingcart/internal/config"
 	"QMall/shoppingCart/cmd/rpc/shoppingcart/internal/server"
@@ -16,7 +17,7 @@ import (
 	"google.golang.org/grpc/reflection"
 )
 
-var configFile = flag.String("f", "etc/cart.yaml", "the config file")
+var configFile = flag.String("f", "D:\\development\\MicroService\\QMall\\shoppingCart\\cmd\\rpc\\shoppingcart\\etc\\cart.yaml", "the config file")
 
 func main() {
 	flag.Parse()
@@ -32,6 +33,7 @@ func main() {
 			reflection.Register(grpcServer)
 		}
 	})
+	_ = consul.RegisterService(c.ListenOn, c.Consul)
 	defer s.Stop()
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)

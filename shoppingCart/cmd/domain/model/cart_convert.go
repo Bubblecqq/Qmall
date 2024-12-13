@@ -3,9 +3,14 @@ package model
 import (
 	"QMall/shoppingCart/cmd/rpc/shoppingcart/pb"
 	"google.golang.org/protobuf/types/known/timestamppb"
+	"time"
 )
 
 func ShppingCartModelConvertPb(shoppingCart *ShoppingCart) *pb.ShoppingCart {
+	var updateTime *time.Time
+	if shoppingCart.UpdateTime != nil {
+		updateTime = shoppingCart.UpdateTime
+	}
 	return &pb.ShoppingCart{
 		Id:                 shoppingCart.Id,
 		UserId:             shoppingCart.UserId,
@@ -17,6 +22,11 @@ func ShppingCartModelConvertPb(shoppingCart *ShoppingCart) *pb.ShoppingCart {
 		CreateUser:         shoppingCart.CreateUser,
 		UpdateUser:         shoppingCart.UpdateUser,
 		CreateTime:         timestamppb.New(shoppingCart.CreateTime),
-		UpdateTime:         timestamppb.New(*shoppingCart.UpdateTime),
+		UpdateTime: func() *timestamppb.Timestamp {
+			if updateTime == nil {
+				return timestamppb.New(time.Time{})
+			}
+			return timestamppb.New(*updateTime)
+		}(),
 	}
 }

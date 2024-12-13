@@ -1,6 +1,7 @@
 package shoppingCart
 
 import (
+	"QMall/common"
 	"net/http"
 
 	"QMall/shoppingCart/cmd/api/desc/shoppingCart/internal/logic/shoppingCart"
@@ -14,16 +15,19 @@ func FindCartHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.FindShoppingCartReq
 		if err := httpx.Parse(r, &req); err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			common.RespOk(r.Context(), w, "", "失败！", common.TOKEN_FAIL)
+			//httpx.ErrorCtx(r.Context(), w, err)
 			return
 		}
 
 		l := shoppingCart.NewFindCartLogic(r.Context(), svcCtx)
 		resp, err := l.FindCart(&req)
 		if err != nil {
-			httpx.ErrorCtx(r.Context(), w, err)
+			common.RespOk(r.Context(), w, resp, "失败！", common.TOKEN_FAIL)
+			//httpx.ErrorCtx(r.Context(), w, err)
 		} else {
-			httpx.OkJsonCtx(r.Context(), w, resp)
+			common.RespOk(r.Context(), w, resp, "获取成功！", common.SUCCESS)
+			//httpx.OkJsonCtx(r.Context(), w, resp)
 		}
 	}
 }

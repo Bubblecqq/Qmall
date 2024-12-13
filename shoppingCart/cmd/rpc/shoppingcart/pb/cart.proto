@@ -5,7 +5,7 @@ import "google/protobuf/timestamp.proto";
 //import "product/cmd/rpc/product/pb/product.proto";
 package pb;
 
-message Product {
+message ProductSimple {
   int64 id = 1;
   string name = 2;
   int32 product_type = 3;
@@ -23,7 +23,7 @@ message Product {
   int64 update_user = 15;
 }
 
-message ProductSku {
+message ProductSkuSimple {
   int64 id = 1;
   string name = 2;
   int32 product_id = 3;
@@ -66,8 +66,8 @@ message AddCartReq {
 }
 
 message AddCartResp {
-  Product productSimple = 1;
-  ProductSku productSkuSimple = 2;
+  ProductSimple productSimple = 1;
+  ProductSkuSimple productSkuSimple = 2;
   int64 shoppingCartNumber = 3;
   int64 CanSetShoppingCartNumber = 4;
   bool isBeyondMaxLimit = 5;
@@ -91,9 +91,9 @@ message UpdateCartResp {
   int64 user_id = 2;
   int64 product_id = 3;
   string product_name = 4;
-  Product product = 5;
+  ProductSimple product = 5;
   int64 product_sku_id = 6;
-  ProductSku product_sku = 7;
+  ProductSkuSimple product_sku = 7;
   int64 number = 8;
 }
 
@@ -112,7 +112,6 @@ service shopping_cart {
   rpc UpdateCart (UpdateCartReq) returns (UpdateCartResp);
 
   rpc FindCart (FindCartReq) returns (FindCartResp);
-
 
 }
 

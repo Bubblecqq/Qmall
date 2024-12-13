@@ -24,7 +24,7 @@ func NewAddCartLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddCartLo
 }
 
 func (l *AddCartLogic) AddCart(in *pb.AddCartReq) (*pb.AddCartResp, error) {
-
+	l.Info(">>>>>>>>>>>>>>>>>>>Add shoppingCart>>>>>>>>>>>>>>>>>>>>")
 	_, err := l.svcCtx.ShoppingCartRepository.InCreaseShoppingCart(in.Number, in.ProductId, in.ProductSkuId, in.UserId, in.ProductName, in.ProductMainPicture)
 	if err != nil {
 		return &pb.AddCartResp{}, err

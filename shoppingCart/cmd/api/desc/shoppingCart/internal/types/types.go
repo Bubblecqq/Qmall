@@ -12,14 +12,11 @@ type FindShoppingCartResp struct {
 	ShoppingCart ShoppingCart `json:"shopping_cart"`
 }
 
-type IncreaseShoppingCartRep struct {
-	Number             int64  `json:"number"`
-	ProductId          int64  `json:"product_id"`
-	ProductSkuId       int64  `json:"product_sku_id"`
-	UserId             int64  `json:"user_id"`
-	ProductName        string `json:"product_name"`
-	ProductMainPicture string `json:"product_main_picture"`
-	Id                 int64  `json:"id"`
+type IncreaseShoppingCartReq struct {
+	Number       int64 `json:"number"`
+	ProductId    int64 `json:"product_id"`
+	ProductSkuId int64 `json:"product_sku_id"`
+	UserId       int64 `json:"user_id"`
 }
 
 type IncreaseShoppingCartResp struct {
@@ -44,8 +41,8 @@ type Product struct {
 	CreateTime        string  `json:"create_time"`
 	UpdateTime        string  `json:"update_time"`
 	IsEnabled         bool    `json:"is_enable"`
-	CreateUser        string  `json:"create_user"`
-	UpdateUser        string  `json:"update_user"`
+	CreateUser        int64   `json:"create_user"`
+	UpdateUser        int64   `json:"update_user"`
 }
 
 type ProductSimple struct {
@@ -105,7 +102,6 @@ type UpdateShoppingCartReq struct {
 	ProductName        string `json:"product_name"`
 	ProductMainPicture string `json:"product_main_picture"`
 	IsDeleted          int32  `json:"is_deleted"`
-	UpdateTime         string `json:"update_time"`
 }
 
 type UpdateShoppingCartResp struct {
