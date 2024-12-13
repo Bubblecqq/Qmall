@@ -24,6 +24,6 @@ func TestFind(t *testing.T) {
 	}
 	cartRepository := NewShoppingCartRepository(db, nil)
 	fmt.Println(cartRepository.FindShoppingCart(10))
-	s, _ := cartRepository.InCreaseShoppingCart(14, 3, 1, 233, "云南小黄姜", "https://msb-edu-dev.oss-cn-beijing.aliyuncs.com/mall-product/product4291c68c8352edee6a08255fc8ccbe6fwww755-755.jpg")
+	s, _ := cartRepository.InCreaseShoppingCart(12, 3, 1, 233, "云南小黄姜", "https://msb-edu-dev.oss-cn-beijing.aliyuncs.com/mall-product/product4291c68c8352edee6a08255fc8ccbe6fwww755-755.jpg")
 	fmt.Println("s>>>>>>>>>", s)
 }

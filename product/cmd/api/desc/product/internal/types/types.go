@@ -118,8 +118,8 @@ type Product struct {
 	CreateTime        string  `json:"create_time"`
 	UpdateTime        string  `json:"update_time"`
 	IsEnabled         bool    `json:"is_enable"`
-	CreateUser        string  `json:"create_user"`
-	UpdateUser        string  `json:"update_user"`
+	CreateUser        int64   `json:"create_user"`
+	UpdateUser        int64   `json:"update_user"`
 }
 
 type ProductSku struct {
@@ -134,8 +134,8 @@ type ProductSku struct {
 	CreateTime          string  `json:"create_time"`
 	UpdateTime          string  `json:"update_time"`
 	IsEnabled           int32   `json:"is_enable"`
-	CreateUser          string  `json:"create_user"`
-	UpdateUser          string  `json:"update_user"`
+	CreateUser          int64   `json:"create_user"`
+	UpdateUser          int64   `json:"update_user"`
 }
 
 type ShowProductDetailReq struct {

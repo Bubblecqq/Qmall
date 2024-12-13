@@ -25,11 +25,12 @@ func NewFindCartLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindCart
 
 func (l *FindCartLogic) FindCart(in *pb.FindCartReq) (*pb.FindCartResp, error) {
 
-	shoppingCart, err := l.svcCtx.ShoppingCartRepository.FindShoppingCart(in.UserId)
+	shoppingCart, err := l.svcCtx.ShoppingCartRepository.FindShoppingCart(in)
 	if err != nil {
 		return &pb.FindCartResp{}, err
 	}
-
+	l.Info(">>>>>>>>>>>>>Find ShoppingCart>>>>>>>>>>>>>>>>>")
+	l.Info(shoppingCart)
 	return &pb.FindCartResp{
 		ShoppingCart: model.ShppingCartModelConvertPb(shoppingCart),
 	}, nil

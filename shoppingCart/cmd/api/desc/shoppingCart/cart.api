@@ -27,8 +27,8 @@ type Product {
     CreateTime        string    `json:"create_time"`
     UpdateTime        string    `json:"update_time"`
     IsEnabled         bool     `json:"is_enable"`
-    CreateUser        string    `json:"create_user"`
-    UpdateUser        string    `json:"update_user"`
+    CreateUser        int64    `json:"create_user"`
+    UpdateUser        int64    `json:"update_user"`
 }
 type ProductSku {
     Id                  int64       `json:"id"`
@@ -81,14 +81,14 @@ type ProductSkuSimple {
 
 //添加购物车
 type (
-    IncreaseShoppingCartRep {
+    IncreaseShoppingCartReq {
         Number          int64 `json:"number"`
         ProductId       int64 `json:"product_id"`
         ProductSkuId    int64 `json:"product_sku_id"`
         UserId          int64 `json:"user_id"`
-        ProductName     string `json:"product_name"`
-        ProductMainPicture string `json:"product_main_picture"`
-        Id              int64 `json:"id"`
+//        ProductName     string `json:"product_name"`
+//        ProductMainPicture string `json:"product_main_picture"`
+//        Id              int64 `json:"id"`
     }
 
     IncreaseShoppingCartResp {
@@ -110,7 +110,7 @@ type (
         ProductName string `json:"product_name"`
         ProductMainPicture string `json:"product_main_picture"`
         IsDeleted       int32 `json:"is_deleted"`
-        UpdateTime  string `json:"update_time"`
+//        UpdateTime  string `json:"update_time"`
     }
     UpdateShoppingCartResp {
         Id int64        `json:"id"`

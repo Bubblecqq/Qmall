@@ -10,9 +10,10 @@ import (
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
+	_ "github.com/zeromicro/zero-contrib/zrpc/registry/consul"
 )
 
-var configFile = flag.String("f", "etc/shoppingcart.yaml", "the config file")
+var configFile = flag.String("f", "D:\\development\\MicroService\\QMall\\shoppingCart\\cmd\\api\\desc\\shoppingCart\\etc\\shoppingCart.yaml", "the config file")
 
 func main() {
 	flag.Parse()

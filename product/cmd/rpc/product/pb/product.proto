@@ -18,8 +18,8 @@ message Product {
   google.protobuf.Timestamp  create_time = 11;
   google.protobuf.Timestamp  update_time = 12;
   int32 is_enable = 13;
-  string create_user = 14;
-  string update_user = 15;
+  int64 create_user = 14;
+  int64 update_user = 15;
 }
 
 message CreateProductReq {
@@ -75,8 +75,8 @@ message ProductSku {
   google.protobuf.Timestamp  create_time = 9;
   google.protobuf.Timestamp  update_time = 10;
   int32 is_enable = 11;
-  string create_user = 12;
-  string update_user = 13;
+  int64 create_user = 12;
+  int64 update_user = 13;
 }
 
 message CreateProductSkuReq {

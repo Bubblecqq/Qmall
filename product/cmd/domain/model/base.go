@@ -9,6 +9,6 @@ type BaseModel struct {
 	//IsDeleted  int32     `gorm:"column:is_deleted;default:0"`
 	CreateTime time.Time `gorm:"column:create_time"`
 	UpdateTime time.Time `gorm:"column:update_time"`
-	CreateUser string    `gorm:"column:create_user"`
-	UpdateUser string    `gorm:"column:update_user"`
+	CreateUser int64     `gorm:"column:create_user"`
+	UpdateUser int64     `gorm:"column:update_user"`
 }

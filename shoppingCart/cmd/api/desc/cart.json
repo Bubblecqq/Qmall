@@ -1,0 +1,580 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/shoppingCart/v1/findCart": {
+      "post": {
+        "summary": "查看购物车",
+        "operationId": "findCart",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FindShoppingCartResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FindShoppingCartReq"
+            }
+          }
+        ],
+        "tags": [
+          "shoppingCart"
+        ]
+      }
+    },
+    "/shoppingCart/v1/increaseCart": {
+      "post": {
+        "summary": "添加购物车",
+        "operationId": "increaseCart",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/IncreaseShoppingCartResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IncreaseShoppingCartReq"
+            }
+          }
+        ],
+        "tags": [
+          "shoppingCart"
+        ]
+      }
+    },
+    "/shoppingCart/v1/updateCart": {
+      "post": {
+        "summary": "修改购物车",
+        "operationId": "updateCart",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UpdateShoppingCartResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateShoppingCartReq"
+            }
+          }
+        ],
+        "tags": [
+          "shoppingCart"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "FindShoppingCartReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "FindShoppingCartReq",
+      "required": [
+        "id",
+        "user_id"
+      ]
+    },
+    "FindShoppingCartResp": {
+      "type": "object",
+      "properties": {
+        "shopping_cart": {
+          "$ref": "#/definitions/ShoppingCart"
+        }
+      },
+      "title": "FindShoppingCartResp",
+      "required": [
+        "shopping_cart"
+      ]
+    },
+    "IncreaseShoppingCartReq": {
+      "type": "object",
+      "properties": {
+        "number": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_sku_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_name": {
+          "type": "string"
+        },
+        "product_main_picture": {
+          "type": "string"
+        },
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "IncreaseShoppingCartReq",
+      "required": [
+        "number",
+        "product_id",
+        "product_sku_id",
+        "user_id",
+        "product_name",
+        "product_main_picture",
+        "id"
+      ]
+    },
+    "IncreaseShoppingCartResp": {
+      "type": "object",
+      "properties": {
+        "product": {
+          "$ref": "#/definitions/Product"
+        },
+        "product_sku": {
+          "$ref": "#/definitions/ProductSku"
+        },
+        "shopping_cart_number": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "can_set_shopping_cart_number": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "is_beyond_max_limit": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      },
+      "title": "IncreaseShoppingCartResp",
+      "required": [
+        "product",
+        "product_sku",
+        "shopping_cart_number",
+        "can_set_shopping_cart_number",
+        "is_beyond_max_limit"
+      ]
+    },
+    "Product": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "product_type": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "category_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "starting_price": {
+          "type": "number",
+          "format": "double"
+        },
+        "total_stock": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "main_picture": {
+          "type": "string"
+        },
+        "remote_area_postage": {
+          "type": "number",
+          "format": "double"
+        },
+        "single_buy_limit": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "remark": {
+          "type": "string"
+        },
+        "create_time": {
+          "type": "string"
+        },
+        "update_time": {
+          "type": "string"
+        },
+        "is_enable": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "create_user": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "update_user": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "Product",
+      "required": [
+        "id",
+        "name",
+        "product_type",
+        "category_id",
+        "starting_price",
+        "total_stock",
+        "main_picture",
+        "remote_area_postage",
+        "single_buy_limit",
+        "remark",
+        "create_time",
+        "update_time",
+        "is_enable",
+        "create_user",
+        "update_user"
+      ]
+    },
+    "ProductSimple": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "mainPicture": {
+          "type": "string"
+        },
+        "lablelist": {
+          "type": "string"
+        },
+        "singleBuyLimit": {
+          "type": "number",
+          "format": "double"
+        },
+        "isEnable": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "productType": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ProductSimple",
+      "required": [
+        "id",
+        "name",
+        "mainPicture",
+        "lablelist",
+        "singleBuyLimit",
+        "isEnable",
+        "productType"
+      ]
+    },
+    "ProductSku": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "product_id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "attribute_symbol_list": {
+          "type": "string"
+        },
+        "sell_price": {
+          "type": "number",
+          "format": "double"
+        },
+        "cost_price": {
+          "type": "number",
+          "format": "double"
+        },
+        "stock": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "stock_warn": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "create_time": {
+          "type": "string"
+        },
+        "update_time": {
+          "type": "string"
+        },
+        "is_enable": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "create_user": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "update_user": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "ProductSku",
+      "required": [
+        "id",
+        "name",
+        "product_id",
+        "attribute_symbol_list",
+        "sell_price",
+        "cost_price",
+        "stock",
+        "stock_warn",
+        "create_time",
+        "update_time",
+        "is_enable",
+        "create_user",
+        "update_user"
+      ]
+    },
+    "ProductSkuSimple": {
+      "type": "object",
+      "properties": {
+        "skuId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "attributeSymbolList": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "sellPrice": {
+          "type": "number",
+          "format": "double"
+        },
+        "stock": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ProductSkuSimple",
+      "required": [
+        "skuId",
+        "attributeSymbolList",
+        "name",
+        "sellPrice",
+        "stock"
+      ]
+    },
+    "ShoppingCart": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_sku_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_name": {
+          "type": "string"
+        },
+        "product_main_picture": {
+          "type": "string"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "create_time": {
+          "type": "string"
+        },
+        "update_time": {
+          "type": "string"
+        },
+        "create_user": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "update_user": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "is_deleted": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ShoppingCart",
+      "required": [
+        "id",
+        "user_id",
+        "product_id",
+        "product_sku_id",
+        "product_name",
+        "product_main_picture",
+        "number",
+        "create_time",
+        "update_time",
+        "create_user",
+        "update_user",
+        "is_deleted"
+      ]
+    },
+    "UpdateShoppingCartReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_sku_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_name": {
+          "type": "string"
+        },
+        "product_main_picture": {
+          "type": "string"
+        },
+        "is_deleted": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "UpdateShoppingCartReq",
+      "required": [
+        "id",
+        "user_id",
+        "product_id",
+        "product_sku_id",
+        "product_name",
+        "product_main_picture",
+        "is_deleted"
+      ]
+    },
+    "UpdateShoppingCartResp": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_name": {
+          "type": "string"
+        },
+        "product": {
+          "$ref": "#/definitions/Product"
+        },
+        "product_sku_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_sku": {
+          "$ref": "#/definitions/ProductSku"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "UpdateShoppingCartResp",
+      "required": [
+        "id",
+        "user_id",
+        "product_id",
+        "product_name",
+        "product",
+        "product_sku_id",
+        "product_sku",
+        "number"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

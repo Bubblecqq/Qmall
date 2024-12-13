@@ -19,7 +19,7 @@ import (
 service shoppingCart {
 	@doc "添加购物车"
 	@handler increaseCart
-	post /increaseCart (IncreaseShoppingCartRep) returns (IncreaseShoppingCartResp)
+	post /increaseCart (IncreaseShoppingCartReq) returns (IncreaseShoppingCartResp)
 
 	@doc "修改购物车"
 	@handler updateCart

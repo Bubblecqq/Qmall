@@ -27,11 +27,13 @@ func NewFindCartLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindCart
 
 func (l *FindCartLogic) FindCart(req *types.FindShoppingCartReq) (resp *types.FindShoppingCartResp, err error) {
 
-	_, err = l.svcCtx.ShoppingCartRpcConf.FindCart(l.ctx, &shoppingcart.FindCartReq{
+	shoppingCart, err := l.svcCtx.ShoppingCartRpcConf.FindCart(l.ctx, &shoppingcart.FindCartReq{
 		Id:     req.Id,
 		UserId: req.UserId,
 	})
+	l.Info(">>>>>>>>>>>>>>>>>>>>>>Result>>>>>>>>>>>>>>>>>>>>>")
+	l.Info(shoppingCart.ShoppingCart)
 	resp = new(types.FindShoppingCartResp)
-
+	resp.ShoppingCart = types.ShoppingCartPbConvertTypes(shoppingCart.ShoppingCart)
 	return
 }
