@@ -11,6 +11,7 @@ type Config struct {
 	Mysql               Mysql
 	Cache               cache.CacheConf
 	ShoppingCartRpcConf zrpc.RpcClientConf
+	RemoteCall          RemoteCall
 }
 
 type Mysql struct {
@@ -19,4 +20,9 @@ type Mysql struct {
 	Pass     string `json:"pass"`
 	Database string `json:"database"`
 	Charset  string `json:"charset"`
+}
+
+type RemoteCall struct {
+	UserRPC    string `json:"UserRPC"`
+	ProductRPC string `json:"ProductRPC"`
 }

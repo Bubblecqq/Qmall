@@ -15,5 +15,8 @@ ShoppingCartRpcConf:
   Endpoints:
     - 127.0.0.1:2003
   NonBlock: true
-  # 不使用Consul时注释掉target
-  Target: consul://192.168.23.233:8500/product.rpc?wait=14s
+#  # 不使用Consul时注释掉target
+#  Target: consul://192.168.23.233:8500/product.rpc?wait=14s
+RemoteCall:
+  UserRPC: consul://192.168.23.233:8500/user.rpc?wait=14s
+  ProductRPC: consul://192.168.23.233:8500/product.rpc?wait=14s

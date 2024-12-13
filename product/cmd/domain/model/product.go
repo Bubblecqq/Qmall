@@ -6,7 +6,7 @@ type Product struct {
 	ProductType       int32   `gorm:"column:product_type;default:1"`
 	CategoryId        int32   `gorm:"column:category_id"`
 	StartingPrice     float64 `gorm:"column:starting_price"`
-	TotalStock        int32   `gorm:"column:total_stock"`
+	TotalStock        int64   `gorm:"column:total_stock"`
 	MainPicture       string  `gorm:"column:main_picture;default:1"`
 	RemoteAreaPostage float64 `gorm:"column:remote_area_postage"`
 	SingleBuyLimit    int32   `gorm:"column:single_buy_limit"`

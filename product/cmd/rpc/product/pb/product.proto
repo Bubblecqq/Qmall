@@ -10,7 +10,7 @@ message Product {
   int32 product_type = 3;
   int32 category_id = 4;
   double starting_price = 5;
-  int32 total_stock = 6;
+  int64 total_stock = 6;
   string main_picture = 7;
   double remote_area_postage = 8;
   int32 single_buy_limit = 9;
@@ -27,7 +27,7 @@ message CreateProductReq {
   int32 product_type = 2;
   int32 category_id = 3;
   double starting_price = 4;
-  int32 total_stock = 5;
+  int64 total_stock = 5;
   string main_picture = 6;
   double remote_area_postage = 7;
   int32 single_buy_limit = 8;
@@ -70,7 +70,7 @@ message ProductSku {
   string attribute_symbol_list = 4;
   double sell_price = 5;
   double cost_price = 6;
-  int32 stock = 7;
+  int64 stock = 7;
   int64 stock_warn = 8;
   google.protobuf.Timestamp  create_time = 9;
   google.protobuf.Timestamp  update_time = 10;
@@ -85,7 +85,7 @@ message CreateProductSkuReq {
   string attribute_symbol_list = 3;
   double sell_price = 4;
   double cost_price = 5;
-  int32 stock = 6;
+  int64 stock = 6;
   int64 stock_warn = 7;
 }
 message CreateProductSkuResp {}
@@ -114,7 +114,7 @@ message DetailProduct {
   int32 product_type = 3;
   int32 category_id = 4;
   double starting_price = 5;
-  int32 total_stock = 6;
+  int64 total_stock = 6;
   string main_picture = 7;
   double remote_area_postage = 8;
   int32 single_buy_limit = 9;
@@ -138,7 +138,12 @@ message ShowProductDetailResp {
 }
 
 
-
+message UpdateProductSkuReq {
+  ProductSku productSku = 1;
+}
+message UpdateProductSkuResp {
+  bool isSuccess = 1;
+}
 
 
 
@@ -154,6 +159,7 @@ service product {
 
   rpc PageIndex (PageReq) returns (PageResp);
   rpc ShowProductDetail (ShowProductDetailReq) returns (ShowProductDetailResp);
+  rpc UpdateProductSku (UpdateProductSkuReq) returns (UpdateProductSkuResp);
 
   rpc CreateProductSku (CreateProductSkuReq) returns (CreateProductSkuResp);
   rpc GetProductListSku (GetProductSkuListReq) returns (GetProductSkuListResp);

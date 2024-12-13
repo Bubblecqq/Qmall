@@ -8,7 +8,7 @@ type ProductSku struct {
 	AttributeSymbolList string  `gorm:"column:attribute_symbol_list"`
 	SellPrice           float64 `gorm:"column:sell_price"`
 	CostPrice           float64 `gorm:"column:cost_price;default:1"`
-	Stock               int32   `gorm:"column:stock"`
+	Stock               int64   `gorm:"column:stock"`
 	StockWarn           int64   `gorm:"column:stock_warn"`
 }
 
