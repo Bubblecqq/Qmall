@@ -2,13 +2,15 @@ package repository
 
 import (
 	"QMall/product/cmd/domain/model"
+	"QMall/product/cmd/rpc/product/pb"
 )
 
 type IProductSkuRepository interface {
 	FindProductSku(id int64) (*model.ProductSku, error)
 	GetProductSkuList() []model.ProductSku
 	DeleteProductSku(id int64) error
-	CreateProductSku(product_id int32, attribute_symbol_list, name string, sell_price, cost_price float64, stock int32, stock_warn int64) error
+	CreateProductSku(product_id int32, attribute_symbol_list, name string, sell_price, cost_price float64, stock int64, stock_warn int64) error
+	UpdateProductSku(in *pb.UpdateProductSkuReq) error
 	//UpdateProduct(product *model.Product)
 }
 
@@ -33,7 +35,7 @@ func (p *ProductRepository) DeleteProductSku(id int64) error {
 	return p.mysqlClient.Model(&model.ProductSku{}).Delete(&model.ProductSku{}, id).Error
 }
 
-func (p *ProductRepository) CreateProductSku(product_id int32, attribute_symbol_list, name string, sell_price, cost_price float64, stock int32, stock_warn int64) error {
+func (p *ProductRepository) CreateProductSku(product_id int32, attribute_symbol_list, name string, sell_price, cost_price float64, stock int64, stock_warn int64) error {
 	productSku := &model.ProductSku{
 		ProductId:           product_id,
 		AttributeSymbolList: attribute_symbol_list,
@@ -52,3 +54,9 @@ func (p *ProductRepository) CreateProductSku(product_id int32, attribute_symbol_
 //		redisClient: redisClient,
 //	}
 //}
+
+func (p *ProductRepository) UpdateProductSku(in *pb.UpdateProductSkuReq) error {
+	sku := in.GetProductSku()
+	err := p.mysqlClient.Model(&model.ProductSku{}).Where("id= ?", sku.Id).Update("stock", sku.Stock).Error
+	return err
+}

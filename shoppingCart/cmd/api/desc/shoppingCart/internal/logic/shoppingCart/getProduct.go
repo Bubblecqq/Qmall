@@ -12,7 +12,7 @@ func (l *UpdateCartLogic) GetProductById(in *pb.UpdateCartReq) (*product.GetProd
 	// 创建远程服务客户端
 	//client := product.NewProductZrpcClient(target)
 	// 进行远程调用，例如调用远程服务的某个方法
-	p, err := l.svcCtx.Target.GetProduct(l.ctx, &product.GetProductByIdReq{
+	p, err := l.svcCtx.ProductRPC.GetProduct(l.ctx, &product.GetProductByIdReq{
 		Id: in.ProductId,
 	})
 	if err != nil {
@@ -23,7 +23,7 @@ func (l *UpdateCartLogic) GetProductById(in *pb.UpdateCartReq) (*product.GetProd
 
 func (l *UpdateCartLogic) GetProductSkuByIdCall(in *pb.UpdateCartReq) (*product.GetProductSkuByIdResp, error) {
 
-	p, err := l.svcCtx.Target.GetProductSku(l.ctx, &product.GetProductSkuByIdReq{
+	p, err := l.svcCtx.ProductRPC.GetProductSku(l.ctx, &product.GetProductSkuByIdReq{
 		Id: in.ProductSkuId,
 	})
 	if err != nil {

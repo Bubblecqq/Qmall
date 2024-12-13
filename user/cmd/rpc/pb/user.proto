@@ -66,6 +66,14 @@ message LoginUserResp {
   User user = 1;
 }
 
+message TokenReq {
+  string uuid = 1;
+}
+message TokenResp {
+  string token = 1;
+  bool isLogin = 2;
+}
+
 
 // rpc func
 service user {
@@ -73,4 +81,6 @@ service user {
   rpc DeleteUser(DeleteUserReq) returns (DeleteUserResp);
   rpc GetUserById(GetUserByIdReq) returns (GetUserByIdResp);
   rpc LoginUser(LoginUserReq) returns (LoginUserResp);
+
+  rpc GetUserToken(TokenReq) returns (TokenResp);
 }

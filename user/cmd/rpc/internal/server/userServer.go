@@ -42,3 +42,8 @@ func (s *UserServer) LoginUser(ctx context.Context, in *pb.LoginUserReq) (*pb.Lo
 	l := logic.NewLoginUserLogic(ctx, s.svcCtx)
 	return l.LoginUser(in)
 }
+
+func (s *UserServer) GetUserToken(ctx context.Context, in *pb.TokenReq) (*pb.TokenResp, error) {
+	l := logic.NewGetUserTokenLogic(ctx, s.svcCtx)
+	return l.GetUserToken(in)
+}

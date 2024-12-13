@@ -19,10 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	User_CreateUser_FullMethodName  = "/pb.user/CreateUser"
-	User_DeleteUser_FullMethodName  = "/pb.user/DeleteUser"
-	User_GetUserById_FullMethodName = "/pb.user/GetUserById"
-	User_LoginUser_FullMethodName   = "/pb.user/LoginUser"
+	User_CreateUser_FullMethodName   = "/pb.user/CreateUser"
+	User_DeleteUser_FullMethodName   = "/pb.user/DeleteUser"
+	User_GetUserById_FullMethodName  = "/pb.user/GetUserById"
+	User_LoginUser_FullMethodName    = "/pb.user/LoginUser"
+	User_GetUserToken_FullMethodName = "/pb.user/GetUserToken"
 )
 
 // UserClient is the client API for User service.
@@ -35,6 +36,7 @@ type UserClient interface {
 	DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error)
 	GetUserById(ctx context.Context, in *GetUserByIdReq, opts ...grpc.CallOption) (*GetUserByIdResp, error)
 	LoginUser(ctx context.Context, in *LoginUserReq, opts ...grpc.CallOption) (*LoginUserResp, error)
+	GetUserToken(ctx context.Context, in *TokenReq, opts ...grpc.CallOption) (*TokenResp, error)
 }
 
 type userClient struct {
@@ -85,6 +87,16 @@ func (c *userClient) LoginUser(ctx context.Context, in *LoginUserReq, opts ...gr
 	return out, nil
 }
 
+func (c *userClient) GetUserToken(ctx context.Context, in *TokenReq, opts ...grpc.CallOption) (*TokenResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TokenResp)
+	err := c.cc.Invoke(ctx, User_GetUserToken_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServer is the server API for User service.
 // All implementations must embed UnimplementedUserServer
 // for forward compatibility.
@@ -95,6 +107,7 @@ type UserServer interface {
 	DeleteUser(context.Context, *DeleteUserReq) (*DeleteUserResp, error)
 	GetUserById(context.Context, *GetUserByIdReq) (*GetUserByIdResp, error)
 	LoginUser(context.Context, *LoginUserReq) (*LoginUserResp, error)
+	GetUserToken(context.Context, *TokenReq) (*TokenResp, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -116,6 +129,9 @@ func (UnimplementedUserServer) GetUserById(context.Context, *GetUserByIdReq) (*G
 }
 func (UnimplementedUserServer) LoginUser(context.Context, *LoginUserReq) (*LoginUserResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LoginUser not implemented")
+}
+func (UnimplementedUserServer) GetUserToken(context.Context, *TokenReq) (*TokenResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserToken not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
 func (UnimplementedUserServer) testEmbeddedByValue()              {}
@@ -210,6 +226,24 @@ func _User_LoginUser_Handler(srv interface{}, ctx context.Context, dec func(inte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _User_GetUserToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TokenReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServer).GetUserToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: User_GetUserToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServer).GetUserToken(ctx, req.(*TokenReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // User_ServiceDesc is the grpc.ServiceDesc for User service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -232,6 +266,10 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "LoginUser",
 			Handler:    _User_LoginUser_Handler,
+		},
+		{
+			MethodName: "GetUserToken",
+			Handler:    _User_GetUserToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

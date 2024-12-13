@@ -14,7 +14,7 @@ type IProductRepository interface {
 	FindProduct(id int64) (*model.Product, error)
 	GetProductList() []model.Product
 	DeleteProduct(id int64) error
-	CreateProduct(name string, product_type int32, category_id int32, starting_price float64, total_stock int32, main_picture string, remote_area_postage float64, single_buy_limit int32, remark string) error
+	CreateProduct(name string, product_type int32, category_id int32, starting_price float64, total_stock int64, main_picture string, remote_area_postage float64, single_buy_limit int32, remark string) error
 	//UpdateProduct(product *model.Product)
 	Page(length int32, pageIndex int32) (int64, []model.Product, error)
 	CountNum() int64
@@ -70,7 +70,7 @@ func (p *ProductRepository) DeleteProduct(id int64) error {
 	return p.mysqlClient.Delete(&model.Product{}, id).Error
 }
 
-func (p *ProductRepository) CreateProduct(name string, product_type int32, category_id int32, starting_price float64, total_stock int32, main_picture string, remote_area_postage float64, single_buy_limit int32, remark string) error {
+func (p *ProductRepository) CreateProduct(name string, product_type int32, category_id int32, starting_price float64, total_stock int64, main_picture string, remote_area_postage float64, single_buy_limit int32, remark string) error {
 	product := &model.Product{
 		Name:              name,
 		ProductType:       product_type,

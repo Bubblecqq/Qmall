@@ -22,6 +22,8 @@ type (
 	GetUserByIdResp = pb.GetUserByIdResp
 	LoginUserReq    = pb.LoginUserReq
 	LoginUserResp   = pb.LoginUserResp
+	TokenReq        = pb.TokenReq
+	TokenResp       = pb.TokenResp
 	User            = pb.User
 
 	UserZrpcClient interface {
@@ -29,6 +31,7 @@ type (
 		DeleteUser(ctx context.Context, in *DeleteUserReq, opts ...grpc.CallOption) (*DeleteUserResp, error)
 		GetUserById(ctx context.Context, in *GetUserByIdReq, opts ...grpc.CallOption) (*GetUserByIdResp, error)
 		LoginUser(ctx context.Context, in *LoginUserReq, opts ...grpc.CallOption) (*LoginUserResp, error)
+		GetUserToken(ctx context.Context, in *TokenReq, opts ...grpc.CallOption) (*TokenResp, error)
 	}
 
 	defaultUserZrpcClient struct {
@@ -60,4 +63,9 @@ func (m *defaultUserZrpcClient) GetUserById(ctx context.Context, in *GetUserById
 func (m *defaultUserZrpcClient) LoginUser(ctx context.Context, in *LoginUserReq, opts ...grpc.CallOption) (*LoginUserResp, error) {
 	client := pb.NewUserClient(m.cli.Conn())
 	return client.LoginUser(ctx, in, opts...)
+}
+
+func (m *defaultUserZrpcClient) GetUserToken(ctx context.Context, in *TokenReq, opts ...grpc.CallOption) (*TokenResp, error) {
+	client := pb.NewUserClient(m.cli.Conn())
+	return client.GetUserToken(ctx, in, opts...)
 }

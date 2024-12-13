@@ -8,7 +8,7 @@ type CreateProductReq struct {
 	ProductType       int32   `json:"product_type"`
 	CategoryId        int32   `json:"category_id"`
 	StartingPrice     float64 `json:"starting_price"`
-	TotalStock        int32   `json:"total_stock"`
+	TotalStock        int64   `json:"total_stock"`
 	MainPicture       string  `json:"main_picture"`
 	RemoteAreaPostage float64 `json:"remote_area_postage"`
 	SingleBuyLimit    int32   `json:"single_buy_limit"`
@@ -24,7 +24,7 @@ type CreateProductSkuReq struct {
 	AttributeSymbolList string  `json:"attribute_symbol_list"`
 	SellPrice           float64 `json:"sell_price"`
 	CostPrice           float64 `json:"cost_price"`
-	Stock               int32   `json:"stock"`
+	Stock               int64   `json:"stock"`
 	StockWarn           int64   `json:"stock_warn"`
 }
 
@@ -51,7 +51,7 @@ type DetailProduct struct {
 	ProductType       int32    `json:"product_type"`
 	CategoryId        int32    `json:"category_id"`
 	StartingPrice     float64  `json:"starting_price"`
-	TotalStock        int32    `json:"total_stock"`
+	TotalStock        int64    `json:"total_stock"`
 	MainPicture       string   `json:"main_picture"`
 	RemoteAreaPostage float64  `json:"remote_area_postage"`
 	SingleBuyLimit    int32    `json:"single_buy_limit"`
@@ -110,7 +110,7 @@ type Product struct {
 	ProductType       int32   `json:"product_type"`
 	CategoryId        int32   `json:"category_id"`
 	StartingPrice     float64 `json:"starting_price"`
-	TotalStock        int32   `json:"total_stock"`
+	TotalStock        int64   `json:"total_stock"`
 	MainPicture       string  `json:"main_picture"`
 	RemoteAreaPostage float64 `json:"remote_area_postage"`
 	SingleBuyLimit    int32   `json:"single_buy_limit"`
@@ -129,7 +129,7 @@ type ProductSku struct {
 	AttributeSymbolList string  `json:"attribute_symbol_list"`
 	SellPrice           float64 `json:"sell_price"`
 	CostPrice           float64 `json:"cost_price"`
-	Stock               int32   `json:"stock"`
+	Stock               int64   `json:"stock"`
 	StockWarn           int64   `json:"stock_warn"`
 	CreateTime          string  `json:"create_time"`
 	UpdateTime          string  `json:"update_time"`

@@ -53,6 +53,11 @@ func (s *ProductServer) ShowProductDetail(ctx context.Context, in *pb.ShowProduc
 	return l.ShowProductDetail(in)
 }
 
+func (s *ProductServer) UpdateProductSku(ctx context.Context, in *pb.UpdateProductSkuReq) (*pb.UpdateProductSkuResp, error) {
+	l := logic.NewUpdateProductSkuLogic(ctx, s.svcCtx)
+	return l.UpdateProductSku(in)
+}
+
 func (s *ProductServer) CreateProductSku(ctx context.Context, in *pb.CreateProductSkuReq) (*pb.CreateProductSkuResp, error) {
 	l := logic.NewCreateProductSkuLogic(ctx, s.svcCtx)
 	return l.CreateProductSku(in)
