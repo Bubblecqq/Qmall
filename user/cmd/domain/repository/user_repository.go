@@ -18,7 +18,7 @@ type IUserRepository interface {
 	GetUsers() ([]model.User, error)
 	DeleteUserById(id int64) error
 	SetUserToken(key string, val []byte, timeTTL time.Duration)
-	GetUserToken(key string) string
+	GetUserToken(key string) (string, error)
 	Login(clientId int32, phone string, systemId int32, verificationCode string) (*model.User, error)
 }
 
@@ -51,12 +51,13 @@ func (u *UserRepository) SetUserToken(key string, val []byte, timeTTL time.Durat
 	u.redisClient.Set(context.Background(), key, val, timeTTL)
 }
 
-func (u *UserRepository) GetUserToken(key string) string {
+func (u *UserRepository) GetUserToken(key string) (string, error) {
 	result, err := u.redisClient.Get(context.Background(), key).Result()
 	if err != nil {
 		log.Println("GetUserToken err:", err)
 	}
-	return result
+
+	return result, err
 }
 
 func (u *UserRepository) GetUserById(id int64) (*model.User, error) {

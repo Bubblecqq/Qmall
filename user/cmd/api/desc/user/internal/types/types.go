@@ -20,6 +20,15 @@ type DeleteUserReq struct {
 type DeleteUserResp struct {
 }
 
+type GetTokenReq struct {
+	Uuid string `json:"uuid"`
+}
+
+type GetTokenResp struct {
+	Token   string `json:"token"`
+	IsLogin bool   `json:"isLogin"`
+}
+
 type GetUserByIdReq struct {
 	Id int64 `json:"id"`
 }

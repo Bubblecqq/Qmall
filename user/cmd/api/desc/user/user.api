@@ -81,3 +81,14 @@ type (
         user User `json:"user"`
     }
 )
+
+// 分布式获取token
+type (
+    GetTokenReq {
+        uuid string `json:"uuid"`
+    }
+    GetTokenResp {
+        token string `json:"token"`
+        isLogin bool `json:"isLogin"`
+    }
+)

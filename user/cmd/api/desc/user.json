@@ -96,6 +96,33 @@
         ]
       }
     },
+    "/user/v1/getUserToken": {
+      "post": {
+        "summary": "分布式Token提取",
+        "operationId": "getUserToken",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetTokenResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/GetTokenReq"
+            }
+          }
+        ],
+        "tags": [
+          "user"
+        ]
+      }
+    },
     "/user/v1/getUsers": {
       "post": {
         "summary": "获取用户列表",
@@ -198,6 +225,35 @@
     "DeleteUserResp": {
       "type": "object",
       "title": "DeleteUserResp"
+    },
+    "GetTokenReq": {
+      "type": "object",
+      "properties": {
+        "uuid": {
+          "type": "string"
+        }
+      },
+      "title": "GetTokenReq",
+      "required": [
+        "uuid"
+      ]
+    },
+    "GetTokenResp": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "isLogin": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      },
+      "title": "GetTokenResp",
+      "required": [
+        "token",
+        "isLogin"
+      ]
     },
     "GetUserByIdReq": {
       "type": "object",

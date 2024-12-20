@@ -59,15 +59,16 @@ func (l *IncreaseCartLogic) IncreaseCart(req *types.IncreaseShoppingCartReq) (re
 	sku.Stock -= req.Number
 	resp.IsBeyondMaxLimit = false
 	resp.CanSetShoppingCartNumber = stock
-	updateStock := &product.UpdateProductSkuReq{
-		ProductSku: sku,
-	}
-	updateProductSku, err := l.svcCtx.ProductRPC.UpdateProductSku(l.ctx, updateStock)
 	// 添加数量大于库存时提示添加失败
 	if req.Number > resp.CanSetShoppingCartNumber {
 		resp.IsBeyondMaxLimit = true
 		return resp, errors.New(fmt.Sprintf("超出库存设置范围！请重新添加，当前商品库存：%v", stock))
 	}
+	updateStock := &product.UpdateProductSkuReq{
+		ProductSku: sku,
+	}
+	_, err = l.svcCtx.ProductRPC.UpdateProductSku(l.ctx, updateStock)
+
 	addCartReq := &shoppingcart.AddCartReq{
 		Number:       req.Number,
 		ProductId:    req.ProductId,
