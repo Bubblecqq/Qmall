@@ -26,6 +26,7 @@ type IncreaseShoppingCartResp struct {
 	ShoppingCartNumber       int64      `json:"shopping_cart_number"`
 	CanSetShoppingCartNumber int64      `json:"can_set_shopping_cart_number"`
 	IsBeyondMaxLimit         bool       `json:"is_beyond_max_limit"`
+	IsLogin                  bool       `json:"is_login"`
 }
 
 type Product struct {
@@ -34,7 +35,7 @@ type Product struct {
 	ProductType       int32   `json:"product_type"`
 	CategoryId        int32   `json:"category_id"`
 	StartingPrice     float64 `json:"starting_price"`
-	TotalStock        int32   `json:"total_stock"`
+	TotalStock        int64   `json:"total_stock"`
 	MainPicture       string  `json:"main_picture"`
 	RemoteAreaPostage float64 `json:"remote_area_postage"`
 	SingleBuyLimit    int32   `json:"single_buy_limit"`

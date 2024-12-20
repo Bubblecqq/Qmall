@@ -14,7 +14,7 @@ import (
 func IncreaseCartHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.IncreaseShoppingCartReq
-		r.Header.Set("uuid", "23333")
+		//r.Header.Set("uuid", "23333")
 
 		if err := httpx.Parse(r, &req); err != nil {
 			common.RespOk(r.Context(), w, "", "请求失败！", common.TOKEN_FAIL)
