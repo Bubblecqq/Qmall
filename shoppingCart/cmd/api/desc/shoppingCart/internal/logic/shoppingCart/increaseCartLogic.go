@@ -34,19 +34,20 @@ func (l *IncreaseCartLogic) IncreaseCart(req *types.IncreaseShoppingCartReq) (re
 	l.Info("Current UUID:", req.Token)
 	resp = new(types.IncreaseShoppingCartResp)
 	l.Info(">>>>>>>>>>>>>>>>>>>InCreaseCart>>>>>>>>>>>>>>>>>>>")
-	productDetail, err := l.svcCtx.ProductRPC.ShowProductDetail(l.ctx, &product.ShowProductDetailReq{
-		Id: req.ProductId,
-	})
-
 	// Token
 	tokenResp, err := l.svcCtx.UserRPC.GetUserToken(l.ctx, &user.TokenReq{
 		Uuid: req.Token,
 	})
 	token := tokenResp.Token
-	if err != nil || tokenResp.IsLogin {
+	if err != nil || !tokenResp.IsLogin {
+		resp.IsLogin = false
 		return resp, errors.New("当前您未登录！")
 	}
+	resp.IsLogin = true
 	l.Info("Current Login User Token:", token)
+	productDetail, err := l.svcCtx.ProductRPC.ShowProductDetail(l.ctx, &product.ShowProductDetailReq{
+		Id: req.ProductId,
+	})
 
 	l.Info(">>>>>>>>>>>>>>>>>>>>>>>>ProductDetail>>>>>>>>>>>>>>>>>>>")
 	l.Info(productDetail.ProductDetail)

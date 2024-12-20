@@ -30,6 +30,7 @@ func NewGetUserTokenLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetU
 func (l *GetUserTokenLogic) GetUserToken(in *pb.TokenReq) (*pb.TokenResp, error) {
 
 	token, err := l.svcCtx.UserRepository.GetUserToken(in.Uuid)
+	fmt.Println("Current uuid:", in.Uuid)
 	var isLogin bool
 	if err != nil {
 		isLogin = false
@@ -41,6 +42,7 @@ func (l *GetUserTokenLogic) GetUserToken(in *pb.TokenReq) (*pb.TokenResp, error)
 		l.svcCtx.UserRepository.SetUserToken(strconv.Itoa(uuid), []byte(token), time.Duration(1)*time.Hour)
 		l.Info(fmt.Sprintf("GetUserToken Success with token: %v\n", token))
 	}
+	fmt.Println("Current user token>>>>>", token)
 	return &pb.TokenResp{
 		Token:   token,
 		IsLogin: isLogin,
