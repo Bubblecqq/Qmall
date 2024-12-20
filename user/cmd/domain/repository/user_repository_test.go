@@ -52,8 +52,9 @@ func TestRedis(t *testing.T) {
 	})
 	redis := NewUserRepository(nil, client)
 	redis.SetUserToken("uuid1111", []byte("tokenxxxx"), time.Duration(1)*time.Hour)
-	token := redis.GetUserToken("uuid1111")
+	token, _ := redis.GetUserToken("uuid1111")
 	fmt.Println("token>", token)
+
 }
 
 func TestLoginUser(t *testing.T) {

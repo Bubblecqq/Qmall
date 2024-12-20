@@ -4,9 +4,10 @@
 package handler
 
 import (
-	user2 "QMall/user/cmd/api/desc/user/internal/handler/user"
-	"QMall/user/cmd/api/desc/user/internal/svc"
 	"net/http"
+
+	user "QMall/user/cmd/api/desc/user/internal/handler/user"
+	"QMall/user/cmd/api/desc/user/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
 )
@@ -18,31 +19,37 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				// 创建用户
 				Method:  http.MethodPost,
 				Path:    "/createUser",
-				Handler: user2.CreateUserHandler(serverCtx),
+				Handler: user.CreateUserHandler(serverCtx),
 			},
 			{
 				// 根据id删除用户
 				Method:  http.MethodPost,
 				Path:    "/deleteUser",
-				Handler: user2.DeleteUserHandler(serverCtx),
+				Handler: user.DeleteUserHandler(serverCtx),
 			},
 			{
 				// 根据id获取用户
 				Method:  http.MethodPost,
 				Path:    "/getUserById",
-				Handler: user2.GetUserByIdHandler(serverCtx),
+				Handler: user.GetUserByIdHandler(serverCtx),
+			},
+			{
+				// 分布式Token提取
+				Method:  http.MethodPost,
+				Path:    "/getUserToken",
+				Handler: user.GetUserTokenHandler(serverCtx),
 			},
 			{
 				// 获取用户列表
 				Method:  http.MethodPost,
 				Path:    "/getUsers",
-				Handler: user2.GetUsersHandler(serverCtx),
+				Handler: user.GetUsersHandler(serverCtx),
 			},
 			{
 				// 单点用户登录
 				Method:  http.MethodPost,
 				Path:    "/loginUser",
-				Handler: user2.LoginUserHandler(serverCtx),
+				Handler: user.LoginUserHandler(serverCtx),
 			},
 		},
 		rest.WithPrefix("/user/v1"),

@@ -36,5 +36,9 @@ service user {
 	@doc "单点用户登录"
 	@handler loginUser
 	post /loginUser (LoginUserReq) returns (LoginUserResp)
+
+	@doc "分布式Token提取"
+	@handler getUserToken
+	post /getUserToken (GetTokenReq) returns (GetTokenResp)
 }
 

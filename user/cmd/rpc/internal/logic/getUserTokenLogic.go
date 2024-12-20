@@ -1,7 +1,11 @@
 package logic
 
 import (
+	"QMall/common"
 	"context"
+	"fmt"
+	"strconv"
+	"time"
 
 	"QMall/user/cmd/rpc/internal/svc"
 	"QMall/user/cmd/rpc/pb"
@@ -24,7 +28,21 @@ func NewGetUserTokenLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetU
 }
 
 func (l *GetUserTokenLogic) GetUserToken(in *pb.TokenReq) (*pb.TokenResp, error) {
-	// todo: add your logic here and delete this line
 
-	return &pb.TokenResp{}, nil
+	token, err := l.svcCtx.UserRepository.GetUserToken(in.Uuid)
+	var isLogin bool
+	if err != nil {
+		isLogin = false
+		token = ""
+		l.Info(fmt.Sprintf("Current uuid: %v is not login\n", in.Uuid))
+	} else {
+		isLogin = true
+		uuid := common.ToInput(in.Uuid)
+		l.svcCtx.UserRepository.SetUserToken(strconv.Itoa(uuid), []byte(token), time.Duration(1)*time.Hour)
+		l.Info(fmt.Sprintf("GetUserToken Success with token: %v\n", token))
+	}
+	return &pb.TokenResp{
+		Token:   token,
+		IsLogin: isLogin,
+	}, nil
 }
