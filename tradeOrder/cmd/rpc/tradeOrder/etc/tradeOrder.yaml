@@ -1,0 +1,27 @@
+Name: tradeOrder.rpc
+ListenOn: 127.0.0.1:2004
+Redis:
+  Host: 192.168.23.233:6379
+  Type: node
+  Pass: "123456"
+  Key: tradeOrder-rpc
+#  Cluster:
+#    - 192.168.23.233:6379
+#    - 192.168.23.234:6379
+#    - 192.168.23.235:6379
+Mysql:
+  Host: "192.168.23.233:3306"
+  User: "root"
+  Pass: "000000"
+  Database: "mall_trade"
+  Charset: "utf8mb4"
+Cache:
+  - Host: 192.168.23.233:6379
+    Pass: "123456"
+Consul:
+  Host: 192.168.23.233:8500
+  Key: tradeOrder.rpc
+#Etcd:
+#  Hosts:
+#  - 127.0.0.1:2379
+#  Key: tradeorder.rpc
