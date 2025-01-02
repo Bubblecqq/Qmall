@@ -1,0 +1,40 @@
+syntax = "v1"
+
+info (
+	title:   "订单服务"
+	desc:    "订单服务"
+	author:  "cqq"
+	email:   "1342982166@qq.com"
+	version: "v1"
+)
+
+import (
+	"tradeOrder/tradeOrder.api"
+)
+
+@server (
+	prefix: tradeOrder/v1
+	group:  tradeOrder
+)
+service tradeOrder {
+	@doc "生成订单"
+	@handler addTradeOrder
+	post /addTradeOrder (AddTradeOrderReq) returns (AddTradeOrderResp)
+
+	@doc "修改订单"
+	@handler updateTradeOrder
+	post /updateTradeOrder (AddTradeOrderReq) returns (AddTradeOrderResp)
+
+	@doc "查询订单"
+	@handler findTradeOrder
+	post /findTradeOrder (FindTradeOrderReq) returns (FindTradeOrderResp)
+
+	@doc "获取订单列表"
+	@handler getTradeOrders
+	get /getTradeOrders (GetTradeOrderListReq) returns (GetTradeOrderListResp)
+
+	@doc "分页获取订单列表"
+	@handler getTradeOrdersByPage
+	get /getTradeOrdersByPage (PageTradeOrderReq) returns (PageTradeOrderResp)
+}
+
