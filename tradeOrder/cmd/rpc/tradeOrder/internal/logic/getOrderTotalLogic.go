@@ -24,6 +24,7 @@ func NewGetOrderTotalLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Get
 }
 
 func (l *GetOrderTotalLogic) GetOrderTotal(in *pb.OrderTotalReq) (*pb.OrderTotalResp, error) {
-
+	// 一组关于用户id提取出来的购物车列表
+	
 	return &pb.OrderTotalResp{}, nil
 }

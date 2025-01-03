@@ -4,10 +4,7 @@
 package types
 
 type AddTradeOrderReq struct {
-	CartIDs            []int64    `json:"cart_ids"`
-	IsVirtual          bool       `json:"is_virtual"` //是否为虚拟商品
-	RecipientAddressId int64      `json:"recipient_address_id"`
-	TradeOrder         TradeOrder `json:"trade_order"`
+	UserId int64 `json:"user_id"`
 }
 
 type AddTradeOrderResp struct {
@@ -28,6 +25,14 @@ type GetTradeOrderListReq struct {
 
 type GetTradeOrderListResp struct {
 	TradeOrders []TradeOrder `json:"trade_orders"`
+}
+
+type OrderTotalReq struct {
+	CartIds []int64 `json:"cartIds"`
+}
+
+type OrderTotalResp struct {
+	TotalPrice float64 `json:"total_price"`
 }
 
 type PageTradeOrderReq struct {

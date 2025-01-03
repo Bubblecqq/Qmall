@@ -109,6 +109,13 @@ message FindCartsResp {
   repeated ShoppingCart carts = 1;
 }
 
+message FindCartsByUserIdReq {
+  int64 userId = 1;
+}
+message FindCartsByUserIdResp {
+  repeated ShoppingCart carts = 1;
+}
+
 service shopping_cart {
   rpc AddCart (AddCartReq) returns (AddCartResp);
 
@@ -117,5 +124,7 @@ service shopping_cart {
   rpc FindCart (FindCartReq) returns (FindCartResp);
 
   rpc GetCarts (FindCartsReq) returns (FindCartsResp);
+
+  rpc GetCartsByUserId (FindCartsByUserIdReq) returns (FindCartsByUserIdResp);
 }
 
