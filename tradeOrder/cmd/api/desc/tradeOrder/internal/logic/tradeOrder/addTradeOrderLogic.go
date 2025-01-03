@@ -1,6 +1,7 @@
 package tradeOrder
 
 import (
+	"QMall/tradeOrder/cmd/rpc/tradeOrder/tradeorder"
 	"context"
 
 	"QMall/tradeOrder/cmd/api/desc/tradeOrder/internal/svc"
@@ -25,7 +26,8 @@ func NewAddTradeOrderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Add
 }
 
 func (l *AddTradeOrderLogic) AddTradeOrder(req *types.AddTradeOrderReq) (resp *types.AddTradeOrderResp, err error) {
-	// todo: add your logic here and delete this line
+
+	l.svcCtx.TradeOrderRpcConf.AddTradeOrder(l.ctx, &tradeorder.AddTradeOrderReq{})
 
 	return
 }

@@ -117,9 +117,23 @@ message FindOrderResp {
   TradeOrder tradeOrder = 1;
 }
 
+message GetTradeOrderListReq {}
+message GetTradeOrderListResp {
+  repeated TradeOrder tradeOrders=1;
+}
+message PageTradeOrderReq {
+  int32 length = 1;
+  int32 pageIndex =2;
+}
+message PageTradeOrderResp {
+  repeated TradeOrder tradeOrders=1;
+}
+
 service tradeOrder {
   rpc AddTradeOrder(AddTradeOrderReq) returns (AddTradeOrderResp);
   rpc UpdateTradeOrder(AddTradeOrderReq) returns (AddTradeOrderResp);
   rpc GetOrderTotal (OrderTotalReq) returns (OrderTotalResp);
   rpc FindOrder (FindOrderReq) returns (FindOrderResp);
+  rpc GetOrders (GetTradeOrderListReq) returns (GetTradeOrderListResp);
+  rpc GetTradeOrdersByPage (PageTradeOrderReq) returns (PageTradeOrderResp);
 }

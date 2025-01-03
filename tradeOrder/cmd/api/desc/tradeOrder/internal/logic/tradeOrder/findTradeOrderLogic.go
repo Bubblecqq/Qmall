@@ -1,6 +1,7 @@
 package tradeOrder
 
 import (
+	"QMall/tradeOrder/cmd/rpc/tradeOrder/tradeorder"
 	"context"
 
 	"QMall/tradeOrder/cmd/api/desc/tradeOrder/internal/svc"
@@ -25,7 +26,15 @@ func NewFindTradeOrderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Fi
 }
 
 func (l *FindTradeOrderLogic) FindTradeOrder(req *types.FindTradeOrderReq) (resp *types.FindTradeOrderResp, err error) {
-	// todo: add your logic here and delete this line
 
+	order, err := l.svcCtx.TradeOrderRpcConf.FindOrder(l.ctx, &tradeorder.FindOrderReq{
+		Id:      req.Id,
+		OrderNo: req.OrderNo,
+	})
+	l.Info(">>>>>>>>>>>>>>>>>>>>>>Result>>>>>>>>>>>>>>>>>>>>>")
+	l.Info(order.TradeOrder)
+
+	resp = new(types.FindTradeOrderResp)
+	resp.TradeOrder = types.TradeOrderPbConvertTypes(order.TradeOrder)
 	return
 }

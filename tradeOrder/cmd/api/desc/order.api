@@ -36,5 +36,6 @@ service tradeOrder {
 	@doc "分页获取订单列表"
 	@handler getTradeOrdersByPage
 	get /getTradeOrdersByPage (PageTradeOrderReq) returns (PageTradeOrderResp)
+
 }
 

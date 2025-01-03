@@ -21,10 +21,12 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TradeOrder_AddTradeOrder_FullMethodName    = "/pb.tradeOrder/AddTradeOrder"
-	TradeOrder_UpdateTradeOrder_FullMethodName = "/pb.tradeOrder/UpdateTradeOrder"
-	TradeOrder_GetOrderTotal_FullMethodName    = "/pb.tradeOrder/GetOrderTotal"
-	TradeOrder_FindOrder_FullMethodName        = "/pb.tradeOrder/FindOrder"
+	TradeOrder_AddTradeOrder_FullMethodName        = "/pb.tradeOrder/AddTradeOrder"
+	TradeOrder_UpdateTradeOrder_FullMethodName     = "/pb.tradeOrder/UpdateTradeOrder"
+	TradeOrder_GetOrderTotal_FullMethodName        = "/pb.tradeOrder/GetOrderTotal"
+	TradeOrder_FindOrder_FullMethodName            = "/pb.tradeOrder/FindOrder"
+	TradeOrder_GetOrders_FullMethodName            = "/pb.tradeOrder/GetOrders"
+	TradeOrder_GetTradeOrdersByPage_FullMethodName = "/pb.tradeOrder/GetTradeOrdersByPage"
 )
 
 // TradeOrderClient is the client API for TradeOrder service.
@@ -35,6 +37,8 @@ type TradeOrderClient interface {
 	UpdateTradeOrder(ctx context.Context, in *AddTradeOrderReq, opts ...grpc.CallOption) (*AddTradeOrderResp, error)
 	GetOrderTotal(ctx context.Context, in *OrderTotalReq, opts ...grpc.CallOption) (*OrderTotalResp, error)
 	FindOrder(ctx context.Context, in *FindOrderReq, opts ...grpc.CallOption) (*FindOrderResp, error)
+	GetOrders(ctx context.Context, in *GetTradeOrderListReq, opts ...grpc.CallOption) (*GetTradeOrderListResp, error)
+	GetTradeOrdersByPage(ctx context.Context, in *PageTradeOrderReq, opts ...grpc.CallOption) (*PageTradeOrderResp, error)
 }
 
 type tradeOrderClient struct {
@@ -85,6 +89,26 @@ func (c *tradeOrderClient) FindOrder(ctx context.Context, in *FindOrderReq, opts
 	return out, nil
 }
 
+func (c *tradeOrderClient) GetOrders(ctx context.Context, in *GetTradeOrderListReq, opts ...grpc.CallOption) (*GetTradeOrderListResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetTradeOrderListResp)
+	err := c.cc.Invoke(ctx, TradeOrder_GetOrders_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tradeOrderClient) GetTradeOrdersByPage(ctx context.Context, in *PageTradeOrderReq, opts ...grpc.CallOption) (*PageTradeOrderResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(PageTradeOrderResp)
+	err := c.cc.Invoke(ctx, TradeOrder_GetTradeOrdersByPage_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TradeOrderServer is the server API for TradeOrder service.
 // All implementations must embed UnimplementedTradeOrderServer
 // for forward compatibility.
@@ -93,6 +117,8 @@ type TradeOrderServer interface {
 	UpdateTradeOrder(context.Context, *AddTradeOrderReq) (*AddTradeOrderResp, error)
 	GetOrderTotal(context.Context, *OrderTotalReq) (*OrderTotalResp, error)
 	FindOrder(context.Context, *FindOrderReq) (*FindOrderResp, error)
+	GetOrders(context.Context, *GetTradeOrderListReq) (*GetTradeOrderListResp, error)
+	GetTradeOrdersByPage(context.Context, *PageTradeOrderReq) (*PageTradeOrderResp, error)
 	mustEmbedUnimplementedTradeOrderServer()
 }
 
@@ -114,6 +140,12 @@ func (UnimplementedTradeOrderServer) GetOrderTotal(context.Context, *OrderTotalR
 }
 func (UnimplementedTradeOrderServer) FindOrder(context.Context, *FindOrderReq) (*FindOrderResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindOrder not implemented")
+}
+func (UnimplementedTradeOrderServer) GetOrders(context.Context, *GetTradeOrderListReq) (*GetTradeOrderListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrders not implemented")
+}
+func (UnimplementedTradeOrderServer) GetTradeOrdersByPage(context.Context, *PageTradeOrderReq) (*PageTradeOrderResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetTradeOrdersByPage not implemented")
 }
 func (UnimplementedTradeOrderServer) mustEmbedUnimplementedTradeOrderServer() {}
 func (UnimplementedTradeOrderServer) testEmbeddedByValue()                    {}
@@ -208,6 +240,42 @@ func _TradeOrder_FindOrder_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TradeOrder_GetOrders_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetTradeOrderListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TradeOrderServer).GetOrders(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TradeOrder_GetOrders_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TradeOrderServer).GetOrders(ctx, req.(*GetTradeOrderListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TradeOrder_GetTradeOrdersByPage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(PageTradeOrderReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TradeOrderServer).GetTradeOrdersByPage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TradeOrder_GetTradeOrdersByPage_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TradeOrderServer).GetTradeOrdersByPage(ctx, req.(*PageTradeOrderReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TradeOrder_ServiceDesc is the grpc.ServiceDesc for TradeOrder service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -230,6 +298,14 @@ var TradeOrder_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FindOrder",
 			Handler:    _TradeOrder_FindOrder_Handler,
+		},
+		{
+			MethodName: "GetOrders",
+			Handler:    _TradeOrder_GetOrders_Handler,
+		},
+		{
+			MethodName: "GetTradeOrdersByPage",
+			Handler:    _TradeOrder_GetTradeOrdersByPage_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

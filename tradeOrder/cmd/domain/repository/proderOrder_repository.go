@@ -6,6 +6,7 @@ import (
 )
 
 type ITradeOrderProductRepository interface {
+	AddOrderProduct()
 }
 
 type TradeOrderProductRepository struct {
