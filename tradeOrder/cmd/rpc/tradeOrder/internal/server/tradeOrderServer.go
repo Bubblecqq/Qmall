@@ -42,3 +42,13 @@ func (s *TradeOrderServer) FindOrder(ctx context.Context, in *pb.FindOrderReq) (
 	l := logic.NewFindOrderLogic(ctx, s.svcCtx)
 	return l.FindOrder(in)
 }
+
+func (s *TradeOrderServer) GetOrders(ctx context.Context, in *pb.GetTradeOrderListReq) (*pb.GetTradeOrderListResp, error) {
+	l := logic.NewGetOrdersLogic(ctx, s.svcCtx)
+	return l.GetOrders(in)
+}
+
+func (s *TradeOrderServer) GetTradeOrdersByPage(ctx context.Context, in *pb.PageTradeOrderReq) (*pb.PageTradeOrderResp, error) {
+	l := logic.NewGetTradeOrdersByPageLogic(ctx, s.svcCtx)
+	return l.GetTradeOrdersByPage(in)
+}

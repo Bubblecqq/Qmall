@@ -6,11 +6,11 @@ type TradeOrder struct {
 	Id                    int64      `json:"id" gorm:"primaryKey;autoIncrement"`                                                     // 订单ID
 	OrderNo               string     `json:"order_no" gorm:"type:varchar(32);not null;unique"`                                       // 订单编号
 	UserId                int64      `json:"user_id" gorm:"not null"`                                                                // 用户ID
-	TotalAmount           string     `json:"total_amount" gorm:"type:decimal(11,2);not null"`                                        // 总金额
-	ShippingAmount        string     `json:"shipping_amount" gorm:"type:decimal(11,2);not null"`                                     // 运费
-	DiscountAmount        string     `json:"discount_amount" gorm:"type:decimal(11,2);not null"`                                     // 优惠金额
-	PayAmount             string     `json:"pay_amount" gorm:"type:decimal(11,2);not null"`                                          // 实付金额
-	RefundAmount          string     `json:"refund_amount" gorm:"type:decimal(11,2);not null"`                                       // 已退款金额
+	TotalAmount           float64    `json:"total_amount" gorm:"type:decimal(11,2);not null"`                                        // 总金额
+	ShippingAmount        float64    `json:"shipping_amount" gorm:"type:decimal(11,2);not null"`                                     // 运费
+	DiscountAmount        float64    `json:"discount_amount" gorm:"type:decimal(11,2);not null"`                                     // 优惠金额
+	PayAmount             float64    `json:"pay_amount" gorm:"type:decimal(11,2);not null"`                                          // 实付金额
+	RefundAmount          float64    `json:"refund_amount" gorm:"type:decimal(11,2);not null"`                                       // 已退款金额
 	SubmitTime            time.Time  `json:"submit_time" gorm:"type:datetime;not null"`                                              // 下单时间
 	ExpireTime            time.Time  `json:"expire_time" gorm:"type:datetime;not null"`                                              // 失效时间
 	AutoReceiveTime       string     `json:"auto_receive_time" gorm:"type:datetime"`                                                 // 自动收货时间

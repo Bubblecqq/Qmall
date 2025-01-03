@@ -37,3 +37,8 @@ func (s *ShoppingCartServer) FindCart(ctx context.Context, in *pb.FindCartReq) (
 	l := logic.NewFindCartLogic(ctx, s.svcCtx)
 	return l.FindCart(in)
 }
+
+func (s *ShoppingCartServer) GetCarts(ctx context.Context, in *pb.FindCartsReq) (*pb.FindCartsResp, error) {
+	l := logic.NewGetCartsLogic(ctx, s.svcCtx)
+	return l.GetCarts(in)
+}

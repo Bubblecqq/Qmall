@@ -8,9 +8,10 @@ import (
 
 type Config struct {
 	zrpc.RpcServerConf
-	Mysql  Mysql
-	Cache  cache.CacheConf
-	Consul consul.Conf
+	Mysql      Mysql
+	Cache      cache.CacheConf
+	Consul     consul.Conf
+	RemoteCall RemoteCall
 }
 
 type Mysql struct {
@@ -19,4 +20,9 @@ type Mysql struct {
 	Pass     string `json:"pass"`
 	Database string `json:"database"`
 	Charset  string `json:"charset"`
+}
+type RemoteCall struct {
+	UserRPC         string `json:"UserRPC"`
+	ProductRPC      string `json:"ProductRPC"`
+	ShoppingCartRPC string `json:"ShoppingCartRPC"`
 }

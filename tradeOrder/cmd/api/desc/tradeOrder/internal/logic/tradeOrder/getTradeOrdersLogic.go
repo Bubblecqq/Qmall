@@ -1,6 +1,7 @@
 package tradeOrder
 
 import (
+	"QMall/tradeOrder/cmd/rpc/tradeOrder/tradeorder"
 	"context"
 
 	"QMall/tradeOrder/cmd/api/desc/tradeOrder/internal/svc"
@@ -15,7 +16,7 @@ type GetTradeOrdersLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 获取订单列表
+// NewGetTradeOrdersLogic 获取订单列表
 func NewGetTradeOrdersLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetTradeOrdersLogic {
 	return &GetTradeOrdersLogic{
 		Logger: logx.WithContext(ctx),
@@ -25,7 +26,14 @@ func NewGetTradeOrdersLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 }
 
 func (l *GetTradeOrdersLogic) GetTradeOrders(req *types.GetTradeOrderListReq) (resp *types.GetTradeOrderListResp, err error) {
-	// todo: add your logic here and delete this line
-
+	orders := make([]types.TradeOrder, 0)
+	getOrders, err := l.svcCtx.TradeOrderRpcConf.GetOrders(l.ctx, &tradeorder.GetTradeOrderListReq{})
+	l.Info(">>>>>>>>>>>>>>>>>>>>>>Result>>>>>>>>>>>>>>>>>>>>>")
+	for i := 0; i < len(getOrders.TradeOrders); i++ {
+		orders = append(orders, types.TradeOrderPbConvertTypes(getOrders.TradeOrders[i]))
+	}
+	l.Info(orders)
+	resp = new(types.GetTradeOrderListResp)
+	resp.TradeOrders = orders
 	return
 }

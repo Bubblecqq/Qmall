@@ -24,7 +24,6 @@ func NewGetOrderTotalLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Get
 }
 
 func (l *GetOrderTotalLogic) GetOrderTotal(in *pb.OrderTotalReq) (*pb.OrderTotalResp, error) {
-	// todo: add your logic here and delete this line
 
 	return &pb.OrderTotalResp{}, nil
 }

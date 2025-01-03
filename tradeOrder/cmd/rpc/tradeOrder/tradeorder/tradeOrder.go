@@ -14,23 +14,29 @@ import (
 )
 
 type (
-	AddTradeOrderReq  = pb.AddTradeOrderReq
-	AddTradeOrderResp = pb.AddTradeOrderResp
-	DetailProduct     = pb.DetailProduct
-	FindOrderReq      = pb.FindOrderReq
-	FindOrderResp     = pb.FindOrderResp
-	OrderTotalReq     = pb.OrderTotalReq
-	OrderTotalResp    = pb.OrderTotalResp
-	ProductOrder      = pb.ProductOrder
-	ProductSku        = pb.ProductSku
-	ShoppingCart      = pb.ShoppingCart
-	TradeOrder        = pb.TradeOrder
+	AddTradeOrderReq      = pb.AddTradeOrderReq
+	AddTradeOrderResp     = pb.AddTradeOrderResp
+	DetailProduct         = pb.DetailProduct
+	FindOrderReq          = pb.FindOrderReq
+	FindOrderResp         = pb.FindOrderResp
+	GetTradeOrderListReq  = pb.GetTradeOrderListReq
+	GetTradeOrderListResp = pb.GetTradeOrderListResp
+	OrderTotalReq         = pb.OrderTotalReq
+	OrderTotalResp        = pb.OrderTotalResp
+	PageTradeOrderReq     = pb.PageTradeOrderReq
+	PageTradeOrderResp    = pb.PageTradeOrderResp
+	ProductOrder          = pb.ProductOrder
+	ProductSku            = pb.ProductSku
+	ShoppingCart          = pb.ShoppingCart
+	TradeOrder            = pb.TradeOrder
 
 	TradeOrderZrpcClient interface {
 		AddTradeOrder(ctx context.Context, in *AddTradeOrderReq, opts ...grpc.CallOption) (*AddTradeOrderResp, error)
 		UpdateTradeOrder(ctx context.Context, in *AddTradeOrderReq, opts ...grpc.CallOption) (*AddTradeOrderResp, error)
 		GetOrderTotal(ctx context.Context, in *OrderTotalReq, opts ...grpc.CallOption) (*OrderTotalResp, error)
 		FindOrder(ctx context.Context, in *FindOrderReq, opts ...grpc.CallOption) (*FindOrderResp, error)
+		GetOrders(ctx context.Context, in *GetTradeOrderListReq, opts ...grpc.CallOption) (*GetTradeOrderListResp, error)
+		GetTradeOrdersByPage(ctx context.Context, in *PageTradeOrderReq, opts ...grpc.CallOption) (*PageTradeOrderResp, error)
 	}
 
 	defaultTradeOrderZrpcClient struct {
@@ -62,4 +68,14 @@ func (m *defaultTradeOrderZrpcClient) GetOrderTotal(ctx context.Context, in *Ord
 func (m *defaultTradeOrderZrpcClient) FindOrder(ctx context.Context, in *FindOrderReq, opts ...grpc.CallOption) (*FindOrderResp, error) {
 	client := pb.NewTradeOrderClient(m.cli.Conn())
 	return client.FindOrder(ctx, in, opts...)
+}
+
+func (m *defaultTradeOrderZrpcClient) GetOrders(ctx context.Context, in *GetTradeOrderListReq, opts ...grpc.CallOption) (*GetTradeOrderListResp, error) {
+	client := pb.NewTradeOrderClient(m.cli.Conn())
+	return client.GetOrders(ctx, in, opts...)
+}
+
+func (m *defaultTradeOrderZrpcClient) GetTradeOrdersByPage(ctx context.Context, in *PageTradeOrderReq, opts ...grpc.CallOption) (*PageTradeOrderResp, error) {
+	client := pb.NewTradeOrderClient(m.cli.Conn())
+	return client.GetTradeOrdersByPage(ctx, in, opts...)
 }

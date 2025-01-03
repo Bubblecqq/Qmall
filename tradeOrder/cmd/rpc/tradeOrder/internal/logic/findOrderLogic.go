@@ -24,7 +24,10 @@ func NewFindOrderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindOrd
 }
 
 func (l *FindOrderLogic) FindOrder(in *pb.FindOrderReq) (*pb.FindOrderResp, error) {
-	// todo: add your logic here and delete this line
 
-	return &pb.FindOrderResp{}, nil
+	order, err := l.svcCtx.TradeOrderRepository.FindTradeOrder(in.Id, in.OrderNo)
+
+	return &pb.FindOrderResp{
+		TradeOrder: pb.ModelTradeOrderConvertPb(order),
+	}, err
 }

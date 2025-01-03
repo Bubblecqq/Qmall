@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func ShppingCartModelConvertPb(shoppingCart *ShoppingCart) *pb.ShoppingCart {
+func ShoppingCartModelConvertPb(shoppingCart *ShoppingCart) *pb.ShoppingCart {
 	var updateTime *time.Time
 	if shoppingCart.UpdateTime != nil {
 		updateTime = shoppingCart.UpdateTime

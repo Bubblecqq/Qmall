@@ -22,6 +22,7 @@ type Mysql struct {
 }
 
 type RemoteCall struct {
-	UserRPC    string `json:"UserRPC"`
-	ProductRPC string `json:"ProductRPC"`
+	UserRPC         string `json:"UserRPC"`
+	ProductRPC      string `json:"ProductRPC"`
+	ShoppingCartRPC string `json:"ShoppingCartRPC"`
 }

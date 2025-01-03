@@ -32,6 +32,6 @@ func (l *FindCartLogic) FindCart(in *pb.FindCartReq) (*pb.FindCartResp, error) {
 	l.Info(">>>>>>>>>>>>>Find ShoppingCart>>>>>>>>>>>>>>>>>")
 	l.Info(shoppingCart)
 	return &pb.FindCartResp{
-		ShoppingCart: model.ShppingCartModelConvertPb(shoppingCart),
+		ShoppingCart: model.ShoppingCartModelConvertPb(shoppingCart),
 	}, nil
 }

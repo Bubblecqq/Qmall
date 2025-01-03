@@ -20,3 +20,4 @@ TradeOrderRpcConf:
 RemoteCall:
   UserRPC: consul://192.168.23.233:8500/user.rpc?wait=14s
   ProductRPC: consul://192.168.23.233:8500/product.rpc?wait=14s
+  ShoppingCartRPC: consul://192.168.23.233:8500/shoppingCart.rpc?wait=14s

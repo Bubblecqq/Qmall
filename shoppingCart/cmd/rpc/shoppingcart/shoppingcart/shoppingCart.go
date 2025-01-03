@@ -18,6 +18,8 @@ type (
 	AddCartResp      = pb.AddCartResp
 	FindCartReq      = pb.FindCartReq
 	FindCartResp     = pb.FindCartResp
+	FindCartsReq     = pb.FindCartsReq
+	FindCartsResp    = pb.FindCartsResp
 	ProductSimple    = pb.ProductSimple
 	ProductSkuSimple = pb.ProductSkuSimple
 	ShoppingCart     = pb.ShoppingCart
@@ -28,6 +30,7 @@ type (
 		AddCart(ctx context.Context, in *AddCartReq, opts ...grpc.CallOption) (*AddCartResp, error)
 		UpdateCart(ctx context.Context, in *UpdateCartReq, opts ...grpc.CallOption) (*UpdateCartResp, error)
 		FindCart(ctx context.Context, in *FindCartReq, opts ...grpc.CallOption) (*FindCartResp, error)
+		GetCarts(ctx context.Context, in *FindCartsReq, opts ...grpc.CallOption) (*FindCartsResp, error)
 	}
 
 	defaultShoppingCartZrpcClient struct {
@@ -54,4 +57,9 @@ func (m *defaultShoppingCartZrpcClient) UpdateCart(ctx context.Context, in *Upda
 func (m *defaultShoppingCartZrpcClient) FindCart(ctx context.Context, in *FindCartReq, opts ...grpc.CallOption) (*FindCartResp, error) {
 	client := pb.NewShoppingCartClient(m.cli.Conn())
 	return client.FindCart(ctx, in, opts...)
+}
+
+func (m *defaultShoppingCartZrpcClient) GetCarts(ctx context.Context, in *FindCartsReq, opts ...grpc.CallOption) (*FindCartsResp, error) {
+	client := pb.NewShoppingCartClient(m.cli.Conn())
+	return client.GetCarts(ctx, in, opts...)
 }
