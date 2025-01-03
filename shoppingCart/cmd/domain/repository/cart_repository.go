@@ -14,11 +14,18 @@ type IShoppingCartRepository interface {
 	FindShoppingCart(in *pb.FindCartReq) (*model.ShoppingCart, error)
 	GetShoppingCartById(id int64) (*model.ShoppingCart, error)
 	GetShoppingCarts() ([]model.ShoppingCart, error)
+	GetShoppingCartsByUserId(userId int64) ([]model.ShoppingCart, error)
 }
 
 type ShoppingCartRepository struct {
 	mysqlClient *gorm.DB
 	redisClient *redis.Client
+}
+
+func (s *ShoppingCartRepository) GetShoppingCartsByUserId(userId int64) ([]model.ShoppingCart, error) {
+	var carts []model.ShoppingCart
+	tx := s.mysqlClient.Model(&model.ShoppingCart{}).Where("user_id= ?", userId).Find(&carts)
+	return carts, tx.Error
 }
 
 func (s *ShoppingCartRepository) GetShoppingCarts() ([]model.ShoppingCart, error) {

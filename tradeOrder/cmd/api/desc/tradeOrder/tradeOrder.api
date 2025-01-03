@@ -41,10 +41,13 @@ type TradeOrder {
 
 type (
     AddTradeOrderReq {
-        CartIDs    []int64 `json:"cart_ids"`
-        isVirtual  bool `json:"is_virtual"` //是否为虚拟商品
-        RecipientAddressId int64  `json:"recipient_address_id"`
-        tradeOrder TradeOrder  `json:"trade_order"`
+    // userId
+        UserId      int64 `json:"user_id"`
+
+//        CartIDs    []int64 `json:"cart_ids"`
+//        isVirtual  bool `json:"is_virtual"` //是否为虚拟商品
+//        RecipientAddressId int64  `json:"recipient_address_id"`
+//        tradeOrder TradeOrder  `json:"trade_order"`
     }
     AddTradeOrderResp {
         tradeOrder TradeOrder  `json:"trade_order"`

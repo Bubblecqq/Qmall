@@ -14,23 +14,26 @@ import (
 )
 
 type (
-	AddCartReq       = pb.AddCartReq
-	AddCartResp      = pb.AddCartResp
-	FindCartReq      = pb.FindCartReq
-	FindCartResp     = pb.FindCartResp
-	FindCartsReq     = pb.FindCartsReq
-	FindCartsResp    = pb.FindCartsResp
-	ProductSimple    = pb.ProductSimple
-	ProductSkuSimple = pb.ProductSkuSimple
-	ShoppingCart     = pb.ShoppingCart
-	UpdateCartReq    = pb.UpdateCartReq
-	UpdateCartResp   = pb.UpdateCartResp
+	AddCartReq            = pb.AddCartReq
+	AddCartResp           = pb.AddCartResp
+	FindCartReq           = pb.FindCartReq
+	FindCartResp          = pb.FindCartResp
+	FindCartsByUserIdReq  = pb.FindCartsByUserIdReq
+	FindCartsByUserIdResp = pb.FindCartsByUserIdResp
+	FindCartsReq          = pb.FindCartsReq
+	FindCartsResp         = pb.FindCartsResp
+	ProductSimple         = pb.ProductSimple
+	ProductSkuSimple      = pb.ProductSkuSimple
+	ShoppingCart          = pb.ShoppingCart
+	UpdateCartReq         = pb.UpdateCartReq
+	UpdateCartResp        = pb.UpdateCartResp
 
 	ShoppingCartZrpcClient interface {
 		AddCart(ctx context.Context, in *AddCartReq, opts ...grpc.CallOption) (*AddCartResp, error)
 		UpdateCart(ctx context.Context, in *UpdateCartReq, opts ...grpc.CallOption) (*UpdateCartResp, error)
 		FindCart(ctx context.Context, in *FindCartReq, opts ...grpc.CallOption) (*FindCartResp, error)
 		GetCarts(ctx context.Context, in *FindCartsReq, opts ...grpc.CallOption) (*FindCartsResp, error)
+		GetCartsByUserId(ctx context.Context, in *FindCartsByUserIdReq, opts ...grpc.CallOption) (*FindCartsByUserIdResp, error)
 	}
 
 	defaultShoppingCartZrpcClient struct {
@@ -62,4 +65,9 @@ func (m *defaultShoppingCartZrpcClient) FindCart(ctx context.Context, in *FindCa
 func (m *defaultShoppingCartZrpcClient) GetCarts(ctx context.Context, in *FindCartsReq, opts ...grpc.CallOption) (*FindCartsResp, error) {
 	client := pb.NewShoppingCartClient(m.cli.Conn())
 	return client.GetCarts(ctx, in, opts...)
+}
+
+func (m *defaultShoppingCartZrpcClient) GetCartsByUserId(ctx context.Context, in *FindCartsByUserIdReq, opts ...grpc.CallOption) (*FindCartsByUserIdResp, error) {
+	client := pb.NewShoppingCartClient(m.cli.Conn())
+	return client.GetCartsByUserId(ctx, in, opts...)
 }
