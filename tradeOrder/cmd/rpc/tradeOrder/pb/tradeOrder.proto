@@ -157,14 +157,18 @@ message AddProductOrderReq {
   int64  productId = 1;
   int64  productSkuId = 2;
   int64  userId = 3;
-  string  productName = 4;
-  string  productImageUrl = 5;
-  string   skuDescribe   =6;
-  int64   quantity   =7;
-  float   productPrice =8;
-  float realPrice  =9;
-  float realAmount  =10;
-
+  int64 orderId = 4;
+  string  productName = 5;
+  string  productImageUrl = 6;
+  string   skuDescribe   =7;
+  int64   quantity   =8;
+  string   productPrice =9;
+  string realPrice  =10;
+  string realAmount  =11;
+  int32 activityType = 12;
+  int32  commentStatus = 13;
+  int32 detailStatus = 14;
+  int64 activityId = 15;
 }
 message AddProductOrderResp {
 
@@ -174,7 +178,7 @@ message GetProductOrderListReq {
 
 }
 message GetProductOrderListResp {
-  repeated ProductOrder productOrder = 1;
+  repeated ProductOrder productOrders = 1;
 }
 
 message GetProductOrderByUserIdReq {
@@ -184,6 +188,12 @@ message GetProductOrderByUserIdResp {
   ProductOrder productOrder = 1;
 }
 
+message GetProductOrderByOrderIdReq {
+  int64 userId = 1;
+}
+message GetProductOrderByOrderIdResp {
+  ProductOrder productOrder = 1;
+}
 
 //service productOrder {
 //  rpc AddProductOrder (AddProductOrderReq) returns (AddProductOrderResp);
