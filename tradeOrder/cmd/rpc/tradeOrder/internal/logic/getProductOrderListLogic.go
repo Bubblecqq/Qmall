@@ -24,7 +24,12 @@ func NewGetProductOrderListLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *GetProductOrderListLogic) GetProductOrderList(in *pb.GetProductOrderListReq) (*pb.GetProductOrderListResp, error) {
-	// todo: add your logic here and delete this line
-
-	return &pb.GetProductOrderListResp{}, nil
+	pbProductOrderList := make([]*pb.ProductOrder, 0)
+	productList := l.svcCtx.TradeOrderProductRepository.GetOrderProductList()
+	for i := 0; i < len(productList); i++ {
+		pbProductOrderList = append(pbProductOrderList, pb.ModelProductOrderConvertPb(productList[i]))
+	}
+	return &pb.GetProductOrderListResp{
+		ProductOrders: pbProductOrderList,
+	}, nil
 }
