@@ -52,3 +52,18 @@ func (s *TradeOrderServer) GetTradeOrdersByPage(ctx context.Context, in *pb.Page
 	l := logic.NewGetTradeOrdersByPageLogic(ctx, s.svcCtx)
 	return l.GetTradeOrdersByPage(in)
 }
+
+func (s *TradeOrderServer) AddProductOrder(ctx context.Context, in *pb.AddProductOrderReq) (*pb.AddProductOrderResp, error) {
+	l := logic.NewAddProductOrderLogic(ctx, s.svcCtx)
+	return l.AddProductOrder(in)
+}
+
+func (s *TradeOrderServer) GetProductOrderList(ctx context.Context, in *pb.GetProductOrderListReq) (*pb.GetProductOrderListResp, error) {
+	l := logic.NewGetProductOrderListLogic(ctx, s.svcCtx)
+	return l.GetProductOrderList(in)
+}
+
+func (s *TradeOrderServer) GetProductOrderByUserId(ctx context.Context, in *pb.GetProductOrderByUserIdReq) (*pb.GetProductOrderByUserIdResp, error) {
+	l := logic.NewGetProductOrderByUserIdLogic(ctx, s.svcCtx)
+	return l.GetProductOrderByUserId(in)
+}

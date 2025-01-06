@@ -28,15 +28,25 @@ message TradeOrder {
 
 
 message ProductOrder {
-  int64 productId = 1;
-  int64 productSkuId=2;
-  string productName = 3;
-  string productImageURL = 4;
-  string skuDescribe = 5;
-  int64 quantity = 6;
-  double productPrice = 7;
-  double realPrice = 8;
-  double realAmount = 9;
+  int64  Id = 1;
+  int64  productId = 2;
+  int64  productSkuId = 3;
+  int64  userId = 4;
+  string  productName = 5;
+  string  productImageUrl = 6;
+  string   skuDescribe   =7;
+  int64   quantity   =8;
+  string   productPrice =9;
+  string realPrice  =10;
+  string realAmount  =11;
+  int64 createUser = 14;
+  int64 updateUser = 15;
+  google.protobuf.Timestamp createTime=16;
+  google.protobuf.Timestamp updateTime=17;
+  int64 activityId = 18;
+  int32 detailStatus = 19;
+  int32 activityType = 20;
+  int32 commentStatus = 21;
 }
 
 message ShoppingCart {
@@ -136,4 +146,47 @@ service tradeOrder {
   rpc FindOrder (FindOrderReq) returns (FindOrderResp);
   rpc GetOrders (GetTradeOrderListReq) returns (GetTradeOrderListResp);
   rpc GetTradeOrdersByPage (PageTradeOrderReq) returns (PageTradeOrderResp);
+
+  rpc AddProductOrder (AddProductOrderReq) returns (AddProductOrderResp);
+  rpc GetProductOrderList (GetProductOrderListReq) returns (GetProductOrderListResp);
+  rpc GetProductOrderByUserId(GetProductOrderByUserIdReq) returns (GetProductOrderByUserIdResp);
+
 }
+
+message AddProductOrderReq {
+  int64  productId = 1;
+  int64  productSkuId = 2;
+  int64  userId = 3;
+  string  productName = 4;
+  string  productImageUrl = 5;
+  string   skuDescribe   =6;
+  int64   quantity   =7;
+  float   productPrice =8;
+  float realPrice  =9;
+  float realAmount  =10;
+
+}
+message AddProductOrderResp {
+
+}
+
+message GetProductOrderListReq {
+
+}
+message GetProductOrderListResp {
+  repeated ProductOrder productOrder = 1;
+}
+
+message GetProductOrderByUserIdReq {
+  int64 userId = 1;
+}
+message GetProductOrderByUserIdResp {
+  ProductOrder productOrder = 1;
+}
+
+
+//service productOrder {
+//  rpc AddProductOrder (AddProductOrderReq) returns (AddProductOrderResp);
+//  rpc GetProductOrderList (GetProductOrderListReq) returns (GetProductOrderListResp);
+//  rpc GetProductOrderByUserId(GetProductOrderByUserIdReq) returns (GetProductOrderByUserIdResp);
+//}
