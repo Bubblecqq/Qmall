@@ -14,20 +14,21 @@ import (
 )
 
 type ServiceContext struct {
-	Config               config.Config
-	Redis                *redis.Client
-	TradeOrderRepository repository.ITradeOrderRepository
-	ShoppingCartRPC      shoppingcart.ShoppingCartZrpcClient
+	Config                      config.Config
+	Redis                       *redis.Client
+	TradeOrderRepository        repository.ITradeOrderRepository
+	TradeOrderProductRepository repository.ITradeOrderProductRepository
+	ShoppingCartRPC             shoppingcart.ShoppingCartZrpcClient
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	dsn := fmt.Sprintf(common.MysqlConnect, c.Mysql.User, c.Mysql.Pass, c.Mysql.Host, c.Mysql.Database, c.Mysql.Charset)
 
-	dialector := mysql.New(mysql.Config{
+	directory := mysql.New(mysql.Config{
 		DSN:               dsn,
 		DefaultStringSize: 256,
 	})
-	db, err := gorm.Open(dialector, &gorm.Config{
+	db, err := gorm.Open(directory, &gorm.Config{
 		PrepareStmt: true,
 		Logger:      logger.Default.LogMode(logger.Info),
 	})
@@ -45,9 +46,10 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	shoppingCartClient := shoppingcart.NewShoppingCartZrpcClient(shoppingCartTarget)
 
 	return &ServiceContext{
-		Config:               c,
-		Redis:                redisClient,
-		TradeOrderRepository: repository.NewTradeOrderRepository(db, redisClient),
-		ShoppingCartRPC:      shoppingCartClient,
+		Config:                      c,
+		Redis:                       redisClient,
+		TradeOrderRepository:        repository.NewTradeOrderRepository(db, redisClient),
+		TradeOrderProductRepository: repository.NewTradeOrderProductRepository(db, redisClient),
+		ShoppingCartRPC:             shoppingCartClient,
 	}
 }

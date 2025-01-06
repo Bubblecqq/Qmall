@@ -21,12 +21,15 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	TradeOrder_AddTradeOrder_FullMethodName        = "/pb.tradeOrder/AddTradeOrder"
-	TradeOrder_UpdateTradeOrder_FullMethodName     = "/pb.tradeOrder/UpdateTradeOrder"
-	TradeOrder_GetOrderTotal_FullMethodName        = "/pb.tradeOrder/GetOrderTotal"
-	TradeOrder_FindOrder_FullMethodName            = "/pb.tradeOrder/FindOrder"
-	TradeOrder_GetOrders_FullMethodName            = "/pb.tradeOrder/GetOrders"
-	TradeOrder_GetTradeOrdersByPage_FullMethodName = "/pb.tradeOrder/GetTradeOrdersByPage"
+	TradeOrder_AddTradeOrder_FullMethodName           = "/pb.tradeOrder/AddTradeOrder"
+	TradeOrder_UpdateTradeOrder_FullMethodName        = "/pb.tradeOrder/UpdateTradeOrder"
+	TradeOrder_GetOrderTotal_FullMethodName           = "/pb.tradeOrder/GetOrderTotal"
+	TradeOrder_FindOrder_FullMethodName               = "/pb.tradeOrder/FindOrder"
+	TradeOrder_GetOrders_FullMethodName               = "/pb.tradeOrder/GetOrders"
+	TradeOrder_GetTradeOrdersByPage_FullMethodName    = "/pb.tradeOrder/GetTradeOrdersByPage"
+	TradeOrder_AddProductOrder_FullMethodName         = "/pb.tradeOrder/AddProductOrder"
+	TradeOrder_GetProductOrderList_FullMethodName     = "/pb.tradeOrder/GetProductOrderList"
+	TradeOrder_GetProductOrderByUserId_FullMethodName = "/pb.tradeOrder/GetProductOrderByUserId"
 )
 
 // TradeOrderClient is the client API for TradeOrder service.
@@ -39,6 +42,9 @@ type TradeOrderClient interface {
 	FindOrder(ctx context.Context, in *FindOrderReq, opts ...grpc.CallOption) (*FindOrderResp, error)
 	GetOrders(ctx context.Context, in *GetTradeOrderListReq, opts ...grpc.CallOption) (*GetTradeOrderListResp, error)
 	GetTradeOrdersByPage(ctx context.Context, in *PageTradeOrderReq, opts ...grpc.CallOption) (*PageTradeOrderResp, error)
+	AddProductOrder(ctx context.Context, in *AddProductOrderReq, opts ...grpc.CallOption) (*AddProductOrderResp, error)
+	GetProductOrderList(ctx context.Context, in *GetProductOrderListReq, opts ...grpc.CallOption) (*GetProductOrderListResp, error)
+	GetProductOrderByUserId(ctx context.Context, in *GetProductOrderByUserIdReq, opts ...grpc.CallOption) (*GetProductOrderByUserIdResp, error)
 }
 
 type tradeOrderClient struct {
@@ -109,6 +115,36 @@ func (c *tradeOrderClient) GetTradeOrdersByPage(ctx context.Context, in *PageTra
 	return out, nil
 }
 
+func (c *tradeOrderClient) AddProductOrder(ctx context.Context, in *AddProductOrderReq, opts ...grpc.CallOption) (*AddProductOrderResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddProductOrderResp)
+	err := c.cc.Invoke(ctx, TradeOrder_AddProductOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tradeOrderClient) GetProductOrderList(ctx context.Context, in *GetProductOrderListReq, opts ...grpc.CallOption) (*GetProductOrderListResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetProductOrderListResp)
+	err := c.cc.Invoke(ctx, TradeOrder_GetProductOrderList_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *tradeOrderClient) GetProductOrderByUserId(ctx context.Context, in *GetProductOrderByUserIdReq, opts ...grpc.CallOption) (*GetProductOrderByUserIdResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetProductOrderByUserIdResp)
+	err := c.cc.Invoke(ctx, TradeOrder_GetProductOrderByUserId_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TradeOrderServer is the server API for TradeOrder service.
 // All implementations must embed UnimplementedTradeOrderServer
 // for forward compatibility.
@@ -119,6 +155,9 @@ type TradeOrderServer interface {
 	FindOrder(context.Context, *FindOrderReq) (*FindOrderResp, error)
 	GetOrders(context.Context, *GetTradeOrderListReq) (*GetTradeOrderListResp, error)
 	GetTradeOrdersByPage(context.Context, *PageTradeOrderReq) (*PageTradeOrderResp, error)
+	AddProductOrder(context.Context, *AddProductOrderReq) (*AddProductOrderResp, error)
+	GetProductOrderList(context.Context, *GetProductOrderListReq) (*GetProductOrderListResp, error)
+	GetProductOrderByUserId(context.Context, *GetProductOrderByUserIdReq) (*GetProductOrderByUserIdResp, error)
 	mustEmbedUnimplementedTradeOrderServer()
 }
 
@@ -146,6 +185,15 @@ func (UnimplementedTradeOrderServer) GetOrders(context.Context, *GetTradeOrderLi
 }
 func (UnimplementedTradeOrderServer) GetTradeOrdersByPage(context.Context, *PageTradeOrderReq) (*PageTradeOrderResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTradeOrdersByPage not implemented")
+}
+func (UnimplementedTradeOrderServer) AddProductOrder(context.Context, *AddProductOrderReq) (*AddProductOrderResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddProductOrder not implemented")
+}
+func (UnimplementedTradeOrderServer) GetProductOrderList(context.Context, *GetProductOrderListReq) (*GetProductOrderListResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetProductOrderList not implemented")
+}
+func (UnimplementedTradeOrderServer) GetProductOrderByUserId(context.Context, *GetProductOrderByUserIdReq) (*GetProductOrderByUserIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetProductOrderByUserId not implemented")
 }
 func (UnimplementedTradeOrderServer) mustEmbedUnimplementedTradeOrderServer() {}
 func (UnimplementedTradeOrderServer) testEmbeddedByValue()                    {}
@@ -276,6 +324,60 @@ func _TradeOrder_GetTradeOrdersByPage_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TradeOrder_AddProductOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddProductOrderReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TradeOrderServer).AddProductOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TradeOrder_AddProductOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TradeOrderServer).AddProductOrder(ctx, req.(*AddProductOrderReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TradeOrder_GetProductOrderList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProductOrderListReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TradeOrderServer).GetProductOrderList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TradeOrder_GetProductOrderList_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TradeOrderServer).GetProductOrderList(ctx, req.(*GetProductOrderListReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _TradeOrder_GetProductOrderByUserId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetProductOrderByUserIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TradeOrderServer).GetProductOrderByUserId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TradeOrder_GetProductOrderByUserId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TradeOrderServer).GetProductOrderByUserId(ctx, req.(*GetProductOrderByUserIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TradeOrder_ServiceDesc is the grpc.ServiceDesc for TradeOrder service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -306,6 +408,18 @@ var TradeOrder_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTradeOrdersByPage",
 			Handler:    _TradeOrder_GetTradeOrdersByPage_Handler,
+		},
+		{
+			MethodName: "AddProductOrder",
+			Handler:    _TradeOrder_AddProductOrder_Handler,
+		},
+		{
+			MethodName: "GetProductOrderList",
+			Handler:    _TradeOrder_GetProductOrderList_Handler,
+		},
+		{
+			MethodName: "GetProductOrderByUserId",
+			Handler:    _TradeOrder_GetProductOrderByUserId_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -11,7 +11,7 @@ type TradeOrderProduct struct {
 	ProductName     string     `grom:"product_name"`      // 商品名称
 	ProductImageUrl string     `grom:"product_image_url"` // 商品图片
 	SkuDescribe     string     `grom:"sku_describe"`      // SKU规格
-	Quantity        int32      `grom:"quantity"`          // 购买数量
+	Quantity        int64      `grom:"quantity"`          // 购买数量
 	ProductPrice    string     `grom:"product_price"`     // 商品单价
 	RealPrice       string     `grom:"real_price"`        // 实际价格
 	RealAmount      string     `grom:"real_amount"`       // 实际金额
