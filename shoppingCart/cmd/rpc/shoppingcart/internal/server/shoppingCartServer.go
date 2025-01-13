@@ -47,3 +47,13 @@ func (s *ShoppingCartServer) GetCartsByUserId(ctx context.Context, in *pb.FindCa
 	l := logic.NewGetCartsByUserIdLogic(ctx, s.svcCtx)
 	return l.GetCartsByUserId(in)
 }
+
+func (s *ShoppingCartServer) DeleteCartsByUserId(ctx context.Context, in *pb.DeleteCartsByUserIdReq) (*pb.DeleteCartsByUserIdResp, error) {
+	l := logic.NewDeleteCartsByUserIdLogic(ctx, s.svcCtx)
+	return l.DeleteCartsByUserId(in)
+}
+
+func (s *ShoppingCartServer) GetTotalPriceByUserId(ctx context.Context, in *pb.GetTotalPriceByUserIdReq) (*pb.GetTotalPriceByUserIdResp, error) {
+	l := logic.NewGetTotalPriceByUserIdLogic(ctx, s.svcCtx)
+	return l.GetTotalPriceByUserId(in)
+}

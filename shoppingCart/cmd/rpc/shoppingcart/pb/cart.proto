@@ -116,6 +116,21 @@ message FindCartsByUserIdResp {
   repeated ShoppingCart carts = 1;
 }
 
+
+message DeleteCartsByUserIdReq {
+  int64 userId = 1;
+}
+message DeleteCartsByUserIdResp {
+}
+
+message GetTotalPriceByUserIdReq {
+  int64 user_id = 1;
+}
+message GetTotalPriceByUserIdResp {
+  double totalPrice = 1;
+}
+
+
 service shopping_cart {
   rpc AddCart (AddCartReq) returns (AddCartResp);
 
@@ -126,5 +141,9 @@ service shopping_cart {
   rpc GetCarts (FindCartsReq) returns (FindCartsResp);
 
   rpc GetCartsByUserId (FindCartsByUserIdReq) returns (FindCartsByUserIdResp);
+
+  rpc DeleteCartsByUserId (DeleteCartsByUserIdReq) returns (DeleteCartsByUserIdResp);
+
+  rpc GetTotalPriceByUserId (GetTotalPriceByUserIdReq) returns (GetTotalPriceByUserIdResp);
 }
 

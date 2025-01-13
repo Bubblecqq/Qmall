@@ -10,7 +10,7 @@ import (
 )
 
 func TestCRUD(t *testing.T) {
-	dsn := fmt.Sprintf(common.MysqlConnect, "root", "000000", "192.168.23.233:3306", "mall_product", "utf8mb4")
+	dsn := fmt.Sprintf(common.MysqlConnect, "root", "000000", "192.168.23.233:3306", "mall_trade", "utf8mb4")
 	var dialector = mysql.New(mysql.Config{
 		DSN:               dsn,
 		DefaultStringSize: 256,
@@ -25,4 +25,6 @@ func TestCRUD(t *testing.T) {
 	orderRepository := NewTradeOrderRepository(db, nil)
 	order, _ := orderRepository.GetTradeOrderById(1)
 	fmt.Println("order>", order)
+	//totalPrice := orderRepository.GetTotalPrice(19)
+	//fmt.Println("total_price>", totalPrice)
 }

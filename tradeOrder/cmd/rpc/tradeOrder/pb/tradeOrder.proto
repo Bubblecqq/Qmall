@@ -49,7 +49,7 @@ message ProductOrder {
   int32 commentStatus = 21;
 }
 
-message ShoppingCart {
+message ShoppingCartSimple {
   int64 id = 1;
   int64 user_id = 2;
   int64 product_id = 3;
@@ -65,41 +65,41 @@ message ShoppingCart {
 }
 
 
-message ProductSku {
-  int64 id = 1;
-  string name = 2;
-  int32 product_id = 3;
-  string attribute_symbol_list = 4;
-  double sell_price = 5;
-  double cost_price = 6;
-  int64 stock = 7;
-  int64 stock_warn = 8;
-  google.protobuf.Timestamp  create_time = 9;
-  google.protobuf.Timestamp  update_time = 10;
-  int32 is_enable = 11;
-  int64 create_user = 12;
-  int64 update_user = 13;
-}
+//message ProductSku {
+//  int64 id = 1;
+//  string name = 2;
+//  int32 product_id = 3;
+//  string attribute_symbol_list = 4;
+//  double sell_price = 5;
+//  double cost_price = 6;
+//  int64 stock = 7;
+//  int64 stock_warn = 8;
+//  google.protobuf.Timestamp  create_time = 9;
+//  google.protobuf.Timestamp  update_time = 10;
+//  int32 is_enable = 11;
+//  int64 create_user = 12;
+//  int64 update_user = 13;
+//}
 
-message DetailProduct {
-  int64 id = 1;
-  string name = 2;
-  int32 product_type = 3;
-  int32 category_id = 4;
-  double starting_price = 5;
-  int64 total_stock = 6;
-  string main_picture = 7;
-  double remote_area_postage = 8;
-  int32 single_buy_limit = 9;
-  string remark = 10;
-  google.protobuf.Timestamp  create_time = 11;
-  google.protobuf.Timestamp  update_time = 12;
-  int32 is_enable = 13;
-  string create_user = 14;
-  string update_user = 15;
-  string detail = 16;
-  repeated string picture_list = 17;
-}
+//message DetailProduct {
+//  int64 id = 1;
+//  string name = 2;
+//  int32 product_type = 3;
+//  int32 category_id = 4;
+//  double starting_price = 5;
+//  int64 total_stock = 6;
+//  string main_picture = 7;
+//  double remote_area_postage = 8;
+//  int32 single_buy_limit = 9;
+//  string remark = 10;
+//  google.protobuf.Timestamp  create_time = 11;
+//  google.protobuf.Timestamp  update_time = 12;
+//  int32 is_enable = 13;
+//  string create_user = 14;
+//  string update_user = 15;
+//  string detail = 16;
+//  repeated string picture_list = 17;
+//}
 
 
 //创建订单
@@ -115,6 +115,7 @@ message AddTradeOrderResp {
 }
 message OrderTotalReq {
   repeated int64 cartIds = 1;
+  repeated ShoppingCartSimple carts = 2;
 }
 message OrderTotalResp {
   double totalPrice = 1;
