@@ -14,27 +14,27 @@ import (
 )
 
 type (
-	AddProductOrderReq          = pb.AddProductOrderReq
-	AddProductOrderResp         = pb.AddProductOrderResp
-	AddTradeOrderReq            = pb.AddTradeOrderReq
-	AddTradeOrderResp           = pb.AddTradeOrderResp
-	DetailProduct               = pb.DetailProduct
-	FindOrderReq                = pb.FindOrderReq
-	FindOrderResp               = pb.FindOrderResp
-	GetProductOrderByUserIdReq  = pb.GetProductOrderByUserIdReq
-	GetProductOrderByUserIdResp = pb.GetProductOrderByUserIdResp
-	GetProductOrderListReq      = pb.GetProductOrderListReq
-	GetProductOrderListResp     = pb.GetProductOrderListResp
-	GetTradeOrderListReq        = pb.GetTradeOrderListReq
-	GetTradeOrderListResp       = pb.GetTradeOrderListResp
-	OrderTotalReq               = pb.OrderTotalReq
-	OrderTotalResp              = pb.OrderTotalResp
-	PageTradeOrderReq           = pb.PageTradeOrderReq
-	PageTradeOrderResp          = pb.PageTradeOrderResp
-	ProductOrder                = pb.ProductOrder
-	ProductSku                  = pb.ProductSku
-	ShoppingCart                = pb.ShoppingCart
-	TradeOrder                  = pb.TradeOrder
+	AddProductOrderReq           = pb.AddProductOrderReq
+	AddProductOrderResp          = pb.AddProductOrderResp
+	AddTradeOrderReq             = pb.AddTradeOrderReq
+	AddTradeOrderResp            = pb.AddTradeOrderResp
+	FindOrderReq                 = pb.FindOrderReq
+	FindOrderResp                = pb.FindOrderResp
+	GetProductOrderByOrderIdReq  = pb.GetProductOrderByOrderIdReq
+	GetProductOrderByOrderIdResp = pb.GetProductOrderByOrderIdResp
+	GetProductOrderByUserIdReq   = pb.GetProductOrderByUserIdReq
+	GetProductOrderByUserIdResp  = pb.GetProductOrderByUserIdResp
+	GetProductOrderListReq       = pb.GetProductOrderListReq
+	GetProductOrderListResp      = pb.GetProductOrderListResp
+	GetTradeOrderListReq         = pb.GetTradeOrderListReq
+	GetTradeOrderListResp        = pb.GetTradeOrderListResp
+	OrderTotalReq                = pb.OrderTotalReq
+	OrderTotalResp               = pb.OrderTotalResp
+	PageTradeOrderReq            = pb.PageTradeOrderReq
+	PageTradeOrderResp           = pb.PageTradeOrderResp
+	ProductOrder                 = pb.ProductOrder
+	ShoppingCartSimple           = pb.ShoppingCartSimple
+	TradeOrder                   = pb.TradeOrder
 
 	TradeOrderZrpcClient interface {
 		AddTradeOrder(ctx context.Context, in *AddTradeOrderReq, opts ...grpc.CallOption) (*AddTradeOrderResp, error)

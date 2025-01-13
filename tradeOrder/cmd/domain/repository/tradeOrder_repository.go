@@ -24,12 +24,31 @@ type ITradeOrderRepository interface {
 	DeleteTradeOrder(id int64) error
 	Page(length int32, pageIndex int32) ([]model.TradeOrder, error)
 	GetTradeOrders() ([]model.TradeOrder, error)
+
+	//GetTotalPrice(userId int64) float64
 }
 
 type TradeOrderRepository struct {
 	mysqlClient *gorm.DB
 	redisClient *redis.Client
 }
+
+//func (t *TradeOrderRepository) GetTotalPrice(userId int64) float64 {
+//	var totalPrice float64
+//	tx := t.mysqlClient.Model(&model2.ShoppingCart{}).
+//		Select("Sum(shopping_cart.number * mall.product.product_sku.sell_price) as total_price").
+//		Joins("left join mall.product.product_sku on shopping_cart.product_sku_id = mall.product.product_sku.id").
+//		Where("shopping_cart.user_id = ?", userId).
+//		Raw("").
+//		Scan(&totalPrice)
+//
+//	if tx.Error != nil {
+//		fmt.Printf("当前用户Id:%v，购物车中不存在任意商品！\n", userId)
+//		return 0
+//	}
+//
+//	return totalPrice
+//}
 
 func (t *TradeOrderRepository) GetTradeOrders() ([]model.TradeOrder, error) {
 	var orders []model.TradeOrder
@@ -65,6 +84,9 @@ func (t *TradeOrderRepository) AddTradeOrder(req *pb.AddTradeOrderReq) (*model.T
 	trade.SubmitTime = now
 	tp, _ := time.ParseDuration("30m")
 	trade.ExpireTime = now.Add(tp)
+	// 订单类型
+	trade.OrderStatus = 1
+	trade.PayType = 1
 	trade.OrderNo = GenerateOrderNo(now, trade.UserId)
 	tb := t.mysqlClient.Model(&model.TradeOrder{}).Create(&trade)
 	fmt.Printf("订单已生成！，订单编号：%v\n", trade.OrderNo)

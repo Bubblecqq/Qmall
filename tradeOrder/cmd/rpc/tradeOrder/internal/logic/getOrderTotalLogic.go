@@ -25,6 +25,10 @@ func NewGetOrderTotalLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Get
 
 func (l *GetOrderTotalLogic) GetOrderTotal(in *pb.OrderTotalReq) (*pb.OrderTotalResp, error) {
 	// 一组关于用户id提取出来的购物车列表
-	
-	return &pb.OrderTotalResp{}, nil
+	totalAmount := 0.0
+	l.Info("正在计算用户购物车总价！")
+
+	return &pb.OrderTotalResp{
+		TotalPrice: totalAmount,
+	}, nil
 }
