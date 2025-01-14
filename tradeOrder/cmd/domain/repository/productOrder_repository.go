@@ -2,6 +2,7 @@ package repository
 
 import (
 	"QMall/tradeOrder/cmd/domain/model"
+	"fmt"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 	"time"
@@ -14,11 +15,23 @@ type ITradeOrderProductRepository interface {
 	GetOrderProductByOrderId(orderId int64) (*model.TradeOrderProduct, error)
 	GetOrderProductByUserId(userId int64) (*model.TradeOrderProduct, error)
 	UpdateOrderProduct(orderProduct *model.TradeOrderProduct) (*model.TradeOrderProduct, error)
+
+	// BatchCreateOrderProduct 批量添加订单商品
+	BatchCreateOrderProduct(orderProductList []model.TradeOrderProduct) error
 }
 
 type TradeOrderProductRepository struct {
 	mysqlClient *gorm.DB
 	redisClient *redis.Client
+}
+
+func (t *TradeOrderProductRepository) BatchCreateOrderProduct(orderProductList []model.TradeOrderProduct) error {
+
+	tx := t.mysqlClient.Model(&model.TradeOrderProduct{}).Create(&orderProductList)
+	if tx.Error != nil {
+		fmt.Printf("批量添加订单商品失败！原因见：%v\n", tx.Error)
+	}
+	return tx.Error
 }
 
 func (t *TradeOrderProductRepository) AddOrderProduct(orderProduct *model.TradeOrderProduct) (*model.TradeOrderProduct, error) {

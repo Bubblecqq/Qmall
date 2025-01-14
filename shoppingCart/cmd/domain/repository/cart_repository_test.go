@@ -2,6 +2,7 @@ package repository
 
 import (
 	"QMall/common"
+	"QMall/shoppingCart/cmd/domain/model"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -28,4 +29,13 @@ func TestFind(t *testing.T) {
 	//fmt.Println("s>>>>>>>>>", s)
 	price := cartRepository.GetTotalPriceByUserId(19)
 	fmt.Println("total_price>", price)
+
+	var shoppingCarts []model.ShoppingCartsProductInfo
+
+	_ = db.Table("shopping_cart sc").
+		Select("sc.user_id,sc.product_id,sc.product_sku_id,sc.product_name,sc.product_main_picture,sc.number as quanitiy,psk.sell_price").
+		Joins("left join product_sku psk on sc.product_sku_id = psk.id").
+		Where("sc.user_id= ?", 19).Find(&shoppingCarts)
+	fmt.Println("lens>", len(shoppingCarts))
+	fmt.Println("shoppingCarts>", shoppingCarts)
 }

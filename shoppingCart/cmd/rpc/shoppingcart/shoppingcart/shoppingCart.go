@@ -14,23 +14,26 @@ import (
 )
 
 type (
-	AddCartReq                = pb.AddCartReq
-	AddCartResp               = pb.AddCartResp
-	DeleteCartsByUserIdReq    = pb.DeleteCartsByUserIdReq
-	DeleteCartsByUserIdResp   = pb.DeleteCartsByUserIdResp
-	FindCartReq               = pb.FindCartReq
-	FindCartResp              = pb.FindCartResp
-	FindCartsByUserIdReq      = pb.FindCartsByUserIdReq
-	FindCartsByUserIdResp     = pb.FindCartsByUserIdResp
-	FindCartsReq              = pb.FindCartsReq
-	FindCartsResp             = pb.FindCartsResp
-	GetTotalPriceByUserIdReq  = pb.GetTotalPriceByUserIdReq
-	GetTotalPriceByUserIdResp = pb.GetTotalPriceByUserIdResp
-	ProductSimple             = pb.ProductSimple
-	ProductSkuSimple          = pb.ProductSkuSimple
-	ShoppingCart              = pb.ShoppingCart
-	UpdateCartReq             = pb.UpdateCartReq
-	UpdateCartResp            = pb.UpdateCartResp
+	AddCartReq                  = pb.AddCartReq
+	AddCartResp                 = pb.AddCartResp
+	DeleteCartsByUserIdReq      = pb.DeleteCartsByUserIdReq
+	DeleteCartsByUserIdResp     = pb.DeleteCartsByUserIdResp
+	FindCartReq                 = pb.FindCartReq
+	FindCartResp                = pb.FindCartResp
+	FindCartsByUserIdReq        = pb.FindCartsByUserIdReq
+	FindCartsByUserIdResp       = pb.FindCartsByUserIdResp
+	FindCartsReq                = pb.FindCartsReq
+	FindCartsResp               = pb.FindCartsResp
+	GetTotalPriceByUserIdReq    = pb.GetTotalPriceByUserIdReq
+	GetTotalPriceByUserIdResp   = pb.GetTotalPriceByUserIdResp
+	ProductSimple               = pb.ProductSimple
+	ProductSkuSimple            = pb.ProductSkuSimple
+	ShoppingCart                = pb.ShoppingCart
+	ShoppingCartsProductInfo    = pb.ShoppingCartsProductInfo
+	ShowDetailShoppingCartsReq  = pb.ShowDetailShoppingCartsReq
+	ShowDetailShoppingCartsResp = pb.ShowDetailShoppingCartsResp
+	UpdateCartReq               = pb.UpdateCartReq
+	UpdateCartResp              = pb.UpdateCartResp
 
 	ShoppingCartZrpcClient interface {
 		AddCart(ctx context.Context, in *AddCartReq, opts ...grpc.CallOption) (*AddCartResp, error)
@@ -40,6 +43,7 @@ type (
 		GetCartsByUserId(ctx context.Context, in *FindCartsByUserIdReq, opts ...grpc.CallOption) (*FindCartsByUserIdResp, error)
 		DeleteCartsByUserId(ctx context.Context, in *DeleteCartsByUserIdReq, opts ...grpc.CallOption) (*DeleteCartsByUserIdResp, error)
 		GetTotalPriceByUserId(ctx context.Context, in *GetTotalPriceByUserIdReq, opts ...grpc.CallOption) (*GetTotalPriceByUserIdResp, error)
+		ShowDetailShoppingCarts(ctx context.Context, in *ShowDetailShoppingCartsReq, opts ...grpc.CallOption) (*ShowDetailShoppingCartsResp, error)
 	}
 
 	defaultShoppingCartZrpcClient struct {
@@ -86,4 +90,9 @@ func (m *defaultShoppingCartZrpcClient) DeleteCartsByUserId(ctx context.Context,
 func (m *defaultShoppingCartZrpcClient) GetTotalPriceByUserId(ctx context.Context, in *GetTotalPriceByUserIdReq, opts ...grpc.CallOption) (*GetTotalPriceByUserIdResp, error) {
 	client := pb.NewShoppingCartClient(m.cli.Conn())
 	return client.GetTotalPriceByUserId(ctx, in, opts...)
+}
+
+func (m *defaultShoppingCartZrpcClient) ShowDetailShoppingCarts(ctx context.Context, in *ShowDetailShoppingCartsReq, opts ...grpc.CallOption) (*ShowDetailShoppingCartsResp, error) {
+	client := pb.NewShoppingCartClient(m.cli.Conn())
+	return client.ShowDetailShoppingCarts(ctx, in, opts...)
 }

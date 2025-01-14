@@ -21,13 +21,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	ShoppingCart_AddCart_FullMethodName               = "/pb.shopping_cart/AddCart"
-	ShoppingCart_UpdateCart_FullMethodName            = "/pb.shopping_cart/UpdateCart"
-	ShoppingCart_FindCart_FullMethodName              = "/pb.shopping_cart/FindCart"
-	ShoppingCart_GetCarts_FullMethodName              = "/pb.shopping_cart/GetCarts"
-	ShoppingCart_GetCartsByUserId_FullMethodName      = "/pb.shopping_cart/GetCartsByUserId"
-	ShoppingCart_DeleteCartsByUserId_FullMethodName   = "/pb.shopping_cart/DeleteCartsByUserId"
-	ShoppingCart_GetTotalPriceByUserId_FullMethodName = "/pb.shopping_cart/GetTotalPriceByUserId"
+	ShoppingCart_AddCart_FullMethodName                 = "/pb.shopping_cart/AddCart"
+	ShoppingCart_UpdateCart_FullMethodName              = "/pb.shopping_cart/UpdateCart"
+	ShoppingCart_FindCart_FullMethodName                = "/pb.shopping_cart/FindCart"
+	ShoppingCart_GetCarts_FullMethodName                = "/pb.shopping_cart/GetCarts"
+	ShoppingCart_GetCartsByUserId_FullMethodName        = "/pb.shopping_cart/GetCartsByUserId"
+	ShoppingCart_DeleteCartsByUserId_FullMethodName     = "/pb.shopping_cart/DeleteCartsByUserId"
+	ShoppingCart_GetTotalPriceByUserId_FullMethodName   = "/pb.shopping_cart/GetTotalPriceByUserId"
+	ShoppingCart_ShowDetailShoppingCarts_FullMethodName = "/pb.shopping_cart/showDetailShoppingCarts"
 )
 
 // ShoppingCartClient is the client API for ShoppingCart service.
@@ -41,6 +42,7 @@ type ShoppingCartClient interface {
 	GetCartsByUserId(ctx context.Context, in *FindCartsByUserIdReq, opts ...grpc.CallOption) (*FindCartsByUserIdResp, error)
 	DeleteCartsByUserId(ctx context.Context, in *DeleteCartsByUserIdReq, opts ...grpc.CallOption) (*DeleteCartsByUserIdResp, error)
 	GetTotalPriceByUserId(ctx context.Context, in *GetTotalPriceByUserIdReq, opts ...grpc.CallOption) (*GetTotalPriceByUserIdResp, error)
+	ShowDetailShoppingCarts(ctx context.Context, in *ShowDetailShoppingCartsReq, opts ...grpc.CallOption) (*ShowDetailShoppingCartsResp, error)
 }
 
 type shoppingCartClient struct {
@@ -121,6 +123,16 @@ func (c *shoppingCartClient) GetTotalPriceByUserId(ctx context.Context, in *GetT
 	return out, nil
 }
 
+func (c *shoppingCartClient) ShowDetailShoppingCarts(ctx context.Context, in *ShowDetailShoppingCartsReq, opts ...grpc.CallOption) (*ShowDetailShoppingCartsResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ShowDetailShoppingCartsResp)
+	err := c.cc.Invoke(ctx, ShoppingCart_ShowDetailShoppingCarts_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ShoppingCartServer is the server API for ShoppingCart service.
 // All implementations must embed UnimplementedShoppingCartServer
 // for forward compatibility.
@@ -132,6 +144,7 @@ type ShoppingCartServer interface {
 	GetCartsByUserId(context.Context, *FindCartsByUserIdReq) (*FindCartsByUserIdResp, error)
 	DeleteCartsByUserId(context.Context, *DeleteCartsByUserIdReq) (*DeleteCartsByUserIdResp, error)
 	GetTotalPriceByUserId(context.Context, *GetTotalPriceByUserIdReq) (*GetTotalPriceByUserIdResp, error)
+	ShowDetailShoppingCarts(context.Context, *ShowDetailShoppingCartsReq) (*ShowDetailShoppingCartsResp, error)
 	mustEmbedUnimplementedShoppingCartServer()
 }
 
@@ -162,6 +175,9 @@ func (UnimplementedShoppingCartServer) DeleteCartsByUserId(context.Context, *Del
 }
 func (UnimplementedShoppingCartServer) GetTotalPriceByUserId(context.Context, *GetTotalPriceByUserIdReq) (*GetTotalPriceByUserIdResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTotalPriceByUserId not implemented")
+}
+func (UnimplementedShoppingCartServer) ShowDetailShoppingCarts(context.Context, *ShowDetailShoppingCartsReq) (*ShowDetailShoppingCartsResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ShowDetailShoppingCarts not implemented")
 }
 func (UnimplementedShoppingCartServer) mustEmbedUnimplementedShoppingCartServer() {}
 func (UnimplementedShoppingCartServer) testEmbeddedByValue()                      {}
@@ -310,6 +326,24 @@ func _ShoppingCart_GetTotalPriceByUserId_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ShoppingCart_ShowDetailShoppingCarts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ShowDetailShoppingCartsReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ShoppingCartServer).ShowDetailShoppingCarts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ShoppingCart_ShowDetailShoppingCarts_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ShoppingCartServer).ShowDetailShoppingCarts(ctx, req.(*ShowDetailShoppingCartsReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ShoppingCart_ServiceDesc is the grpc.ServiceDesc for ShoppingCart service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -344,6 +378,10 @@ var ShoppingCart_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTotalPriceByUserId",
 			Handler:    _ShoppingCart_GetTotalPriceByUserId_Handler,
+		},
+		{
+			MethodName: "showDetailShoppingCarts",
+			Handler:    _ShoppingCart_ShowDetailShoppingCarts_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

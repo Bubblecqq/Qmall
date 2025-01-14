@@ -148,28 +148,30 @@ service tradeOrder {
   rpc GetOrders (GetTradeOrderListReq) returns (GetTradeOrderListResp);
   rpc GetTradeOrdersByPage (PageTradeOrderReq) returns (PageTradeOrderResp);
 
-  rpc AddProductOrder (AddProductOrderReq) returns (AddProductOrderResp);
+  rpc BatchCreateOrderProduct (AddProductOrderReq) returns (AddProductOrderResp);
   rpc GetProductOrderList (GetProductOrderListReq) returns (GetProductOrderListResp);
   rpc GetProductOrderByUserId(GetProductOrderByUserIdReq) returns (GetProductOrderByUserIdResp);
 
 }
 
+
 message AddProductOrderReq {
-  int64  productId = 1;
-  int64  productSkuId = 2;
-  int64  userId = 3;
-  int64 orderId = 4;
-  string  productName = 5;
-  string  productImageUrl = 6;
-  string   skuDescribe   =7;
-  int64   quantity   =8;
-  string   productPrice =9;
-  string realPrice  =10;
-  string realAmount  =11;
-  int32 activityType = 12;
-  int32  commentStatus = 13;
-  int32 detailStatus = 14;
-  int64 activityId = 15;
+  repeated ProductOrder productOrder = 1;
+//  int64  productId = 1;
+//  int64  productSkuId = 2;
+//  int64  userId = 3;
+//  int64 orderId = 4;
+//  string  productName = 5;
+//  string  productImageUrl = 6;
+//  string   skuDescribe   =7;
+//  int64   quantity   =8;
+//  string   productPrice =9;
+//  string realPrice  =10;
+//  string realAmount  =11;
+//  int32 activityType = 12;
+//  int32  commentStatus = 13;
+//  int32 detailStatus = 14;
+//  int64 activityId = 15;
 }
 message AddProductOrderResp {
 
@@ -194,6 +196,15 @@ message GetProductOrderByOrderIdReq {
 }
 message GetProductOrderByOrderIdResp {
   ProductOrder productOrder = 1;
+}
+
+message shoppingCartsProductInfoSimple {
+  int64 product_id = 1;
+  string product_name = 2;
+  int64 product_sku_id = 3;
+  double sell_price = 4;
+  int64 quantity = 5;
+  string product_main_picture = 6;
 }
 
 //service productOrder {
