@@ -14,27 +14,28 @@ import (
 )
 
 type (
-	AddProductOrderReq           = pb.AddProductOrderReq
-	AddProductOrderResp          = pb.AddProductOrderResp
-	AddTradeOrderReq             = pb.AddTradeOrderReq
-	AddTradeOrderResp            = pb.AddTradeOrderResp
-	FindOrderReq                 = pb.FindOrderReq
-	FindOrderResp                = pb.FindOrderResp
-	GetProductOrderByOrderIdReq  = pb.GetProductOrderByOrderIdReq
-	GetProductOrderByOrderIdResp = pb.GetProductOrderByOrderIdResp
-	GetProductOrderByUserIdReq   = pb.GetProductOrderByUserIdReq
-	GetProductOrderByUserIdResp  = pb.GetProductOrderByUserIdResp
-	GetProductOrderListReq       = pb.GetProductOrderListReq
-	GetProductOrderListResp      = pb.GetProductOrderListResp
-	GetTradeOrderListReq         = pb.GetTradeOrderListReq
-	GetTradeOrderListResp        = pb.GetTradeOrderListResp
-	OrderTotalReq                = pb.OrderTotalReq
-	OrderTotalResp               = pb.OrderTotalResp
-	PageTradeOrderReq            = pb.PageTradeOrderReq
-	PageTradeOrderResp           = pb.PageTradeOrderResp
-	ProductOrder                 = pb.ProductOrder
-	ShoppingCartSimple           = pb.ShoppingCartSimple
-	TradeOrder                   = pb.TradeOrder
+	AddProductOrderReq             = pb.AddProductOrderReq
+	AddProductOrderResp            = pb.AddProductOrderResp
+	AddTradeOrderReq               = pb.AddTradeOrderReq
+	AddTradeOrderResp              = pb.AddTradeOrderResp
+	FindOrderReq                   = pb.FindOrderReq
+	FindOrderResp                  = pb.FindOrderResp
+	GetProductOrderByOrderIdReq    = pb.GetProductOrderByOrderIdReq
+	GetProductOrderByOrderIdResp   = pb.GetProductOrderByOrderIdResp
+	GetProductOrderByUserIdReq     = pb.GetProductOrderByUserIdReq
+	GetProductOrderByUserIdResp    = pb.GetProductOrderByUserIdResp
+	GetProductOrderListReq         = pb.GetProductOrderListReq
+	GetProductOrderListResp        = pb.GetProductOrderListResp
+	GetTradeOrderListReq           = pb.GetTradeOrderListReq
+	GetTradeOrderListResp          = pb.GetTradeOrderListResp
+	OrderTotalReq                  = pb.OrderTotalReq
+	OrderTotalResp                 = pb.OrderTotalResp
+	PageTradeOrderReq              = pb.PageTradeOrderReq
+	PageTradeOrderResp             = pb.PageTradeOrderResp
+	ProductOrder                   = pb.ProductOrder
+	ShoppingCartSimple             = pb.ShoppingCartSimple
+	ShoppingCartsProductInfoSimple = pb.ShoppingCartsProductInfoSimple
+	TradeOrder                     = pb.TradeOrder
 
 	TradeOrderZrpcClient interface {
 		AddTradeOrder(ctx context.Context, in *AddTradeOrderReq, opts ...grpc.CallOption) (*AddTradeOrderResp, error)
@@ -43,7 +44,7 @@ type (
 		FindOrder(ctx context.Context, in *FindOrderReq, opts ...grpc.CallOption) (*FindOrderResp, error)
 		GetOrders(ctx context.Context, in *GetTradeOrderListReq, opts ...grpc.CallOption) (*GetTradeOrderListResp, error)
 		GetTradeOrdersByPage(ctx context.Context, in *PageTradeOrderReq, opts ...grpc.CallOption) (*PageTradeOrderResp, error)
-		AddProductOrder(ctx context.Context, in *AddProductOrderReq, opts ...grpc.CallOption) (*AddProductOrderResp, error)
+		BatchCreateOrderProduct(ctx context.Context, in *AddProductOrderReq, opts ...grpc.CallOption) (*AddProductOrderResp, error)
 		GetProductOrderList(ctx context.Context, in *GetProductOrderListReq, opts ...grpc.CallOption) (*GetProductOrderListResp, error)
 		GetProductOrderByUserId(ctx context.Context, in *GetProductOrderByUserIdReq, opts ...grpc.CallOption) (*GetProductOrderByUserIdResp, error)
 	}
@@ -89,9 +90,9 @@ func (m *defaultTradeOrderZrpcClient) GetTradeOrdersByPage(ctx context.Context, 
 	return client.GetTradeOrdersByPage(ctx, in, opts...)
 }
 
-func (m *defaultTradeOrderZrpcClient) AddProductOrder(ctx context.Context, in *AddProductOrderReq, opts ...grpc.CallOption) (*AddProductOrderResp, error) {
+func (m *defaultTradeOrderZrpcClient) BatchCreateOrderProduct(ctx context.Context, in *AddProductOrderReq, opts ...grpc.CallOption) (*AddProductOrderResp, error) {
 	client := pb.NewTradeOrderClient(m.cli.Conn())
-	return client.AddProductOrder(ctx, in, opts...)
+	return client.BatchCreateOrderProduct(ctx, in, opts...)
 }
 
 func (m *defaultTradeOrderZrpcClient) GetProductOrderList(ctx context.Context, in *GetProductOrderListReq, opts ...grpc.CallOption) (*GetProductOrderListResp, error) {

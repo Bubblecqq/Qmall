@@ -27,7 +27,7 @@ const (
 	TradeOrder_FindOrder_FullMethodName               = "/pb.tradeOrder/FindOrder"
 	TradeOrder_GetOrders_FullMethodName               = "/pb.tradeOrder/GetOrders"
 	TradeOrder_GetTradeOrdersByPage_FullMethodName    = "/pb.tradeOrder/GetTradeOrdersByPage"
-	TradeOrder_AddProductOrder_FullMethodName         = "/pb.tradeOrder/AddProductOrder"
+	TradeOrder_BatchCreateOrderProduct_FullMethodName = "/pb.tradeOrder/BatchCreateOrderProduct"
 	TradeOrder_GetProductOrderList_FullMethodName     = "/pb.tradeOrder/GetProductOrderList"
 	TradeOrder_GetProductOrderByUserId_FullMethodName = "/pb.tradeOrder/GetProductOrderByUserId"
 )
@@ -42,7 +42,7 @@ type TradeOrderClient interface {
 	FindOrder(ctx context.Context, in *FindOrderReq, opts ...grpc.CallOption) (*FindOrderResp, error)
 	GetOrders(ctx context.Context, in *GetTradeOrderListReq, opts ...grpc.CallOption) (*GetTradeOrderListResp, error)
 	GetTradeOrdersByPage(ctx context.Context, in *PageTradeOrderReq, opts ...grpc.CallOption) (*PageTradeOrderResp, error)
-	AddProductOrder(ctx context.Context, in *AddProductOrderReq, opts ...grpc.CallOption) (*AddProductOrderResp, error)
+	BatchCreateOrderProduct(ctx context.Context, in *AddProductOrderReq, opts ...grpc.CallOption) (*AddProductOrderResp, error)
 	GetProductOrderList(ctx context.Context, in *GetProductOrderListReq, opts ...grpc.CallOption) (*GetProductOrderListResp, error)
 	GetProductOrderByUserId(ctx context.Context, in *GetProductOrderByUserIdReq, opts ...grpc.CallOption) (*GetProductOrderByUserIdResp, error)
 }
@@ -115,10 +115,10 @@ func (c *tradeOrderClient) GetTradeOrdersByPage(ctx context.Context, in *PageTra
 	return out, nil
 }
 
-func (c *tradeOrderClient) AddProductOrder(ctx context.Context, in *AddProductOrderReq, opts ...grpc.CallOption) (*AddProductOrderResp, error) {
+func (c *tradeOrderClient) BatchCreateOrderProduct(ctx context.Context, in *AddProductOrderReq, opts ...grpc.CallOption) (*AddProductOrderResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(AddProductOrderResp)
-	err := c.cc.Invoke(ctx, TradeOrder_AddProductOrder_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, TradeOrder_BatchCreateOrderProduct_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -155,7 +155,7 @@ type TradeOrderServer interface {
 	FindOrder(context.Context, *FindOrderReq) (*FindOrderResp, error)
 	GetOrders(context.Context, *GetTradeOrderListReq) (*GetTradeOrderListResp, error)
 	GetTradeOrdersByPage(context.Context, *PageTradeOrderReq) (*PageTradeOrderResp, error)
-	AddProductOrder(context.Context, *AddProductOrderReq) (*AddProductOrderResp, error)
+	BatchCreateOrderProduct(context.Context, *AddProductOrderReq) (*AddProductOrderResp, error)
 	GetProductOrderList(context.Context, *GetProductOrderListReq) (*GetProductOrderListResp, error)
 	GetProductOrderByUserId(context.Context, *GetProductOrderByUserIdReq) (*GetProductOrderByUserIdResp, error)
 	mustEmbedUnimplementedTradeOrderServer()
@@ -186,8 +186,8 @@ func (UnimplementedTradeOrderServer) GetOrders(context.Context, *GetTradeOrderLi
 func (UnimplementedTradeOrderServer) GetTradeOrdersByPage(context.Context, *PageTradeOrderReq) (*PageTradeOrderResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTradeOrdersByPage not implemented")
 }
-func (UnimplementedTradeOrderServer) AddProductOrder(context.Context, *AddProductOrderReq) (*AddProductOrderResp, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddProductOrder not implemented")
+func (UnimplementedTradeOrderServer) BatchCreateOrderProduct(context.Context, *AddProductOrderReq) (*AddProductOrderResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method BatchCreateOrderProduct not implemented")
 }
 func (UnimplementedTradeOrderServer) GetProductOrderList(context.Context, *GetProductOrderListReq) (*GetProductOrderListResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProductOrderList not implemented")
@@ -324,20 +324,20 @@ func _TradeOrder_GetTradeOrdersByPage_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
-func _TradeOrder_AddProductOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TradeOrder_BatchCreateOrderProduct_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AddProductOrderReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(TradeOrderServer).AddProductOrder(ctx, in)
+		return srv.(TradeOrderServer).BatchCreateOrderProduct(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: TradeOrder_AddProductOrder_FullMethodName,
+		FullMethod: TradeOrder_BatchCreateOrderProduct_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TradeOrderServer).AddProductOrder(ctx, req.(*AddProductOrderReq))
+		return srv.(TradeOrderServer).BatchCreateOrderProduct(ctx, req.(*AddProductOrderReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -410,8 +410,8 @@ var TradeOrder_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _TradeOrder_GetTradeOrdersByPage_Handler,
 		},
 		{
-			MethodName: "AddProductOrder",
-			Handler:    _TradeOrder_AddProductOrder_Handler,
+			MethodName: "BatchCreateOrderProduct",
+			Handler:    _TradeOrder_BatchCreateOrderProduct_Handler,
 		},
 		{
 			MethodName: "GetProductOrderList",

@@ -57,3 +57,8 @@ func (s *ShoppingCartServer) GetTotalPriceByUserId(ctx context.Context, in *pb.G
 	l := logic.NewGetTotalPriceByUserIdLogic(ctx, s.svcCtx)
 	return l.GetTotalPriceByUserId(in)
 }
+
+func (s *ShoppingCartServer) ShowDetailShoppingCarts(ctx context.Context, in *pb.ShowDetailShoppingCartsReq) (*pb.ShowDetailShoppingCartsResp, error) {
+	l := logic.NewShowDetailShoppingCartsLogic(ctx, s.svcCtx)
+	return l.ShowDetailShoppingCarts(in)
+}

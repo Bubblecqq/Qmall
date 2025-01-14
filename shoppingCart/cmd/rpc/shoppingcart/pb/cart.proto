@@ -121,6 +121,7 @@ message DeleteCartsByUserIdReq {
   int64 userId = 1;
 }
 message DeleteCartsByUserIdResp {
+  bool isDeleted = 1;
 }
 
 message GetTotalPriceByUserIdReq {
@@ -145,5 +146,28 @@ service shopping_cart {
   rpc DeleteCartsByUserId (DeleteCartsByUserIdReq) returns (DeleteCartsByUserIdResp);
 
   rpc GetTotalPriceByUserId (GetTotalPriceByUserIdReq) returns (GetTotalPriceByUserIdResp);
+
+  rpc showDetailShoppingCarts (showDetailShoppingCartsReq) returns (showDetailShoppingCartsResp);
 }
 
+// 查询购物车详细信息
+
+message shoppingCartsProductInfo {
+  int64 product_id = 1;
+  string product_name = 2;
+  int64 product_sku_id = 3;
+  double sell_price = 4;
+  int64 quantity = 5;
+  string product_main_picture = 6;
+  string skuDescribe = 7;
+}
+
+message showDetailShoppingCartsReq {
+  int64 user_id = 1;
+}
+message showDetailShoppingCartsResp {
+  int64 Id = 1;
+  int64 user_id = 2;
+  int64 shoppingCartsNumber = 3;
+  repeated shoppingCartsProductInfo shopping_carts_product_info =4;
+}

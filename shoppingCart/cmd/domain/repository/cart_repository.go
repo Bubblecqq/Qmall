@@ -20,11 +20,30 @@ type IShoppingCartRepository interface {
 	DeleteShoppingCartByUserId(userId int64) error
 
 	GetTotalPriceByUserId(userId int64) float64
+
+	ShowShoppingCartsDetailList(userId int64) ([]model.ShoppingCartsProductInfo, error)
 }
 
 type ShoppingCartRepository struct {
 	mysqlClient *gorm.DB
 	redisClient *redis.Client
+}
+
+func (s *ShoppingCartRepository) ShowShoppingCartsDetailList(userId int64) ([]model.ShoppingCartsProductInfo, error) {
+	var shoppingCarts []model.ShoppingCartsProductInfo
+
+	tx := s.mysqlClient.Table("shopping_cart sc").
+		Select("sc.user_id,sc.product_id,sc.product_sku_id,sc.product_name,sc.product_main_picture,sc.number as quantity,psk.sell_price,psk.name").
+		Joins("left join product_sku psk on sc.product_sku_id = psk.id").
+		Where("sc.user_id= ?", 19).Find(&shoppingCarts)
+	fmt.Println("lens>", len(shoppingCarts))
+	fmt.Println("shoppingCarts>", shoppingCarts)
+
+	if tx.Error != nil {
+		fmt.Printf("用户id：%v购物车下不存在商品！\n", userId)
+	}
+
+	return shoppingCarts, tx.Error
 }
 
 func (s *ShoppingCartRepository) GetTotalPriceByUserId(userId int64) float64 {
