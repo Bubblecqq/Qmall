@@ -3,11 +3,13 @@ package repository
 import (
 	"QMall/common"
 	"QMall/shoppingCart/cmd/domain/model"
+	"context"
 	"fmt"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 	"testing"
+	"time"
 )
 
 func TestFind(t *testing.T) {
@@ -38,4 +40,16 @@ func TestFind(t *testing.T) {
 		Where("sc.user_id= ?", 19).Find(&shoppingCarts)
 	fmt.Println("lens>", len(shoppingCarts))
 	fmt.Println("shoppingCarts>", shoppingCarts)
+
+	timeout, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	var testsp []model.ShoppingCart
+	tx := db.Model(&model.ShoppingCart{}).Debug().WithContext(timeout).Find(&testsp)
+	if tx.Error != nil {
+		fmt.Println("111")
+	}
+	for _, sp := range testsp {
+		fmt.Println("商品名称", sp.ProductName)
+		fmt.Println("UserId", sp.UserId)
+	}
 }

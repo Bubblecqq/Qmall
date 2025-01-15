@@ -1,9 +1,9 @@
-package pb
+package model
 
-import "QMall/shoppingCart/cmd/domain/model"
+import "QMall/shoppingCart/cmd/rpc/shoppingcart/pb"
 
-func ShoppingCartsDetailConvertPb(shoppingCartsProduct model.ShoppingCartsProductInfo) *ShoppingCartsProductInfo {
-	return &ShoppingCartsProductInfo{
+func ShoppingCartsDetailConvertPb(shoppingCartsProduct ShoppingCartsProductInfo) *pb.ShoppingCartsProductInfo {
+	return &pb.ShoppingCartsProductInfo{
 		ProductId:          shoppingCartsProduct.ProductID,
 		ProductName:        shoppingCartsProduct.ProductName,
 		ProductSkuId:       shoppingCartsProduct.ProductSkuID,
