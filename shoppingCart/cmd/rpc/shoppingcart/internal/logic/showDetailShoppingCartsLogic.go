@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"QMall/shoppingCart/cmd/domain/model"
 	"context"
 
 	"QMall/shoppingCart/cmd/rpc/shoppingcart/internal/svc"
@@ -28,7 +29,7 @@ func (l *ShowDetailShoppingCartsLogic) ShowDetailShoppingCarts(in *pb.ShowDetail
 	detailList, err := l.svcCtx.ShoppingCartRepository.ShowShoppingCartsDetailList(in.UserId)
 	var pbDetailList []*pb.ShoppingCartsProductInfo
 	for i := 0; i < len(detailList); i++ {
-		pbDetailList = append(pbDetailList, pb.ShoppingCartsDetailConvertPb(detailList[i]))
+		pbDetailList = append(pbDetailList, model.ShoppingCartsDetailConvertPb(detailList[i]))
 	}
 	return &pb.ShowDetailShoppingCartsResp{
 		UserId:                   in.UserId,

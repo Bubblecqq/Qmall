@@ -1,6 +1,7 @@
 package tradeOrder
 
 import (
+	"QMall/common"
 	"QMall/shoppingCart/cmd/rpc/shoppingcart/shoppingcart"
 	"QMall/tradeOrder/cmd/domain/model"
 	"QMall/tradeOrder/cmd/rpc/tradeOrder/pb"
@@ -85,8 +86,8 @@ func (l *AddTradeOrderLogic) AddTradeOrder(req *types.AddTradeOrderReq) (resp *t
 			ProductImageUrl: carts.ShoppingCartsProductInfo[i].ProductMainPicture,
 			OrderId:         tradeOrder.TradeOrder.Id,
 			SkuDescribe:     carts.ShoppingCartsProductInfo[i].SkuDescribe,
-			DetailStatus:    1,
-			ActivityType:    1,
+			DetailStatus:    common.DetailNormal,
+			ActivityType:    common.ActivityNormal,
 			CreateTime:      time.Now(),
 			CreateUser:      req.UserId,
 		}
