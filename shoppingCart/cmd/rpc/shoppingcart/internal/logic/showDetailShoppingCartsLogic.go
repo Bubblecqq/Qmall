@@ -31,9 +31,12 @@ func (l *ShowDetailShoppingCartsLogic) ShowDetailShoppingCarts(in *pb.ShowDetail
 	for i := 0; i < len(detailList); i++ {
 		pbDetailList = append(pbDetailList, model.ShoppingCartsDetailConvertPb(detailList[i]))
 	}
+	if err != nil {
+		return &pb.ShowDetailShoppingCartsResp{}, err
+	}
 	return &pb.ShowDetailShoppingCartsResp{
 		UserId:                   in.UserId,
 		ShoppingCartsNumber:      int64(len(detailList)),
 		ShoppingCartsProductInfo: pbDetailList,
-	}, err
+	}, nil
 }

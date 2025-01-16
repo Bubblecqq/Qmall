@@ -1,9 +1,9 @@
 syntax = "v1"
 
 info(
-    title: "type title here"
-    desc: "type desc here"
-    author: "type author here"
-    email: "type email here"
-    version: "type version here"
+    title: "秒杀服务"
+    desc: "秒杀服务"
+    author: "cqq"
+    email: "1342982166@qq.com"
+    version: "v1"
 )

@@ -36,10 +36,12 @@ type (
 	ShoppingCartSimple             = pb.ShoppingCartSimple
 	ShoppingCartsProductInfoSimple = pb.ShoppingCartsProductInfoSimple
 	TradeOrder                     = pb.TradeOrder
+	UpdateTradeOrderReq            = pb.UpdateTradeOrderReq
+	UpdateTradeOrderResp           = pb.UpdateTradeOrderResp
 
 	TradeOrderZrpcClient interface {
 		AddTradeOrder(ctx context.Context, in *AddTradeOrderReq, opts ...grpc.CallOption) (*AddTradeOrderResp, error)
-		UpdateTradeOrder(ctx context.Context, in *AddTradeOrderReq, opts ...grpc.CallOption) (*AddTradeOrderResp, error)
+		UpdateTradeOrder(ctx context.Context, in *UpdateTradeOrderReq, opts ...grpc.CallOption) (*UpdateTradeOrderResp, error)
 		GetOrderTotal(ctx context.Context, in *OrderTotalReq, opts ...grpc.CallOption) (*OrderTotalResp, error)
 		FindOrder(ctx context.Context, in *FindOrderReq, opts ...grpc.CallOption) (*FindOrderResp, error)
 		GetOrders(ctx context.Context, in *GetTradeOrderListReq, opts ...grpc.CallOption) (*GetTradeOrderListResp, error)
@@ -65,7 +67,7 @@ func (m *defaultTradeOrderZrpcClient) AddTradeOrder(ctx context.Context, in *Add
 	return client.AddTradeOrder(ctx, in, opts...)
 }
 
-func (m *defaultTradeOrderZrpcClient) UpdateTradeOrder(ctx context.Context, in *AddTradeOrderReq, opts ...grpc.CallOption) (*AddTradeOrderResp, error) {
+func (m *defaultTradeOrderZrpcClient) UpdateTradeOrder(ctx context.Context, in *UpdateTradeOrderReq, opts ...grpc.CallOption) (*UpdateTradeOrderResp, error) {
 	client := pb.NewTradeOrderClient(m.cli.Conn())
 	return client.UpdateTradeOrder(ctx, in, opts...)
 }

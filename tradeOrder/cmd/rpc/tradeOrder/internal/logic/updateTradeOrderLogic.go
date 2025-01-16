@@ -23,8 +23,11 @@ func NewUpdateTradeOrderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *UpdateTradeOrderLogic) UpdateTradeOrder(in *pb.AddTradeOrderReq) (*pb.AddTradeOrderResp, error) {
-	// todo: add your logic here and delete this line
+func (l *UpdateTradeOrderLogic) UpdateTradeOrder(in *pb.UpdateTradeOrderReq) (*pb.UpdateTradeOrderResp, error) {
+	//order, err := l.svcCtx.TradeOrderRepository.GetTradeOrderByUserId(in.OrderId, in.UserId)
 
-	return &pb.AddTradeOrderResp{}, nil
+	order, err := l.svcCtx.TradeOrderRepository.UpdateTradeOrder2(in)
+	return &pb.UpdateTradeOrderResp{
+		TradeOrder: pb.ModelTradeOrderConvertPb(order),
+	}, err
 }

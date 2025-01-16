@@ -28,7 +28,7 @@ func (s *TradeOrderServer) AddTradeOrder(ctx context.Context, in *pb.AddTradeOrd
 	return l.AddTradeOrder(in)
 }
 
-func (s *TradeOrderServer) UpdateTradeOrder(ctx context.Context, in *pb.AddTradeOrderReq) (*pb.AddTradeOrderResp, error) {
+func (s *TradeOrderServer) UpdateTradeOrder(ctx context.Context, in *pb.UpdateTradeOrderReq) (*pb.UpdateTradeOrderResp, error) {
 	l := logic.NewUpdateTradeOrderLogic(ctx, s.svcCtx)
 	return l.UpdateTradeOrder(in)
 }

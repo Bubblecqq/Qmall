@@ -16,7 +16,7 @@ type FindTradeOrderLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 查询订单
+// NewFindTradeOrderLogic 查询订单
 func NewFindTradeOrderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *FindTradeOrderLogic {
 	return &FindTradeOrderLogic{
 		Logger: logx.WithContext(ctx),

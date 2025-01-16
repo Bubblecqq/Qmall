@@ -4,7 +4,9 @@
 package types
 
 type AddTradeOrderReq struct {
-	UserId int64 `json:"user_id"`
+	UserId      int64  `json:"user_id"`
+	OrderSource int32  `json:"order_source"`
+	UserMessage string `json:"user_message"`
 }
 
 type AddTradeOrderResp struct {
@@ -73,4 +75,17 @@ type TradeOrder struct {
 	CreateUser            int64   `json:"create_user"`              // 创建人
 	UpdateTime            string  `json:"update_time"`              // 更新时间
 	UpdateUser            int64   `json:"update_user"`              // 更新人
+}
+
+type UpdateTradeOrderReq struct {
+	UserId       int64  `json:"user_id"`
+	PayType      int32  `json:"pay_type"`
+	IsAfterSale  int32  `json:"is_after_sale"`
+	CancelReason string `json:"cancel_reason"`
+	OrderId      int64  `json:"order_id"`
+	IsRefund     int32  `json:"is_refund"` //0:不退款 1：退款
+}
+
+type UpdateTradeOrderResp struct {
+	TradeOrder TradeOrder `json:"trade_order"`
 }

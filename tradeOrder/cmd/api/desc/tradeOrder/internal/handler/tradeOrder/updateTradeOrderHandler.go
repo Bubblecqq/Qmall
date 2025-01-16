@@ -12,7 +12,7 @@ import (
 // 修改订单
 func UpdateTradeOrderHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var req types.AddTradeOrderReq
+		var req types.UpdateTradeOrderReq
 		if err := httpx.Parse(r, &req); err != nil {
 			httpx.ErrorCtx(r.Context(), w, err)
 			return

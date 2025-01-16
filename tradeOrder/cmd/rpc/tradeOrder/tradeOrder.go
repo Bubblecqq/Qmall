@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/zeromicro/zero-contrib/zrpc/registry/consul"
 
 	"QMall/tradeOrder/cmd/rpc/tradeOrder/internal/config"
 	"QMall/tradeOrder/cmd/rpc/tradeOrder/internal/server"
@@ -33,7 +34,7 @@ func main() {
 		}
 	})
 	defer s.Stop()
-
+	_ = consul.RegisterService(c.ListenOn, c.Consul)
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 	s.Start()
 }

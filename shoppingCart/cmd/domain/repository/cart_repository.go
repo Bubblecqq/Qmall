@@ -3,6 +3,7 @@ package repository
 import (
 	"QMall/shoppingCart/cmd/domain/model"
 	"QMall/shoppingCart/cmd/rpc/shoppingcart/pb"
+	"errors"
 	"fmt"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
@@ -35,15 +36,16 @@ func (s *ShoppingCartRepository) ShowShoppingCartsDetailList(userId int64) ([]mo
 	tx := s.mysqlClient.Table("shopping_cart sc").
 		Select("sc.user_id,sc.product_id,sc.product_sku_id,sc.product_name,sc.product_main_picture,sc.number as quantity,psk.sell_price,psk.name").
 		Joins("left join product_sku psk on sc.product_sku_id = psk.id").
-		Where("sc.user_id= ?", 19).Find(&shoppingCarts)
+		Where("sc.user_id= ?", userId).Find(&shoppingCarts)
 	fmt.Println("lens>", len(shoppingCarts))
 	fmt.Println("shoppingCarts>", shoppingCarts)
 
 	if tx.Error != nil {
 		fmt.Printf("用户id：%v购物车下不存在商品！\n", userId)
+		return nil, errors.New(fmt.Sprintf("用户id：%v购物车下不存在商品！", userId))
 	}
 
-	return shoppingCarts, tx.Error
+	return shoppingCarts, nil
 }
 
 func (s *ShoppingCartRepository) GetTotalPriceByUserId(userId int64) float64 {
@@ -55,7 +57,7 @@ func (s *ShoppingCartRepository) GetTotalPriceByUserId(userId int64) float64 {
 		Raw("").
 		Scan(&totalPrice)
 
-	if tx.Error != nil {
+	if tx.Error != nil || totalPrice == 0 {
 		fmt.Printf("当前用户Id:%v，购物车中不存在任意商品！\n", userId)
 		return 0
 	}

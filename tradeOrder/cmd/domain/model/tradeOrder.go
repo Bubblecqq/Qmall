@@ -13,10 +13,10 @@ type TradeOrder struct {
 	RefundAmount          float64    `json:"refund_amount" gorm:"type:decimal(11,2);not null"`                                       // 已退款金额
 	SubmitTime            time.Time  `json:"submit_time" gorm:"type:datetime;not null"`                                              // 下单时间
 	ExpireTime            time.Time  `json:"expire_time" gorm:"type:datetime;not null"`                                              // 失效时间
-	AutoReceiveTime       string     `json:"auto_receive_time" gorm:"type:datetime"`                                                 // 自动收货时间
-	ReceiveTime           string     `json:"receive_time" gorm:"type:datetime"`                                                      // 收货时间
-	AutoPraise            string     `json:"auto_praise" gorm:"type:datetime"`                                                       // 自动好评时间
-	AfterSaleDeadlineTime string     `json:"after_sale_deadline_time" gorm:"type:datetime"`                                          // 售后截止时间
+	AutoReceiveTime       time.Time  `json:"auto_receive_time" gorm:"type:datetime"`                                                 // 自动收货时间
+	ReceiveTime           *time.Time `json:"receive_time" gorm:"type:datetime"`                                                      // 收货时间
+	AutoPraise            *time.Time `json:"auto_praise" gorm:"type:datetime"`                                                       // 自动好评时间
+	AfterSaleDeadlineTime *time.Time `json:"after_sale_deadline_time" gorm:"type:datetime"`                                          // 售后截止时间
 	UserMessage           string     `json:"user_message" gorm:"type:varchar(64)"`                                                   // 用户留言
 	CancelReason          string     `json:"cancel_reason" gorm:"type:varchar(64)"`                                                  // 取消原因
 	OrderSource           int32      `json:"order_source" gorm:"not null"`                                                           // 订单来源（1：未知来源，2：安卓端APP，3：IOS端APP）
