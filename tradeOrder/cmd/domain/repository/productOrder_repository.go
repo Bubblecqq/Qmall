@@ -17,7 +17,7 @@ type ITradeOrderProductRepository interface {
 	UpdateOrderProduct(orderProduct *model.TradeOrderProduct) (*model.TradeOrderProduct, error)
 
 	// BatchCreateOrderProduct 批量添加订单商品
-	BatchCreateOrderProduct(orderProductList []model.TradeOrderProduct) error
+	BatchCreateOrderProduct(orderProductList []*model.TradeOrderProduct) error
 }
 
 type TradeOrderProductRepository struct {
@@ -25,7 +25,7 @@ type TradeOrderProductRepository struct {
 	redisClient *redis.Client
 }
 
-func (t *TradeOrderProductRepository) BatchCreateOrderProduct(orderProductList []model.TradeOrderProduct) error {
+func (t *TradeOrderProductRepository) BatchCreateOrderProduct(orderProductList []*model.TradeOrderProduct) error {
 
 	tx := t.mysqlClient.Model(&model.TradeOrderProduct{}).Create(&orderProductList)
 	if tx.Error != nil {

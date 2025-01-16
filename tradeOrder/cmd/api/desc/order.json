@@ -1,0 +1,523 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/tradeOrder/v1/addTradeOrder": {
+      "post": {
+        "summary": "生成订单",
+        "operationId": "addTradeOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AddTradeOrderResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddTradeOrderReq"
+            }
+          }
+        ],
+        "tags": [
+          "tradeOrder"
+        ]
+      }
+    },
+    "/tradeOrder/v1/findTradeOrder": {
+      "post": {
+        "summary": "查询订单",
+        "operationId": "findTradeOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/FindTradeOrderResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/FindTradeOrderReq"
+            }
+          }
+        ],
+        "tags": [
+          "tradeOrder"
+        ]
+      }
+    },
+    "/tradeOrder/v1/getTradeOrders": {
+      "get": {
+        "summary": "获取订单列表",
+        "operationId": "getTradeOrders",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/GetTradeOrderListResp"
+            }
+          }
+        },
+        "tags": [
+          "tradeOrder"
+        ]
+      }
+    },
+    "/tradeOrder/v1/getTradeOrdersByPage": {
+      "get": {
+        "summary": "分页获取订单列表",
+        "operationId": "getTradeOrdersByPage",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/PageTradeOrderResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "length",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "page_index",
+            "in": "query",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "tradeOrder"
+        ]
+      }
+    },
+    "/tradeOrder/v1/updateTradeOrder": {
+      "post": {
+        "summary": "修改订单",
+        "operationId": "updateTradeOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/UpdateTradeOrderResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateTradeOrderReq"
+            }
+          }
+        ],
+        "tags": [
+          "tradeOrder"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "AddTradeOrderReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "order_source": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "user_message": {
+          "type": "string"
+        }
+      },
+      "title": "AddTradeOrderReq",
+      "required": [
+        "user_id",
+        "order_source",
+        "user_message"
+      ]
+    },
+    "AddTradeOrderResp": {
+      "type": "object",
+      "properties": {
+        "trade_order": {
+          "$ref": "#/definitions/TradeOrder"
+        }
+      },
+      "title": "AddTradeOrderResp",
+      "required": [
+        "trade_order"
+      ]
+    },
+    "FindTradeOrderReq": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 订单ID"
+        },
+        "order_no": {
+          "type": "string",
+          "description": " 订单编号"
+        }
+      },
+      "title": "FindTradeOrderReq",
+      "required": [
+        "id",
+        "primaryKey;autoIncrement",
+        "order_no",
+        "type:varchar(32);not null;unique"
+      ]
+    },
+    "FindTradeOrderResp": {
+      "type": "object",
+      "properties": {
+        "trade_order": {
+          "$ref": "#/definitions/TradeOrder"
+        }
+      },
+      "title": "FindTradeOrderResp",
+      "required": [
+        "trade_order"
+      ]
+    },
+    "GetTradeOrderListReq": {
+      "type": "object",
+      "title": "GetTradeOrderListReq"
+    },
+    "GetTradeOrderListResp": {
+      "type": "object",
+      "properties": {
+        "trade_orders": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TradeOrder"
+          }
+        }
+      },
+      "title": "GetTradeOrderListResp",
+      "required": [
+        "trade_orders"
+      ]
+    },
+    "OrderTotalReq": {
+      "type": "object",
+      "properties": {
+        "cartIds": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "title": "OrderTotalReq",
+      "required": [
+        "cartIds"
+      ]
+    },
+    "OrderTotalResp": {
+      "type": "object",
+      "properties": {
+        "total_price": {
+          "type": "number",
+          "format": "double"
+        }
+      },
+      "title": "OrderTotalResp",
+      "required": [
+        "total_price"
+      ]
+    },
+    "PageTradeOrderReq": {
+      "type": "object",
+      "properties": {
+        "length": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "page_index": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "PageTradeOrderReq",
+      "required": [
+        "length",
+        "page_index"
+      ]
+    },
+    "PageTradeOrderResp": {
+      "type": "object",
+      "properties": {
+        "response_page_trade_order_index": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TradeOrder"
+          }
+        }
+      },
+      "title": "PageTradeOrderResp",
+      "required": [
+        "response_page_trade_order_index"
+      ]
+    },
+    "TradeOrder": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 订单ID"
+        },
+        "order_no": {
+          "type": "string",
+          "description": " 订单编号"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户ID"
+        },
+        "total_amount": {
+          "type": "number",
+          "format": "double",
+          "description": " 总金额"
+        },
+        "shipping_amount": {
+          "type": "number",
+          "format": "double",
+          "description": " 运费"
+        },
+        "discount_amount": {
+          "type": "number",
+          "format": "double",
+          "description": " 优惠金额"
+        },
+        "pay_amount": {
+          "type": "number",
+          "format": "double",
+          "description": " 实付金额"
+        },
+        "refund_amount": {
+          "type": "number",
+          "format": "double",
+          "description": " 已退款金额"
+        },
+        "submit_time": {
+          "type": "string",
+          "description": " 下单时间"
+        },
+        "expire_time": {
+          "type": "string",
+          "description": " 失效时间"
+        },
+        "auto_receive_time": {
+          "type": "string",
+          "description": " 自动收货时间"
+        },
+        "receive_time": {
+          "type": "string",
+          "description": " 收货时间"
+        },
+        "auto_praise": {
+          "type": "string",
+          "description": " 自动好评时间"
+        },
+        "after_sale_deadline_time": {
+          "type": "string",
+          "description": " 售后截止时间"
+        },
+        "user_message": {
+          "type": "string",
+          "description": " 用户留言"
+        },
+        "cancel_reason": {
+          "type": "string",
+          "description": " 取消原因"
+        },
+        "order_source": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 订单来源（1：未知来源，2：安卓端APP，3：IOS端APP）"
+        },
+        "order_type": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 订单类型（1：普通订单，2：免费订单，3：秒杀订单）"
+        },
+        "order_status": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 订单状态（1：待支付，2：已关闭，3：已支付，4：已发货，5：已收货，6：已完成，7：已追评）"
+        },
+        "pay_type": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 支付方式（1：未支付，2：微信支付，3：支付宝支付）"
+        },
+        "is_package_free": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 是否包邮（0：不包邮，1：包邮）"
+        },
+        "is_after_sale": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 是否开启售后（0：未开启售后，1：已开启售后）"
+        },
+        "is_disabled": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 是否禁用（0：启用，1：禁用）"
+        },
+        "is_deleted": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 是否删除（0：未删除，1：已删除）"
+        },
+        "create_time": {
+          "type": "string",
+          "description": " 创建时间"
+        },
+        "create_user": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 创建人"
+        },
+        "update_time": {
+          "type": "string",
+          "description": " 更新时间"
+        },
+        "update_user": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 更新人"
+        }
+      },
+      "title": "TradeOrder",
+      "required": [
+        "id",
+        "order_no",
+        "user_id",
+        "total_amount",
+        "shipping_amount",
+        "discount_amount",
+        "pay_amount",
+        "refund_amount",
+        "submit_time",
+        "expire_time",
+        "auto_receive_time",
+        "receive_time",
+        "auto_praise",
+        "after_sale_deadline_time",
+        "user_message",
+        "cancel_reason",
+        "order_source",
+        "order_type",
+        "order_status",
+        "pay_type",
+        "is_package_free",
+        "is_after_sale",
+        "is_disabled",
+        "is_deleted",
+        "create_time",
+        "create_user",
+        "update_time",
+        "update_user"
+      ]
+    },
+    "UpdateTradeOrderReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pay_type": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "is_after_sale": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "cancel_reason": {
+          "type": "string"
+        },
+        "order_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "is_refund": {
+          "type": "integer",
+          "format": "int32",
+          "description": "0:不退款 1：退款"
+        }
+      },
+      "title": "UpdateTradeOrderReq",
+      "required": [
+        "user_id",
+        "pay_type",
+        "is_after_sale",
+        "cancel_reason",
+        "order_id",
+        "is_refund"
+      ]
+    },
+    "UpdateTradeOrderResp": {
+      "type": "object",
+      "properties": {
+        "trade_order": {
+          "$ref": "#/definitions/TradeOrder"
+        }
+      },
+      "title": "UpdateTradeOrderResp",
+      "required": [
+        "trade_order"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

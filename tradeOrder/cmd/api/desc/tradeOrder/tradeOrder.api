@@ -43,7 +43,8 @@ type (
     AddTradeOrderReq {
     // userId
         UserId      int64 `json:"user_id"`
-
+        orderSource int32 `json:"order_source"`
+        UserMessage string `json:"user_message"`
 //        CartIDs    []int64 `json:"cart_ids"`
 //        isVirtual  bool `json:"is_virtual"` //是否为虚拟商品
 //        RecipientAddressId int64  `json:"recipient_address_id"`
@@ -53,6 +54,22 @@ type (
         tradeOrder TradeOrder  `json:"trade_order"`
     }
 )
+
+type (
+    UpdateTradeOrderReq {
+        UserId      int64 `json:"user_id"`
+        PayType     int32 `json:"pay_type"`
+        IsAfterSale           int32     `json:"is_after_sale"`
+        CancelReason          string    `json:"cancel_reason"`
+        OrderId         int64 `json:"order_id"`
+        isRefund  int32 `json:"is_refund"`//0:不退款 1：退款
+        //        tradeOrder TradeOrder  `json:"trade_order"`
+    }
+    UpdateTradeOrderResp {
+        tradeOrder TradeOrder  `json:"trade_order"`
+    }
+)
+
 
 type (
     FindTradeOrderReq {

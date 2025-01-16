@@ -24,6 +24,19 @@ message TradeOrder {
   int64 updateUser = 15;
   google.protobuf.Timestamp createTime=16;
   bool isDeleted = 17;
+  //新增
+  int32 orderSource = 18;
+  google.protobuf.Timestamp autoReceiveTime=19;
+  google.protobuf.Timestamp receiveTime=20;
+  google.protobuf.Timestamp receivePraise=21;
+  google.protobuf.Timestamp afterSaleDeadlineTime=22;
+  string userMessage = 23;
+  int32 orderType = 24;
+  int32 isPackageFree = 25;
+  int32 isAfterSale = 26;
+  int32 isDisabled = 27;
+  google.protobuf.Timestamp updateTime=28;
+  int32 payType = 29;
 }
 
 
@@ -39,14 +52,15 @@ message ProductOrder {
   string   productPrice =9;
   string realPrice  =10;
   string realAmount  =11;
-  int64 createUser = 14;
-  int64 updateUser = 15;
-  google.protobuf.Timestamp createTime=16;
-  google.protobuf.Timestamp updateTime=17;
-  int64 activityId = 18;
-  int32 detailStatus = 19;
-  int32 activityType = 20;
-  int32 commentStatus = 21;
+  int64 createUser = 12;
+  int64 updateUser = 13;
+  google.protobuf.Timestamp createTime=14;
+  google.protobuf.Timestamp updateTime=15;
+  int64 activityId = 16;
+  int32 detailStatus = 17;
+  int32 activityType = 18;
+  int32 commentStatus = 19;
+  int64 orderId = 20;
 }
 
 message ShoppingCartSimple {
@@ -108,11 +122,28 @@ message AddTradeOrderReq {
   bool isVirtual = 2;
   int64 RecipientAddressId = 3;
   TradeOrder tradeOrder = 4;
+//  int32 orderSource = 5;
+//  string userMessage = 6;
 }
 message AddTradeOrderResp {
   TradeOrder tradeOrder = 1;
   repeated ProductOrder productOrders = 2;
 }
+
+//修改订单
+message UpdateTradeOrderReq {
+  int64 userId = 1;
+  int32 payType = 2;
+  int32 isAfterSale = 3;
+  string cancelReason = 4;
+  int64 orderId = 5;
+  int32 isRefund = 6;  //0:不退款 1：退款
+}
+message UpdateTradeOrderResp {
+  TradeOrder tradeOrder = 1;
+}
+
+
 message OrderTotalReq {
   repeated int64 cartIds = 1;
   repeated ShoppingCartSimple carts = 2;
@@ -142,7 +173,7 @@ message PageTradeOrderResp {
 
 service tradeOrder {
   rpc AddTradeOrder(AddTradeOrderReq) returns (AddTradeOrderResp);
-  rpc UpdateTradeOrder(AddTradeOrderReq) returns (AddTradeOrderResp);
+  rpc UpdateTradeOrder(UpdateTradeOrderReq) returns (UpdateTradeOrderResp);
   rpc GetOrderTotal (OrderTotalReq) returns (OrderTotalResp);
   rpc FindOrder (FindOrderReq) returns (FindOrderResp);
   rpc GetOrders (GetTradeOrderListReq) returns (GetTradeOrderListResp);

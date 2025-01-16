@@ -1,6 +1,7 @@
 package tradeOrder
 
 import (
+	"QMall/tradeOrder/cmd/rpc/tradeOrder/tradeorder"
 	"context"
 
 	"QMall/tradeOrder/cmd/api/desc/tradeOrder/internal/svc"
@@ -15,7 +16,7 @@ type UpdateTradeOrderLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 修改订单
+// NewUpdateTradeOrderLogic 修改订单
 func NewUpdateTradeOrderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *UpdateTradeOrderLogic {
 	return &UpdateTradeOrderLogic{
 		Logger: logx.WithContext(ctx),
@@ -24,8 +25,17 @@ func NewUpdateTradeOrderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *
 	}
 }
 
-func (l *UpdateTradeOrderLogic) UpdateTradeOrder(req *types.AddTradeOrderReq) (resp *types.AddTradeOrderResp, err error) {
-	// todo: add your logic here and delete this line
+func (l *UpdateTradeOrderLogic) UpdateTradeOrder(req *types.UpdateTradeOrderReq) (resp *types.UpdateTradeOrderResp, err error) {
 
+	order, err := l.svcCtx.TradeOrderRpcConf.UpdateTradeOrder(l.ctx, &tradeorder.UpdateTradeOrderReq{
+		UserId:       req.UserId,
+		PayType:      req.PayType,
+		IsAfterSale:  req.IsAfterSale,
+		CancelReason: req.CancelReason,
+		OrderId:      req.OrderId,
+		IsRefund:     req.IsRefund,
+	})
+	resp = new(types.UpdateTradeOrderResp)
+	resp.TradeOrder = types.TradeOrderPbConvertTypes(order.TradeOrder)
 	return
 }

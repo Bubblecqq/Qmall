@@ -23,7 +23,7 @@ service tradeOrder {
 
 	@doc "修改订单"
 	@handler updateTradeOrder
-	post /updateTradeOrder (AddTradeOrderReq) returns (AddTradeOrderResp)
+	post /updateTradeOrder (UpdateTradeOrderReq) returns (UpdateTradeOrderResp)
 
 	@doc "查询订单"
 	@handler findTradeOrder

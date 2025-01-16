@@ -37,7 +37,7 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type TradeOrderClient interface {
 	AddTradeOrder(ctx context.Context, in *AddTradeOrderReq, opts ...grpc.CallOption) (*AddTradeOrderResp, error)
-	UpdateTradeOrder(ctx context.Context, in *AddTradeOrderReq, opts ...grpc.CallOption) (*AddTradeOrderResp, error)
+	UpdateTradeOrder(ctx context.Context, in *UpdateTradeOrderReq, opts ...grpc.CallOption) (*UpdateTradeOrderResp, error)
 	GetOrderTotal(ctx context.Context, in *OrderTotalReq, opts ...grpc.CallOption) (*OrderTotalResp, error)
 	FindOrder(ctx context.Context, in *FindOrderReq, opts ...grpc.CallOption) (*FindOrderResp, error)
 	GetOrders(ctx context.Context, in *GetTradeOrderListReq, opts ...grpc.CallOption) (*GetTradeOrderListResp, error)
@@ -65,9 +65,9 @@ func (c *tradeOrderClient) AddTradeOrder(ctx context.Context, in *AddTradeOrderR
 	return out, nil
 }
 
-func (c *tradeOrderClient) UpdateTradeOrder(ctx context.Context, in *AddTradeOrderReq, opts ...grpc.CallOption) (*AddTradeOrderResp, error) {
+func (c *tradeOrderClient) UpdateTradeOrder(ctx context.Context, in *UpdateTradeOrderReq, opts ...grpc.CallOption) (*UpdateTradeOrderResp, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AddTradeOrderResp)
+	out := new(UpdateTradeOrderResp)
 	err := c.cc.Invoke(ctx, TradeOrder_UpdateTradeOrder_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -150,7 +150,7 @@ func (c *tradeOrderClient) GetProductOrderByUserId(ctx context.Context, in *GetP
 // for forward compatibility.
 type TradeOrderServer interface {
 	AddTradeOrder(context.Context, *AddTradeOrderReq) (*AddTradeOrderResp, error)
-	UpdateTradeOrder(context.Context, *AddTradeOrderReq) (*AddTradeOrderResp, error)
+	UpdateTradeOrder(context.Context, *UpdateTradeOrderReq) (*UpdateTradeOrderResp, error)
 	GetOrderTotal(context.Context, *OrderTotalReq) (*OrderTotalResp, error)
 	FindOrder(context.Context, *FindOrderReq) (*FindOrderResp, error)
 	GetOrders(context.Context, *GetTradeOrderListReq) (*GetTradeOrderListResp, error)
@@ -171,7 +171,7 @@ type UnimplementedTradeOrderServer struct{}
 func (UnimplementedTradeOrderServer) AddTradeOrder(context.Context, *AddTradeOrderReq) (*AddTradeOrderResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddTradeOrder not implemented")
 }
-func (UnimplementedTradeOrderServer) UpdateTradeOrder(context.Context, *AddTradeOrderReq) (*AddTradeOrderResp, error) {
+func (UnimplementedTradeOrderServer) UpdateTradeOrder(context.Context, *UpdateTradeOrderReq) (*UpdateTradeOrderResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTradeOrder not implemented")
 }
 func (UnimplementedTradeOrderServer) GetOrderTotal(context.Context, *OrderTotalReq) (*OrderTotalResp, error) {
@@ -235,7 +235,7 @@ func _TradeOrder_AddTradeOrder_Handler(srv interface{}, ctx context.Context, dec
 }
 
 func _TradeOrder_UpdateTradeOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AddTradeOrderReq)
+	in := new(UpdateTradeOrderReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -247,7 +247,7 @@ func _TradeOrder_UpdateTradeOrder_Handler(srv interface{}, ctx context.Context, 
 		FullMethod: TradeOrder_UpdateTradeOrder_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(TradeOrderServer).UpdateTradeOrder(ctx, req.(*AddTradeOrderReq))
+		return srv.(TradeOrderServer).UpdateTradeOrder(ctx, req.(*UpdateTradeOrderReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }
