@@ -1,7 +1,10 @@
 package activity
 
 import (
+	"QMall/marketing/cmd/api/desc/marketing/internal/types/convert"
+	"QMall/marketing/cmd/rpc/activity"
 	"context"
+	"fmt"
 
 	"QMall/marketing/cmd/api/desc/marketing/internal/svc"
 	"QMall/marketing/cmd/api/desc/marketing/internal/types"
@@ -15,7 +18,7 @@ type AddActivityProductSkuLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 添加活动商品库存信息
+// NewAddActivityProductSkuLogic 添加活动商品库存信息
 func NewAddActivityProductSkuLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddActivityProductSkuLogic {
 	return &AddActivityProductSkuLogic{
 		Logger: logx.WithContext(ctx),
@@ -25,7 +28,18 @@ func NewAddActivityProductSkuLogic(ctx context.Context, svcCtx *svc.ServiceConte
 }
 
 func (l *AddActivityProductSkuLogic) AddActivityProductSku(req *types.AddActivityProductSkuReq) (resp *types.AddActivityProductSkuResp, err error) {
-	// todo: add your logic here and delete this line
 
+	sku, err := l.svcCtx.ActivityRpcConf.AddActivityProductSku(l.ctx, &activity.AddActivityProductSkuReq{
+		ActivityProductId: req.ActivityProductId,
+		ProductId:         req.ProductId,
+		Price:             req.Price,
+		Number:            req.Number,
+	})
+	if err != nil {
+		fmt.Printf(fmt.Errorf("添加活动商品库存信息失败！原因见：%v", err).Error())
+		return
+	}
+	resp = new(types.AddActivityProductSkuResp)
+	resp.ActivityProductSku = convert.PbActivityProductSkuConvertTypes(sku.ActivityProductSku)
 	return
 }

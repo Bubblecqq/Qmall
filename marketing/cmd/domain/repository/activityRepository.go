@@ -9,13 +9,97 @@ import (
 )
 
 type IActivityRepository interface {
+	//查询活动
 	GetActivityById(id int64) (*model.Activity, error)
 	DeleteActivityById(id, userId int64) error
+
+	// AddActivity 添加活动
+	AddActivity(activityName string, isOnline int32, startTime, endTime time.Time) (*model.Activity, error)
+
+	AddActivityProduct(activityProduct *model.ActivityProduct) (*model.ActivityProduct, error)
+
+	AddActivityProductSku(activityProductId, productId, productSkuId, userId int64, price, originalPrice float64, number, stock int64) (*model.ActivityProductSku, error)
+
+	AddActivityTime(activityId int64, TimeName string, isEnable int32) (*model.ActivityTime, error)
 }
 
 type ActivityRepository struct {
 	mysqlClient *gorm.DB
 	redisClient *redis.Client
+}
+
+func (a *ActivityRepository) AddActivity(activityName string, isOnline int32, startTime, endTime time.Time) (*model.Activity, error) {
+	activity := &model.Activity{
+		CreateTime:        time.Now(),
+		ActivityStartTime: startTime,
+		ActivityEndTime:   endTime,
+		Name:              activityName,
+		IsDeleted:         0,
+		IsOnline:          isOnline,
+	}
+
+	tx := a.mysqlClient.Model(&model.Activity{}).Create(&activity)
+	if tx.Error != nil {
+		fmt.Printf("当前活动名：%v不在活动期间！原因见：%v\n", activityName, tx.Error)
+		return nil, tx.Error
+	}
+	return activity, nil
+}
+
+func (a *ActivityRepository) AddActivityProduct(activityProduct *model.ActivityProduct) (*model.ActivityProduct, error) {
+
+	tx := a.mysqlClient.Model(&model.ActivityProduct{}).Create(&activityProduct)
+	if tx.Error != nil {
+		fmt.Printf("当前商品Id：%v及活动时间Id：%v不在活动期间！原因见：%v\n", activityProduct.ProductID, activityProduct.ActivityTimeID, tx.Error)
+		return nil, tx.Error
+	}
+	return activityProduct, nil
+}
+
+func (a *ActivityRepository) AddActivityProductSku(activityProductId, productId, productSkuId, userId int64, price, originalPrice float64, number, stock int64) (*model.ActivityProductSku, error) {
+
+	activityProductSku := &model.ActivityProductSku{
+		ActivityProductID: activityProductId,
+		ProductID:         productId,
+		ProductSkuID:      productSkuId,
+		CreateUser:        userId,
+		OriginalPrice:     originalPrice,
+		Stock:             stock,
+		Price:             price,
+		Number:            number,
+		CreateTime:        time.Now(),
+	}
+
+	tx := a.mysqlClient.Model(&model.ActivityProductSku{}).Create(&activityProductSku)
+	if tx.Error != nil {
+		fmt.Printf("当前活动商品Id：%v，库存Id：%v创建失败！原因见：%v\n", activityProductId, productSkuId, tx.Error)
+		return nil, tx.Error
+	}
+	return activityProductSku, nil
+}
+
+func (a *ActivityRepository) AddActivityTime(activityId int64, TimeName string, isEnable int32) (*model.ActivityTime, error) {
+	activityTime := &model.ActivityTime{}
+	activity := &model.Activity{}
+	tx := a.mysqlClient.Model(&model.Activity{}).Find(&activity, activityId)
+	if tx.Error != nil {
+		fmt.Printf("当前活动Id：%v未开放！原因见：%v\n", activityId, tx.Error)
+		return nil, tx.Error
+	}
+	activityTime.ActivityID = activity.ID
+	activityTime.TimeName = TimeName
+	activityTime.CreateTime = time.Now()
+	activityTime.StartTime = activity.ActivityStartTime
+	activityTime.EndTime = activity.ActivityEndTime
+	activityTime.IsEnable = isEnable
+	activityTime.UpdateTime = &time.Time{}
+	activityTime.IsDeleted = 0
+	create := tx.Model(&model.ActivityTime{}).Create(&activityTime)
+	if create.Error != nil {
+		fmt.Printf("当前活动：%v时间未开放！原因见：%v\n", TimeName, create.Error)
+		return nil, tx.Error
+	}
+	return activityTime, nil
 }
 
 func (a *ActivityRepository) GetActivityById(id int64) (*model.Activity, error) {

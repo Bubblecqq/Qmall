@@ -110,6 +110,8 @@ message AddActivityProductSkuReq {
   int64 product_id = 2;
   double price = 3;
   int64 number = 4;
+  int64 product_sku_id = 5;
+  int64 user_id = 6;
 }
 
 // 定义 AddActivityProductSkuResp 消息

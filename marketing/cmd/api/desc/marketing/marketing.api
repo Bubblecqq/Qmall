@@ -112,6 +112,7 @@ type (
     AddActivityProductSkuReq {
         ActivityProductId int64 `json:"activity_product_id"`
         productId     int64 `json:"product_id"`
+        productSkuId  int64 `json:"product_sku_id"`
         userId    int64 `json:"user_id"`
         price   float64 `json:"price"`
         number int64 `json:"number"`
