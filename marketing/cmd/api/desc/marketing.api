@@ -1,0 +1,36 @@
+syntax = "v1"
+
+info (
+	title:   "活动表"
+	desc:    "活动表"
+	author:  "cqq"
+	email:   "1342982166@qq.com"
+	version: "v1"
+)
+
+import (
+	"marketing/marketing.api"
+)
+
+@server (
+	prefix: activity/v1
+	group:  activity
+)
+service activity {
+	@doc "添加活动表"
+	@handler addActivity
+	post /addActivity (AddActivityReq) returns (AddActivityResp)
+
+	@doc "添加活动表"
+	@handler addActivityTime
+	post /addActivityTime (AddActivityTimeReq) returns (AddActivityTimeResp)
+
+	@doc "添加活动商品信息"
+	@handler addActivityProduct
+	post /addActivityProduct (AddActivityProductReq) returns (AddActivityProductResp)
+
+	@doc "添加活动商品库存信息"
+	@handler addActivityProductSku
+	post /addActivityProductSku (AddActivityProductSkuReq) returns (AddActivityProductSkuResp)
+}
+
