@@ -1,0 +1,122 @@
+syntax = "v1"
+
+info(
+    title: "活动表"
+    desc: "活动表"
+    author: "cqq"
+    email: "1342982166@qq.com"
+    version: "v1"
+)
+
+
+type Activity  {
+    ID                int64      `gorm:"primaryKey;column:id" json:"id"`
+    Name              string     `gorm:"column:name" json:"name"`
+    ActivityStartTime string  `gorm:"column:activity_start_time" json:"activity_start_time"`
+    ActivityEndTime   string  `gorm:"column:activity_end_time" json:"activity_end_time"`
+    IsOnline          int32      `gorm:"column:is_online" json:"is_online"`
+    CreateUser        int64       `gorm:"column:create_user" json:"create_user"`
+    CreateTime        string  `gorm:"column:create_time" json:"create_time"`
+    UpdateUser        int64      `gorm:"column:update_user" json:"update_user"`
+    UpdateTime        string `gorm:"column:update_time" json:"update_time"`
+    IsDeleted         int32      `gorm:"column:is_deleted" json:"is_deleted"`
+}
+
+type ActivityProduct  {
+    ID                   int64      `gorm:"primaryKey;column:id" json:"id"`
+    ActivityTimeID       int64      `gorm:"column:activity_time_id" json:"activity_time_id"`
+    ProductID            int64      `gorm:"column:product_id" json:"product_id"`
+    ProductName          string     `gorm:"column:product_name" json:"product_name"`
+    ProductMainPic       string     `gorm:"column:product_main_picture" json:"product_main_picture"`
+    ProductStartingPrice float64   `gorm:"column:product_starting_price" json:"product_starting_price"`
+    CategoryID           int64      `gorm:"column:category_id" json:"category_id"`
+    CreateUser           int64      `gorm:"column:create_user" json:"create_user"`
+    CreateTime           string  `gorm:"column:create_time" json:"create_time"`
+    UpdateUser           int64      `gorm:"column:update_user" json:"update_user"`
+    UpdateTime           string `gorm:"column:update_time" json:"update_time"`
+    IsDeleted            int32      `gorm:"column:is_deleted" json:"is_deleted"`
+}
+
+type ActivityProductSku {
+    ID                int64      `gorm:"primaryKey;column:id" json:"id"`
+    ActivityProductID int64      `gorm:"column:activity_product_id" json:"activity_product_id"`
+    ProductID         int64      `gorm:"column:product_id" json:"product_id"`
+    ProductSkuID      int64      `gorm:"column:product_sku_id" json:"product_sku_id"`
+    Price             float64    `gorm:"column:price" json:"price"`
+    OriginalPrice     float64    `gorm:"column:original_price" json:"original_price"`
+    Number            int64      `gorm:"column:number" json:"number"`
+    Stock             int64      `gorm:"column:stock" json:"stock"`
+    CreateUser        int64      `gorm:"column:create_user" json:"create_user"`
+    CreateTime        string  `gorm:"column:create_time" json:"create_time"`
+    UpdateUser        int64      `gorm:"column:update_user" json:"update_user"`
+    UpdateTime        string `gorm:"column:update_time" json:"update_time"`
+    IsDeleted         int32      `gorm:"column:is_deleted" json:"is_deleted"`
+}
+
+type ActivityTime  {
+    ID         int64      `gorm:"primaryKey;column:id" json:"id"`
+    ActivityID int64      `gorm:"column:activity_id" json:"activity_id"`
+    TimeName   string     `gorm:"column:time_name" json:"time_name"`
+    StartTime  string  `gorm:"column:start_time" json:"start_time"`
+    EndTime    string  `gorm:"column:end_time" json:"end_time"`
+    IsEnable   int32      `gorm:"column:is_enable" json:"is_enable"`
+    CreateUser int64      `gorm:"column:create_user" json:"create_user"`
+    CreateTime string  `gorm:"column:create_time" json:"create_time"`
+    UpdateUser int64      `gorm:"column:update_user" json:"update_user"`
+    UpdateTime string `gorm:"column:update_time" json:"update_time"`
+    IsDeleted  int32      `gorm:"column:is_deleted" json:"is_deleted"`
+}
+
+
+// 添加商品活动
+type (
+    AddActivityReq {
+        ActivityName string `json:"activity_name"`
+        IsOnline int32 `json:"is_online"`
+        activityStartTime string `json:"activity_start_time"`
+        activityEndTime string `json:"activity_end_time"`
+        UserId  int64 `json:"user_id"`
+    }
+    AddActivityResp {
+        Activity Activity `json:"activity"`
+    }
+)
+
+// 添加商品活动时间
+type (
+    AddActivityTimeReq {
+        ActivityId int64 `json:"activity_id"`
+        Name       string `json:"name"`
+        UserId     int64 `json:"user_id"`
+    }
+    AddActivityTimeResp {
+        ActivityId int64 `json:"activity_id"`
+        Name       string `json:"name"`
+        UserId     int64 `json:"user_id"`
+        Activity Activity `json:"activity"`
+    }
+)
+// 添加商品活动商品信息
+type (
+    AddActivityProductReq {
+        ActivityTimeId int64 `json:"activity_time_id"`
+        productId     int64 `json:"product_id"`
+        userId    int64 `json:"user_id"`
+    }
+    AddActivityProductResp {
+        ActivityProduct ActivityProduct `json:"activity_product"`
+    }
+)
+// 添加商品活动商品库存信息
+type (
+    AddActivityProductSkuReq {
+        ActivityProductId int64 `json:"activity_product_id"`
+        productId     int64 `json:"product_id"`
+        userId    int64 `json:"user_id"`
+        price   float64 `json:"price"`
+        number int64 `json:"number"`
+    }
+    AddActivityProductSkuResp {
+        ActivityProductSku ActivityProductSku `json:"activity_product_sku"`
+    }
+)

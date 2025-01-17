@@ -1,0 +1,127 @@
+syntax = "proto3";
+
+option go_package="./pb";
+import "google/protobuf/timestamp.proto";
+//import "product/cmd/rpc/product/pb/product.proto";
+package pb;
+
+// 定义 Activity 消息
+message Activity {
+  int64 id = 1;
+  string name = 2;
+  google.protobuf.Timestamp activity_start_time = 3;
+  google.protobuf.Timestamp activity_end_time = 4;
+  int32 is_online = 5;
+  int64 create_user = 6;
+  google.protobuf.Timestamp create_time = 7;
+  int64 update_user = 8;
+  google.protobuf.Timestamp update_time = 9;
+  int32 is_deleted = 10;
+}
+
+// 定义 ActivityProduct 消息
+message ActivityProduct {
+  int64 id = 1;
+  int64 activity_time_id = 2;
+  int64 product_id = 3;
+  string product_name = 4;
+  string product_main_picture = 5;
+  double product_starting_price = 6;
+  int64 category_id = 7;
+  int64 create_user = 8;
+  google.protobuf.Timestamp create_time = 9;
+  int64 update_user = 10;
+  google.protobuf.Timestamp update_time = 11;
+  int32 is_deleted = 12;
+}
+
+// 定义 ActivityProductSku 消息
+message ActivityProductSku {
+  int64 id = 1;
+  int64 activity_product_id = 2;
+  int64 product_id = 3;
+  int64 product_sku_id = 4;
+  double price = 5;
+  double original_price = 6;
+  int64 number = 7;
+  int64 stock = 8;
+  int64 create_user = 9;
+  google.protobuf.Timestamp create_time = 10;
+  int64 update_user = 11;
+  google.protobuf.Timestamp update_time = 12;
+  int32 is_deleted = 13;
+}
+
+// 定义 ActivityTime 消息
+message ActivityTime {
+  int64 id = 1;
+  int64 activity_id = 2;
+  string time_name = 3;
+  google.protobuf.Timestamp start_time = 4;
+  google.protobuf.Timestamp end_time = 5;
+  int32 is_enable = 6;
+  int64 create_user = 7;
+  google.protobuf.Timestamp create_time = 8;
+  int64 update_user = 9;
+  google.protobuf.Timestamp update_time = 10;
+  int32 is_deleted = 11;
+}
+
+// 定义 AddActivityReq 消息
+message AddActivityReq {
+  string activity_name = 1;
+  int32 is_online = 2;
+  google.protobuf.Timestamp activity_start_time = 3;
+  google.protobuf.Timestamp activity_end_time = 4;
+}
+
+// 定义 AddActivityResp 消息
+message AddActivityResp {
+  Activity activity = 1;
+}
+
+// 定义 AddActivityTimeReq 消息
+message AddActivityTimeReq {
+  int64 activity_id = 1;
+  string name = 2;
+}
+
+// 定义 AddActivityTimeResp 消息
+message AddActivityTimeResp {
+  int64 activity_id = 1;
+  string name = 2;
+  Activity activity = 3;
+}
+
+// 定义 AddActivityProductReq 消息
+message AddActivityProductReq {
+  int64 activity_time_id = 1;
+  int64 product_id = 2;
+}
+
+// 定义 AddActivityProductResp 消息
+message AddActivityProductResp {
+  ActivityProduct activity_product = 1;
+}
+
+// 定义 AddActivityProductSkuReq 消息
+message AddActivityProductSkuReq {
+  int64 activity_product_id = 1;
+  int64 product_id = 2;
+  double price = 3;
+  int64 number = 4;
+}
+
+// 定义 AddActivityProductSkuResp 消息
+message AddActivityProductSkuResp {
+  ActivityProductSku activity_product_sku = 1;
+}
+
+
+service activity {
+  rpc AddActivity(AddActivityReq) returns (AddActivityResp);
+  rpc AddActivityTime(AddActivityTimeReq) returns (AddActivityTimeResp);
+  rpc AddActivityProduct(AddActivityProductReq) returns (AddActivityProductResp);
+  rpc AddActivityProductSku(AddActivityProductSkuReq) returns (AddActivityProductSkuResp);
+
+}
