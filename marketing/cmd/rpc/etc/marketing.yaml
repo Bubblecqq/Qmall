@@ -1,6 +1,30 @@
-Name: marketing.rpc
-ListenOn: 0.0.0.0:8080
-Etcd:
-  Hosts:
-  - 127.0.0.1:2379
-  Key: marketing.rpc
+Name: activity.rpc
+ListenOn: 127.0.0.1:2005
+Redis:
+  Host: 192.168.23.233:6379
+  Type: node
+  Pass: "123456"
+  Key: activity-rpc
+#  Cluster:
+#    - 192.168.23.233:6379
+#    - 192.168.23.234:6379
+#    - 192.168.23.235:6379
+Mysql:
+  Host: "192.168.23.233:3306"
+  User: "root"
+  Pass: "000000"
+  Database: "mall_marketing"
+  Charset: "utf8mb4"
+Cache:
+  - Host: 192.168.23.233:6379
+    Pass: "123456"
+Consul:
+  Host: 192.168.23.233:8500
+  Key: activity.rpc
+RemoteCall:
+  UserRPC: consul://192.168.23.233:8500/user.rpc?wait=14s
+  ProductRPC: consul://192.168.23.233:8500/product.rpc?wait=14s
+#Etcd:
+#  Hosts:
+#  - 127.0.0.1:2379
+#  Key: tradeorder.rpc
