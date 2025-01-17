@@ -74,6 +74,7 @@ type AddActivityProductResp struct {
 type AddActivityProductSkuReq struct {
 	ActivityProductId int64   `json:"activity_product_id"`
 	ProductId         int64   `json:"product_id"`
+	ProductSkuId      int64   `json:"product_sku_id"`
 	UserId            int64   `json:"user_id"`
 	Price             float64 `json:"price"`
 	Number            int64   `json:"number"`

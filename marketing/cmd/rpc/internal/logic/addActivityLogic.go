@@ -1,7 +1,9 @@
 package logic
 
 import (
+	"QMall/marketing/cmd/domain/convert"
 	"context"
+	"fmt"
 
 	"QMall/marketing/cmd/rpc/internal/svc"
 	"QMall/marketing/cmd/rpc/pb"
@@ -24,7 +26,14 @@ func NewAddActivityLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddAc
 }
 
 func (l *AddActivityLogic) AddActivity(in *pb.AddActivityReq) (*pb.AddActivityResp, error) {
-	// todo: add your logic here and delete this line
+	fmt.Printf("正在添加活动>>>>>>>>%v\n", in.ActivityName)
+	activity, err := l.svcCtx.ActivityRepository.AddActivity(in.ActivityName, in.IsOnline, in.ActivityStartTime.AsTime(), in.ActivityEndTime.AsTime())
 
-	return &pb.AddActivityResp{}, nil
+	if err != nil {
+		return &pb.AddActivityResp{}, err
+	}
+	fmt.Printf("活动%v已添加！>>>>>>>>\n", in.ActivityName)
+	return &pb.AddActivityResp{
+		Activity: convert.ModelActivityConvertPb(activity),
+	}, nil
 }

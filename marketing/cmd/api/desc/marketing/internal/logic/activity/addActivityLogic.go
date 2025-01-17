@@ -1,7 +1,12 @@
 package activity
 
 import (
+	"QMall/marketing/cmd/api/desc/marketing/internal/types/convert"
+	"QMall/marketing/cmd/rpc/activity"
 	"context"
+	"fmt"
+	"google.golang.org/protobuf/types/known/timestamppb"
+	"time"
 
 	"QMall/marketing/cmd/api/desc/marketing/internal/svc"
 	"QMall/marketing/cmd/api/desc/marketing/internal/types"
@@ -15,7 +20,7 @@ type AddActivityLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 添加活动表
+// NewAddActivityLogic 添加活动表
 func NewAddActivityLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddActivityLogic {
 	return &AddActivityLogic{
 		Logger: logx.WithContext(ctx),
@@ -25,7 +30,24 @@ func NewAddActivityLogic(ctx context.Context, svcCtx *svc.ServiceContext) *AddAc
 }
 
 func (l *AddActivityLogic) AddActivity(req *types.AddActivityReq) (resp *types.AddActivityResp, err error) {
-	// todo: add your logic here and delete this line
+	startTime, err := time.Parse(time.RFC3339, req.ActivityStartTime)
+	if err != nil {
+		fmt.Printf(fmt.Errorf("invaild start time format：%v", err).Error())
+		return
+	}
+	endTime, err := time.Parse(time.RFC3339, req.ActivityEndTime)
+	if err != nil {
+		fmt.Printf(fmt.Errorf("invaild end time format：%v", err).Error())
+		return
+	}
+	addActivity, err := l.svcCtx.ActivityRpcConf.AddActivity(l.ctx, &activity.AddActivityReq{
+		ActivityName:      req.ActivityName,
+		IsOnline:          req.IsOnline,
+		ActivityStartTime: timestamppb.New(startTime),
+		ActivityEndTime:   timestamppb.New(endTime),
+	})
 
+	resp = new(types.AddActivityResp)
+	resp.Activity = convert.PbActivityConvertTypes(addActivity.Activity)
 	return
 }
