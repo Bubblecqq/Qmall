@@ -13,6 +13,9 @@ type IActivityRepository interface {
 	GetActivityById(id int64) (*model.Activity, error)
 	DeleteActivityById(id, userId int64) error
 
+	GetActivityProductById(id int64) (*model.ActivityProduct, error)
+	GetActivityProductSkuById(id int64) (*model.ActivityProductSku, error)
+
 	// AddActivity 添加活动
 	AddActivity(activityName string, isOnline int32, startTime, endTime time.Time) (*model.Activity, error)
 
@@ -26,6 +29,24 @@ type IActivityRepository interface {
 type ActivityRepository struct {
 	mysqlClient *gorm.DB
 	redisClient *redis.Client
+}
+
+func (a *ActivityRepository) GetActivityProductById(id int64) (*model.ActivityProduct, error) {
+	activityProduct := &model.ActivityProduct{}
+	tx := a.mysqlClient.Model(&model.ActivityProduct{}).Find(&activityProduct, id)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	return activityProduct, nil
+}
+
+func (a *ActivityRepository) GetActivityProductSkuById(id int64) (*model.ActivityProductSku, error) {
+	activityProductSku := &model.ActivityProductSku{}
+	tx := a.mysqlClient.Model(&model.ActivityProduct{}).Find(&activityProductSku, id)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	return activityProductSku, nil
 }
 
 func (a *ActivityRepository) AddActivity(activityName string, isOnline int32, startTime, endTime time.Time) (*model.Activity, error) {
@@ -89,12 +110,13 @@ func (a *ActivityRepository) AddActivityTime(activityId int64, TimeName string, 
 	activityTime.ActivityID = activity.ID
 	activityTime.TimeName = TimeName
 	activityTime.CreateTime = time.Now()
-	activityTime.StartTime = activity.ActivityStartTime
-	activityTime.EndTime = activity.ActivityEndTime
+	activityTime.StartTime = time.Date(activity.ActivityStartTime.Year(), activity.ActivityStartTime.Month(), activity.ActivityStartTime.Day(), activity.ActivityStartTime.Hour(), activity.ActivityStartTime.Minute(), activity.ActivityEndTime.Second(), 0, time.UTC)
+	activityTime.EndTime = time.Date(activity.ActivityEndTime.Year(), activity.ActivityEndTime.Month(), activity.ActivityEndTime.Day(), activity.ActivityEndTime.Hour(), activity.ActivityEndTime.Minute(), activity.ActivityEndTime.Second(), 0, time.UTC)
+
 	activityTime.IsEnable = isEnable
-	activityTime.UpdateTime = &time.Time{}
+	//activityTime.UpdateTime = &time.Time{}
 	activityTime.IsDeleted = 0
-	create := tx.Model(&model.ActivityTime{}).Create(&activityTime)
+	create := a.mysqlClient.Model(&model.ActivityTime{}).Create(&activityTime)
 	if create.Error != nil {
 		fmt.Printf("当前活动：%v时间未开放！原因见：%v\n", TimeName, create.Error)
 		return nil, tx.Error

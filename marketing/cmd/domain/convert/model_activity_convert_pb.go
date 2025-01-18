@@ -20,8 +20,8 @@ func ModelActivityConvertPb(activity *model.Activity) *pb.Activity {
 		//UpdateTime: func(update *time.Time) *timestamppb.Timestamp {
 		//	return timestamppb.New(*activity.UpdateTime)
 		//}(activity.UpdateTime),
-		UpdateTime: timestamppb.New(*activity.UpdateTime),
-		IsDeleted:  activity.IsDeleted,
+		//UpdateTime: timestamppb.New(*activity.UpdateTime),
+		IsDeleted: activity.IsDeleted,
 	}
 }
 

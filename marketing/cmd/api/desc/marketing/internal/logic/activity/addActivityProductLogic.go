@@ -4,6 +4,7 @@ import (
 	"QMall/marketing/cmd/api/desc/marketing/internal/types/convert"
 	"QMall/marketing/cmd/rpc/activity"
 	"context"
+	"errors"
 	"fmt"
 
 	"QMall/marketing/cmd/api/desc/marketing/internal/svc"
@@ -28,7 +29,10 @@ func NewAddActivityProductLogic(ctx context.Context, svcCtx *svc.ServiceContext)
 }
 
 func (l *AddActivityProductLogic) AddActivityProduct(req *types.AddActivityProductReq) (resp *types.AddActivityProductResp, err error) {
-
+	if req.ActivityTimeId <= 0 || req.ProductId <= 0 {
+		err = errors.New(fmt.Sprintf("当前传入的参数不合法，具体为活动时间表Id：%v，请求的商品Id：%v", req.ActivityTimeId, req.ProductId))
+		return
+	}
 	product, err := l.svcCtx.ActivityRpcConf.AddActivityProduct(l.ctx, &activity.AddActivityProductReq{
 		ActivityTimeId: req.ActivityTimeId,
 		ProductId:      req.ProductId,

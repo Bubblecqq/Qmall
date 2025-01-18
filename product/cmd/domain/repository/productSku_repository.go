@@ -3,6 +3,7 @@ package repository
 import (
 	"QMall/product/cmd/domain/model"
 	"QMall/product/cmd/rpc/product/pb"
+	"gorm.io/gorm"
 )
 
 type IProductSkuRepository interface {
@@ -21,8 +22,14 @@ type IProductSkuRepository interface {
 
 func (p *ProductRepository) FindProductSku(id int64) (*model.ProductSku, error) {
 	productSku := &model.ProductSku{}
-	err := p.mysqlClient.Model(&model.ProductSku{}).Find(&productSku, id).Error
-	return productSku, err
+	tx := p.mysqlClient.Model(&model.ProductSku{}).Find(&productSku, id)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	if productSku.Id == 0 || productSku.Name == "" {
+		return nil, gorm.ErrRecordNotFound
+	}
+	return productSku, nil
 }
 
 func (p *ProductRepository) GetProductSkuList() []model.ProductSku {
