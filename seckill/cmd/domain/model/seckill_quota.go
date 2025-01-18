@@ -6,7 +6,7 @@ import "time"
 type SecKillQuota struct {
 	Id         int64      `gorm:"id" json:"id"`
 	ProductsId int64      `gorm:"products_id" json:"products_id"`
-	Num        int        `gorm:"num" json:"num"`
+	Num        int64      `gorm:"num" json:"num"`
 	CreateTime time.Time  `gorm:"create_time" json:"create_time"`
 	UpdateTime *time.Time `gorm:"update_time" json:"update_time"`
 }

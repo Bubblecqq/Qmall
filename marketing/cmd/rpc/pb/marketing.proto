@@ -125,5 +125,4 @@ service activity {
   rpc AddActivityTime(AddActivityTimeReq) returns (AddActivityTimeResp);
   rpc AddActivityProduct(AddActivityProductReq) returns (AddActivityProductResp);
   rpc AddActivityProductSku(AddActivityProductSkuReq) returns (AddActivityProductSkuResp);
-
 }

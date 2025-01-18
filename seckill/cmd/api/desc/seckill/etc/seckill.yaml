@@ -1,0 +1,25 @@
+Name: secKill
+Host: 127.0.0.1
+Port: 1006
+Mode: dev
+Mysql:
+  Host: "192.168.23.233:3306"
+  User: "root"
+  Pass: "000000"
+  Database: "mall_seckill"
+  Charset: "utf8mb4"
+Cache:
+  - Host: 192.168.23.233:6379
+    Pass: "123456"
+SecKillRpcConf:
+  Endpoints:
+    - 127.0.0.1:2006
+  NonBlock: true
+#  # 不使用Consul时注释掉target
+#  Target: consul://192.168.23.233:8500/product.rpc?wait=14s
+RemoteCall:
+  UserRPC: consul://192.168.23.233:8500/user.rpc?wait=14s
+  ProductRPC: consul://192.168.23.233:8500/product.rpc?wait=14s
+  ActivityRPC: consul://192.168.23.233:8500/activity.rpc?wait=14s
+  OrderRPC: consul://192.168.23.233:8500/tradeOrder.rpc?wait=14s
+  ShoppingCartRPC: consul://192.168.23.233:8500/shoppingCart.rpc?wait=14s
