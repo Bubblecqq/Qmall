@@ -10,7 +10,7 @@ type SecKillOrder struct {
 	ProductsId  int64      `gorm:"products_id" json:"products_id"`   // 商品ID
 	ProductsNum string     `gorm:"products_num" json:"products_num"` // 商品编号
 	OrderNum    string     `gorm:"order_num" json:"order_num"`       // 订单号
-	Price       string     `gorm:"price" json:"price"`               // 金额
+	Price       float64    `gorm:"price" json:"price"`               // 金额
 	Status      int32      `gorm:"status" json:"status"`             // 状态
 	CreateTime  time.Time  `gorm:"create_time" json:"create_time"`   // 创建时间
 	UpdateTime  *time.Time `gorm:"update_time" json:"update_time"`   // 修改时间

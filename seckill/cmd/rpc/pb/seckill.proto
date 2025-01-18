@@ -5,6 +5,49 @@ import "google/protobuf/timestamp.proto";
 //import "product/cmd/rpc/product/pb/product.proto";
 package pb;
 
+
+// 定义秒杀活动消息
+message SecKillActivity {
+  int64 id = 1; // ID
+  string name = 2; // 名称
+  string activity_start_time = 3; // 活动开始时间
+  string activity_end_time = 4; // 活动结束时间
+  int32 is_online = 5; // 是否在线
+}
+
+// 定义秒杀活动产品消息
+message SecKillActivityProduct {
+  int64 id = 1;
+  int64 activity_time_id = 2; // 活动时间 ID
+  int64 product_id = 3; // 产品 ID
+  string product_name = 4; // 产品名称
+  string product_main_picture = 5; // 产品主图
+  double product_starting_price = 6; // 产品起始价格
+  int64 category_id = 7; // 类别 ID
+}
+
+// 定义秒杀活动产品 SKU 消息
+message SecKillActivityProductSku {
+  int64 id = 1;
+  int64 activity_product_id = 2; // 活动产品 ID
+  int64 product_id = 3; // 产品 ID
+  int64 product_sku_id = 4; // 产品 SKU ID
+  double price = 5; // 价格
+  double original_price = 6; // 原始价格
+  int64 number = 7; // 数量
+  int64 stock = 8; // 库存
+}
+
+// 定义秒杀活动时间消息
+message SecKillActivityTime {
+  int64 id = 1;
+  int64 activity_id = 2; // 活动 ID
+  string time_name = 3; // 时间名称
+  string start_time = 4; // 开始时间
+  string end_time = 5; // 结束时间
+  int32 is_enable = 6; // 是否启用
+}
+
 // 定义秒杀订单消息
 message SecKillOrder {
   int64 id = 1; // ID
@@ -13,7 +56,7 @@ message SecKillOrder {
   int64 products_id = 4; // 商品ID
   string products_num = 5; // 商品编号
   string order_num = 6; // 订单号
-  string price = 7; // 金额
+  double price = 7; // 金额
   int32 status = 8; // 状态
   google.protobuf.Timestamp create_time = 9; // 创建时间
   google.protobuf.Timestamp update_time = 10; // 修改时间
@@ -24,7 +67,7 @@ message SecKillProducts {
   int64 id = 1;
   string products_num = 2; // 商品编号
   string products_name = 3; // 商品名字
-  string price = 4; // 价格
+  double price = 4; // 价格
   string picture_url = 5; // 商品图片
   int64 seller = 6; // 卖家ID
   google.protobuf.Timestamp create_time = 7; // 创建时间
@@ -35,7 +78,7 @@ message SecKillProducts {
 message SecKillQuota {
   int64 id = 1;
   int64 products_id = 2;
-  int32 num = 3;
+  int64 num = 3;
   google.protobuf.Timestamp create_time = 4;
   google.protobuf.Timestamp update_time = 5;
 }
@@ -47,7 +90,7 @@ message SecKillRecord {
   int64 products_id = 3; // 商品ID
   string sec_num = 4; // 秒杀号
   string order_num = 5; // 订单号
-  string price = 6; // 金额
+  double price = 6; // 金额
   int32 status = 7; // 状态
   google.protobuf.Timestamp create_time = 8; // 创建时间
   google.protobuf.Timestamp update_time = 9; // 修改时间
@@ -67,8 +110,77 @@ message SecKillUserQuota {
   int64 id = 1;
   int64 user_id = 2;
   int64 products_id = 3;
-  int32 num = 4;
-  int32 killed_num = 5;
+  int64 num = 4;
+  int64 killed_num = 5;
   google.protobuf.Timestamp create_time = 6;
   google.protobuf.Timestamp update_time = 7;
+}
+
+
+// 定义添加秒杀商品的请求消息
+message IncreaseSecKillProductsReq {
+  int64 product_id = 1;
+  double price = 2;
+  int64 seller = 3;
+}
+
+// 定义添加秒杀商品的响应消息
+message IncreaseSecKillProductsResp {
+  int64 seller = 1;
+  SecKillProducts secKill_products = 2;
+  SecKillActivity secKill_activity = 3;
+  SecKillActivityProductSku secKill_activity_product_sku = 4;
+}
+
+// 定义添加秒杀限额的请求消息
+message IncreaseSecKillQuotaReq {
+  int64 product_id = 1;
+  int64 limit_number = 2;
+}
+
+// 定义添加秒杀限额的响应消息
+message IncreaseSecKillQuotaResp {
+  SecKillProducts secKill_products = 1;
+}
+
+// 定义添加秒杀用户限额的请求消息
+message IncreaseSecKillUserQuotaReq {
+  int64 user_id = 1;
+  int64 products_id = 2;
+  int64 num = 3;
+}
+
+// 定义添加秒杀用户限额的响应消息
+message IncreaseSecKillUserQuotaResp {
+  SecKillUserQuota secKill_user_quota = 1;
+}
+
+// 定义添加秒杀库存的请求消息
+message IncreaseSecKillStockReq {
+  int64 products_id = 1;
+  int64 stock = 2;
+}
+
+// 定义添加秒杀库存的响应消息
+message IncreaseSecKillStockResp {
+  SecKillStock secKill_stock = 1;
+}
+
+// 定义添加秒杀记录的请求消息
+message IncreaseSecKillRecordReq {
+  int64 user_id = 1;
+  int64 products_id = 2;
+}
+
+// 定义添加秒杀记录的响应消息
+message IncreaseSecKillRecordResp {
+  SecKillRecord secKill_record = 1;
+}
+
+service sec_kill {
+  rpc IncreaseSecKillProducts(IncreaseSecKillProductsReq) returns (IncreaseSecKillProductsResp);
+  rpc IncreaseSecKillQuota(IncreaseSecKillQuotaReq) returns (IncreaseSecKillQuotaResp);
+  rpc IncreaseSecKillUserQuota(IncreaseSecKillUserQuotaReq) returns (IncreaseSecKillUserQuotaResp);
+  rpc IncreaseSecKillStock(IncreaseSecKillStockReq) returns (IncreaseSecKillStockResp);
+  rpc IncreaseSecKillRecord(IncreaseSecKillRecordReq) returns (IncreaseSecKillRecordResp);
 }

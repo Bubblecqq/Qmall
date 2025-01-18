@@ -1,9 +1,40 @@
 syntax = "v1"
 
-info(
-    title: "秒杀服务"
-    desc: "秒杀服务"
-    author: "cqq"
-    email: "1342982166@qq.com"
-    version: "v1"
+info (
+	title:   "秒杀服务"
+	desc:    "秒杀服务"
+	author:  "cqq"
+	email:   "1342982166@qq.com"
+	version: "v1"
 )
+
+import (
+	"seckill/seckill.api"
+)
+
+@server (
+	prefix: seckill/v1
+	group:  seckill
+)
+service seckill {
+	@doc "添加秒杀商品"
+	@handler increaseSecKillProducts
+	post /increaseSecKillProducts (IncreaseSecKillProductsReq) returns (IncreaseSecKillProductsResp)
+
+	@doc "添加秒杀限额"
+	@handler increaseSecKillQuota
+	post /increaseSecKillQuota (IncreaseSecKillQuotaReq) returns (IncreaseSecKillQuotaResp)
+
+	@doc "添加秒杀用户限额"
+	@handler increaseSecKillUserQuota
+	post /increaseSecKillUserQuota (IncreaseSecKillUserQuotaReq) returns (IncreaseSecKillUserQuotaResp)
+
+	@doc "添加秒杀库存"
+	@handler increaseSecKillStock
+	post /increaseSecKillStock (IncreaseSecKillStockReq) returns (IncreaseSecKillStockResp)
+
+	@doc "添加秒杀记录"
+	@handler increaseSecKillRecord
+	post /increaseSecKillRecord (IncreaseSecKillRecordReq) returns (IncreaseSecKillRecordResp)
+}
+

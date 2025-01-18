@@ -1,0 +1,33 @@
+Name: secKill.rpc
+ListenOn: 127.0.0.1:2006
+Redis:
+  Host: 192.168.23.233:6379
+  Type: node
+  Pass: "123456"
+  Key: secKill-rpc
+#  Cluster:
+#    - 192.168.23.233:6379
+#    - 192.168.23.234:6379
+#    - 192.168.23.235:6379
+Mysql:
+  Host: "192.168.23.233:3306"
+  User: "root"
+  Pass: "000000"
+  Database: "mall_seckill"
+  Charset: "utf8mb4"
+Cache:
+  - Host: 192.168.23.233:6379
+    Pass: "123456"
+Consul:
+  Host: 192.168.23.233:8500
+  Key: secKill.rpc
+RemoteCall:
+  UserRPC: consul://192.168.23.233:8500/user.rpc?wait=14s
+  ProductRPC: consul://192.168.23.233:8500/product.rpc?wait=14s
+  ActivityRPC: consul://192.168.23.233:8500/activity.rpc?wait=14s
+  OrderRPC: consul://192.168.23.233:8500/tradeOrder.rpc?wait=14s
+  ShoppingCartRPC: consul://192.168.23.233:8500/shoppingCart.rpc?wait=14s
+#Etcd:
+#  Hosts:
+#  - 127.0.0.1:2379
+#  Key: tradeorder.rpc
