@@ -14,6 +14,8 @@ import (
 )
 
 type (
+	IncreaseSecKillOrderReq      = pb.IncreaseSecKillOrderReq
+	IncreaseSecKillOrderResp     = pb.IncreaseSecKillOrderResp
 	IncreaseSecKillProductsReq   = pb.IncreaseSecKillProductsReq
 	IncreaseSecKillProductsResp  = pb.IncreaseSecKillProductsResp
 	IncreaseSecKillQuotaReq      = pb.IncreaseSecKillQuotaReq
@@ -36,6 +38,7 @@ type (
 	SecKillUserQuota             = pb.SecKillUserQuota
 
 	SecKill interface {
+		IncreaseSecKillOrder(ctx context.Context, in *IncreaseSecKillOrderReq, opts ...grpc.CallOption) (*IncreaseSecKillOrderResp, error)
 		IncreaseSecKillProducts(ctx context.Context, in *IncreaseSecKillProductsReq, opts ...grpc.CallOption) (*IncreaseSecKillProductsResp, error)
 		IncreaseSecKillQuota(ctx context.Context, in *IncreaseSecKillQuotaReq, opts ...grpc.CallOption) (*IncreaseSecKillQuotaResp, error)
 		IncreaseSecKillUserQuota(ctx context.Context, in *IncreaseSecKillUserQuotaReq, opts ...grpc.CallOption) (*IncreaseSecKillUserQuotaResp, error)
@@ -52,6 +55,11 @@ func NewSecKill(cli zrpc.Client) SecKill {
 	return &defaultSecKill{
 		cli: cli,
 	}
+}
+
+func (m *defaultSecKill) IncreaseSecKillOrder(ctx context.Context, in *IncreaseSecKillOrderReq, opts ...grpc.CallOption) (*IncreaseSecKillOrderResp, error) {
+	client := pb.NewSecKillClient(m.cli.Conn())
+	return client.IncreaseSecKillOrder(ctx, in, opts...)
 }
 
 func (m *defaultSecKill) IncreaseSecKillProducts(ctx context.Context, in *IncreaseSecKillProductsReq, opts ...grpc.CallOption) (*IncreaseSecKillProductsResp, error) {

@@ -170,6 +170,7 @@ message IncreaseSecKillStockResp {
 message IncreaseSecKillRecordReq {
   int64 user_id = 1;
   int64 products_id = 2;
+  double price = 3;
 }
 
 // 定义添加秒杀记录的响应消息
@@ -177,7 +178,27 @@ message IncreaseSecKillRecordResp {
   SecKillRecord secKill_record = 1;
 }
 
-service sec_kill {
+// 定义添加秒杀订单的请求消息
+message IncreaseSecKillOrderReq {
+  int64 seller = 1;  // 买方 ID
+  int64 buyer = 2;   // 卖方 ID
+  int64 products_id = 3;  // 商品 ID
+  string products_num = 4;  // 商品编号
+  string order_num = 5;  // 订单号
+  string price = 6;  // 金额
+}
+
+
+// 定义添加秒杀订单的响应消息
+message IncreaseSecKillOrderResp {
+  SecKillActivity secKill_activity = 1;
+  SecKillOrder secKill_order = 2;
+  SecKillProducts secKill_products = 3;
+  SecKillRecord secKill_record = 4;
+}
+
+service secKill {
+  rpc IncreaseSecKillOrder(IncreaseSecKillOrderReq) returns (IncreaseSecKillOrderResp);
   rpc IncreaseSecKillProducts(IncreaseSecKillProductsReq) returns (IncreaseSecKillProductsResp);
   rpc IncreaseSecKillQuota(IncreaseSecKillQuotaReq) returns (IncreaseSecKillQuotaResp);
   rpc IncreaseSecKillUserQuota(IncreaseSecKillUserQuotaReq) returns (IncreaseSecKillUserQuotaResp);

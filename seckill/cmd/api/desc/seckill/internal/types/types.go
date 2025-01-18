@@ -3,6 +3,22 @@
 
 package types
 
+type IncreaseSecKillOrderReq struct {
+	Seller      int64  `gorm:"seller" json:"seller"`             // 买方ID
+	Buyer       int64  `gorm:"buyer" json:"buyer"`               // 卖方ID
+	ProductsId  int64  `gorm:"products_id" json:"products_id"`   // 商品ID
+	ProductsNum string `gorm:"products_num" json:"products_num"` // 商品编号
+	OrderNum    string `gorm:"order_num" json:"order_num"`       // 订单号
+	Price       string `gorm:"price" json:"price"`               // 金额
+}
+
+type IncreaseSecKillOrderResp struct {
+	SecKillActivity SecKillActivity `json:"secKill_activity"`
+	SecKillOrder    SecKillOrder    `json:"secKill_order"`
+	SecKillProducts SecKillProducts `json:"secKill_products"`
+	SecKillRecord   SecKillRecord   `json:"secKill_record"`
+}
+
 type IncreaseSecKillProductsReq struct {
 	ProductId int64   `json:"product_id"`
 	Price     float64 `json:"price"`

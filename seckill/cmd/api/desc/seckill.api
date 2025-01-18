@@ -17,6 +17,10 @@ import (
 	group:  seckill
 )
 service seckill {
+	@doc "添加秒杀订单"
+	@handler increaseSecKillOrder
+	post /increaseSecKillOrder (IncreaseSecKillOrderReq) returns (IncreaseSecKillOrderResp)
+
 	@doc "添加秒杀商品"
 	@handler increaseSecKillProducts
 	post /increaseSecKillProducts (IncreaseSecKillProductsReq) returns (IncreaseSecKillProductsResp)

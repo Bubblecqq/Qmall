@@ -23,6 +23,11 @@ func NewSecKillServer(svcCtx *svc.ServiceContext) *SecKillServer {
 	}
 }
 
+func (s *SecKillServer) IncreaseSecKillOrder(ctx context.Context, in *pb.IncreaseSecKillOrderReq) (*pb.IncreaseSecKillOrderResp, error) {
+	l := logic.NewIncreaseSecKillOrderLogic(ctx, s.svcCtx)
+	return l.IncreaseSecKillOrder(in)
+}
+
 func (s *SecKillServer) IncreaseSecKillProducts(ctx context.Context, in *pb.IncreaseSecKillProductsReq) (*pb.IncreaseSecKillProductsResp, error) {
 	l := logic.NewIncreaseSecKillProductsLogic(ctx, s.svcCtx)
 	return l.IncreaseSecKillProducts(in)
