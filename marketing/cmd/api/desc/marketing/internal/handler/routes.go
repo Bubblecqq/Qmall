@@ -34,7 +34,7 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: activity.AddActivityProductSkuHandler(serverCtx),
 			},
 			{
-				// 添加活动表
+				// 添加活动时间表
 				Method:  http.MethodPost,
 				Path:    "/addActivityTime",
 				Handler: activity.AddActivityTimeHandler(serverCtx),

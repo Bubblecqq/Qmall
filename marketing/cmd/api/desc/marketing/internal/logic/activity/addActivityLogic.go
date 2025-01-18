@@ -40,6 +40,7 @@ func (l *AddActivityLogic) AddActivity(req *types.AddActivityReq) (resp *types.A
 		fmt.Printf(fmt.Errorf("invaild end time format：%v", err).Error())
 		return
 	}
+	fmt.Printf("当前活动起始时间：%v，结束时间：%v\n", startTime.String(), endTime.String())
 	addActivity, err := l.svcCtx.ActivityRpcConf.AddActivity(l.ctx, &activity.AddActivityReq{
 		ActivityName:      req.ActivityName,
 		IsOnline:          req.IsOnline,

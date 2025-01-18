@@ -1,0 +1,604 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/activity/v1/addActivity": {
+      "post": {
+        "summary": "添加活动表",
+        "operationId": "addActivity",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AddActivityResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddActivityReq"
+            }
+          }
+        ],
+        "tags": [
+          "activity"
+        ]
+      }
+    },
+    "/activity/v1/addActivityProduct": {
+      "post": {
+        "summary": "添加活动商品信息",
+        "operationId": "addActivityProduct",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AddActivityProductResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddActivityProductReq"
+            }
+          }
+        ],
+        "tags": [
+          "activity"
+        ]
+      }
+    },
+    "/activity/v1/addActivityProductSku": {
+      "post": {
+        "summary": "添加活动商品库存信息",
+        "operationId": "addActivityProductSku",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AddActivityProductSkuResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddActivityProductSkuReq"
+            }
+          }
+        ],
+        "tags": [
+          "activity"
+        ]
+      }
+    },
+    "/activity/v1/addActivityTime": {
+      "post": {
+        "summary": "添加活动时间表",
+        "operationId": "addActivityTime",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/AddActivityTimeResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddActivityTimeReq"
+            }
+          }
+        ],
+        "tags": [
+          "activity"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Activity": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "activity_start_time": {
+          "type": "string"
+        },
+        "activity_end_time": {
+          "type": "string"
+        },
+        "is_online": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "create_user": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "create_time": {
+          "type": "string"
+        },
+        "update_user": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "update_time": {
+          "type": "string"
+        },
+        "is_deleted": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "Activity",
+      "required": [
+        "primaryKey;column:id",
+        "id",
+        "column:name",
+        "name",
+        "column:activity_start_time",
+        "activity_start_time",
+        "column:activity_end_time",
+        "activity_end_time",
+        "column:is_online",
+        "is_online",
+        "column:create_user",
+        "create_user",
+        "column:create_time",
+        "create_time",
+        "column:update_user",
+        "update_user",
+        "column:update_time",
+        "update_time",
+        "column:is_deleted",
+        "is_deleted"
+      ]
+    },
+    "ActivityProduct": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "activity_time_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_name": {
+          "type": "string"
+        },
+        "product_main_picture": {
+          "type": "string"
+        },
+        "product_starting_price": {
+          "type": "number",
+          "format": "double"
+        },
+        "category_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "create_user": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "create_time": {
+          "type": "string"
+        },
+        "update_user": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "update_time": {
+          "type": "string"
+        },
+        "is_deleted": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ActivityProduct",
+      "required": [
+        "primaryKey;column:id",
+        "id",
+        "column:activity_time_id",
+        "activity_time_id",
+        "column:product_id",
+        "product_id",
+        "column:product_name",
+        "product_name",
+        "column:product_main_picture",
+        "product_main_picture",
+        "column:product_starting_price",
+        "product_starting_price",
+        "column:category_id",
+        "category_id",
+        "column:create_user",
+        "create_user",
+        "column:create_time",
+        "create_time",
+        "column:update_user",
+        "update_user",
+        "column:update_time",
+        "update_time",
+        "column:is_deleted",
+        "is_deleted"
+      ]
+    },
+    "ActivityProductSku": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "activity_product_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_sku_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "original_price": {
+          "type": "number",
+          "format": "double"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "stock": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "create_user": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "create_time": {
+          "type": "string"
+        },
+        "update_user": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "update_time": {
+          "type": "string"
+        },
+        "is_deleted": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ActivityProductSku",
+      "required": [
+        "primaryKey;column:id",
+        "id",
+        "column:activity_product_id",
+        "activity_product_id",
+        "column:product_id",
+        "product_id",
+        "column:product_sku_id",
+        "product_sku_id",
+        "column:price",
+        "price",
+        "column:original_price",
+        "original_price",
+        "column:number",
+        "number",
+        "column:stock",
+        "stock",
+        "column:create_user",
+        "create_user",
+        "column:create_time",
+        "create_time",
+        "column:update_user",
+        "update_user",
+        "column:update_time",
+        "update_time",
+        "column:is_deleted",
+        "is_deleted"
+      ]
+    },
+    "ActivityTime": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "activity_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "time_name": {
+          "type": "string"
+        },
+        "start_time": {
+          "type": "string"
+        },
+        "end_time": {
+          "type": "string"
+        },
+        "is_enable": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "create_user": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "create_time": {
+          "type": "string"
+        },
+        "update_user": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "update_time": {
+          "type": "string"
+        },
+        "is_deleted": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ActivityTime",
+      "required": [
+        "primaryKey;column:id",
+        "id",
+        "column:activity_id",
+        "activity_id",
+        "column:time_name",
+        "time_name",
+        "column:start_time",
+        "start_time",
+        "column:end_time",
+        "end_time",
+        "column:is_enable",
+        "is_enable",
+        "column:create_user",
+        "create_user",
+        "column:create_time",
+        "create_time",
+        "column:update_user",
+        "update_user",
+        "column:update_time",
+        "update_time",
+        "column:is_deleted",
+        "is_deleted"
+      ]
+    },
+    "AddActivityProductReq": {
+      "type": "object",
+      "properties": {
+        "activity_time_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "AddActivityProductReq",
+      "required": [
+        "activity_time_id",
+        "product_id",
+        "user_id"
+      ]
+    },
+    "AddActivityProductResp": {
+      "type": "object",
+      "properties": {
+        "activity_product": {
+          "$ref": "#/definitions/ActivityProduct"
+        }
+      },
+      "title": "AddActivityProductResp",
+      "required": [
+        "activity_product"
+      ]
+    },
+    "AddActivityProductSkuReq": {
+      "type": "object",
+      "properties": {
+        "activity_product_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_sku_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "AddActivityProductSkuReq",
+      "required": [
+        "activity_product_id",
+        "product_id",
+        "product_sku_id",
+        "user_id",
+        "price",
+        "number"
+      ]
+    },
+    "AddActivityProductSkuResp": {
+      "type": "object",
+      "properties": {
+        "activity_product_sku": {
+          "$ref": "#/definitions/ActivityProductSku"
+        }
+      },
+      "title": "AddActivityProductSkuResp",
+      "required": [
+        "activity_product_sku"
+      ]
+    },
+    "AddActivityReq": {
+      "type": "object",
+      "properties": {
+        "activity_name": {
+          "type": "string"
+        },
+        "is_online": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "activity_start_time": {
+          "type": "string"
+        },
+        "activity_end_time": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "AddActivityReq",
+      "required": [
+        "activity_name",
+        "is_online",
+        "activity_start_time",
+        "activity_end_time",
+        "user_id"
+      ]
+    },
+    "AddActivityResp": {
+      "type": "object",
+      "properties": {
+        "activity": {
+          "$ref": "#/definitions/Activity"
+        }
+      },
+      "title": "AddActivityResp",
+      "required": [
+        "activity"
+      ]
+    },
+    "AddActivityTimeReq": {
+      "type": "object",
+      "properties": {
+        "activity_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "AddActivityTimeReq",
+      "required": [
+        "activity_id",
+        "name",
+        "user_id"
+      ]
+    },
+    "AddActivityTimeResp": {
+      "type": "object",
+      "properties": {
+        "activity_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "activity": {
+          "$ref": "#/definitions/Activity"
+        }
+      },
+      "title": "AddActivityTimeResp",
+      "required": [
+        "activity_id",
+        "name",
+        "user_id",
+        "activity"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

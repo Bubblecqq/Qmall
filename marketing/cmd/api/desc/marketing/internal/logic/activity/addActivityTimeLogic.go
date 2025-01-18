@@ -1,6 +1,7 @@
 package activity
 
 import (
+	"QMall/marketing/cmd/api/desc/marketing/internal/types/convert"
 	"QMall/marketing/cmd/rpc/activity"
 	"context"
 	"fmt"
@@ -39,6 +40,6 @@ func (l *AddActivityTimeLogic) AddActivityTime(req *types.AddActivityTimeReq) (r
 	resp = new(types.AddActivityTimeResp)
 	resp.ActivityId = time.ActivityId
 	resp.Name = time.Name
-
+	resp.Activity = convert.PbActivityConvertTypes(time.Activity)
 	return
 }

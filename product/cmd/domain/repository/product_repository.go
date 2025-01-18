@@ -56,8 +56,14 @@ func (p *ProductRepository) Page(length int32, pageIndex int32) (int64, []model.
 
 func (p *ProductRepository) FindProduct(id int64) (*model.Product, error) {
 	product := &model.Product{}
-	err := p.mysqlClient.Model(&model.Product{}).Find(&product, id).Error
-	return product, err
+	tx := p.mysqlClient.Model(&model.Product{}).Find(&product, id)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	if product.Id == 0 && product.Name == "" {
+		return nil, gorm.ErrRecordNotFound
+	}
+	return product, nil
 }
 
 func (p *ProductRepository) GetProductList() []model.Product {

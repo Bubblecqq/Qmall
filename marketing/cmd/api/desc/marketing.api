@@ -21,7 +21,7 @@ service activity {
 	@handler addActivity
 	post /addActivity (AddActivityReq) returns (AddActivityResp)
 
-	@doc "添加活动表"
+	@doc "添加活动时间表"
 	@handler addActivityTime
 	post /addActivityTime (AddActivityTimeReq) returns (AddActivityTimeResp)
 
