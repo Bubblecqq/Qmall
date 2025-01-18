@@ -2,8 +2,8 @@ package model
 
 import "time"
 
-// SeckillRecord
-type SeckillRecord struct {
+// SecKillRecord 秒杀记录表
+type SecKillRecord struct {
 	Id         int64      `gorm:"id" json:"id"`                   // ID
 	UserId     int64      `gorm:"user_id" json:"user_id"`         // 用户ID
 	ProductsId int64      `gorm:"products_id" json:"products_id"` // 商品ID
@@ -15,6 +15,6 @@ type SeckillRecord struct {
 	UpdateTime *time.Time `gorm:"update_time" json:"update_time"` // 修改时间
 }
 
-func (t *SeckillRecord) TableName() string {
+func (t *SecKillRecord) TableName() string {
 	return "mall_seckill_record_t"
 }

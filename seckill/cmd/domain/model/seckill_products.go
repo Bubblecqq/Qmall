@@ -2,8 +2,8 @@ package model
 
 import "time"
 
-// SeckillProducts
-type SeckillProducts struct {
+// SecKillProducts 秒杀商品表
+type SecKillProducts struct {
 	Id           int64      `gorm:"id" json:"id"`
 	ProductsNum  string     `gorm:"products_num" json:"products_num"`   // 商品编号
 	ProductsName string     `gorm:"products_name" json:"products_name"` // 商品名字
@@ -14,6 +14,6 @@ type SeckillProducts struct {
 	UpdateTime   *time.Time `gorm:"update_time" json:"update_time"`     // 修改时间
 }
 
-func (t *SeckillProducts) TableName() string {
+func (t *SecKillProducts) TableName() string {
 	return "mall_products_t"
 }

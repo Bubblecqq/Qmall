@@ -1,3 +1,74 @@
 syntax = "proto3";
 
-package template;
+option go_package="./pb";
+import "google/protobuf/timestamp.proto";
+//import "product/cmd/rpc/product/pb/product.proto";
+package pb;
+
+// 定义秒杀订单消息
+message SecKillOrder {
+  int64 id = 1; // ID
+  int64 seller = 2; // 买方ID
+  int64 buyer = 3; // 卖方ID
+  int64 products_id = 4; // 商品ID
+  string products_num = 5; // 商品编号
+  string order_num = 6; // 订单号
+  string price = 7; // 金额
+  int32 status = 8; // 状态
+  google.protobuf.Timestamp create_time = 9; // 创建时间
+  google.protobuf.Timestamp update_time = 10; // 修改时间
+}
+
+// 定义秒杀商品消息
+message SecKillProducts {
+  int64 id = 1;
+  string products_num = 2; // 商品编号
+  string products_name = 3; // 商品名字
+  string price = 4; // 价格
+  string picture_url = 5; // 商品图片
+  int64 seller = 6; // 卖家ID
+  google.protobuf.Timestamp create_time = 7; // 创建时间
+  google.protobuf.Timestamp update_time = 8; // 修改时间
+}
+
+// 定义秒杀配额消息
+message SecKillQuota {
+  int64 id = 1;
+  int64 products_id = 2;
+  int32 num = 3;
+  google.protobuf.Timestamp create_time = 4;
+  google.protobuf.Timestamp update_time = 5;
+}
+
+// 定义秒杀记录消息
+message SecKillRecord {
+  int64 id = 1; // ID
+  int64 user_id = 2; // 用户ID
+  int64 products_id = 3; // 商品ID
+  string sec_num = 4; // 秒杀号
+  string order_num = 5; // 订单号
+  string price = 6; // 金额
+  int32 status = 7; // 状态
+  google.protobuf.Timestamp create_time = 8; // 创建时间
+  google.protobuf.Timestamp update_time = 9; // 修改时间
+}
+
+// 定义秒杀库存消息
+message SecKillStock {
+  int64 id = 1; // ID
+  int64 products_id = 2; // 商品ID
+  int64 stock = 3; // 库存大小
+  google.protobuf.Timestamp create_time = 4; // 创建时间
+  google.protobuf.Timestamp update_time = 5; // 修改时间
+}
+
+// 定义秒杀用户配额消息
+message SecKillUserQuota {
+  int64 id = 1;
+  int64 user_id = 2;
+  int64 products_id = 3;
+  int32 num = 4;
+  int32 killed_num = 5;
+  google.protobuf.Timestamp create_time = 6;
+  google.protobuf.Timestamp update_time = 7;
+}

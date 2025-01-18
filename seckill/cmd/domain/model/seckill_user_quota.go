@@ -2,7 +2,7 @@ package model
 
 import "time"
 
-// SecKillUserQuota 秒杀用户限额表对应的结构体
+// SecKillUserQuota 秒杀用户限额表
 type SecKillUserQuota struct {
 	Id         int64      `gorm:"id" json:"id"`
 	UserId     int64      `gorm:"user_id" json:"user_id"`
