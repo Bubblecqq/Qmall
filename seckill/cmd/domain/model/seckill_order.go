@@ -2,7 +2,7 @@ package model
 
 import "time"
 
-// SecKillOrder
+// SecKillOrder 秒杀订单表
 type SecKillOrder struct {
 	Id          int64      `gorm:"id" json:"id"`                     // ID
 	Seller      int64      `gorm:"seller" json:"seller"`             // 买方ID
