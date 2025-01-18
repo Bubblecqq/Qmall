@@ -15,7 +15,7 @@ type IncreaseSecKillProductsLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 添加秒杀商品
+// NewIncreaseSecKillProductsLogic 添加秒杀商品
 func NewIncreaseSecKillProductsLogic(ctx context.Context, svcCtx *svc.ServiceContext) *IncreaseSecKillProductsLogic {
 	return &IncreaseSecKillProductsLogic{
 		Logger: logx.WithContext(ctx),

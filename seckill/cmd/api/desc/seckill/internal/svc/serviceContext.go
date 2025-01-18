@@ -4,7 +4,7 @@ import (
 	"QMall/marketing/cmd/rpc/activity"
 	"QMall/product/cmd/rpc/product/product"
 	"QMall/seckill/cmd/api/desc/seckill/internal/config"
-	"QMall/seckill/cmd/rpc/bak/seckill"
+	"QMall/seckill/cmd/rpc/seckill"
 	"QMall/shoppingCart/cmd/rpc/shoppingcart/shoppingcart"
 	"QMall/tradeOrder/cmd/rpc/tradeOrder/tradeorder"
 	"QMall/user/cmd/rpc/user"

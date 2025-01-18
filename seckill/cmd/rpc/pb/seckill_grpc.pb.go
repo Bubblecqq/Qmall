@@ -21,17 +21,19 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SecKill_IncreaseSecKillProducts_FullMethodName  = "/pb.sec_kill/IncreaseSecKillProducts"
-	SecKill_IncreaseSecKillQuota_FullMethodName     = "/pb.sec_kill/IncreaseSecKillQuota"
-	SecKill_IncreaseSecKillUserQuota_FullMethodName = "/pb.sec_kill/IncreaseSecKillUserQuota"
-	SecKill_IncreaseSecKillStock_FullMethodName     = "/pb.sec_kill/IncreaseSecKillStock"
-	SecKill_IncreaseSecKillRecord_FullMethodName    = "/pb.sec_kill/IncreaseSecKillRecord"
+	SecKill_IncreaseSecKillOrder_FullMethodName     = "/pb.secKill/IncreaseSecKillOrder"
+	SecKill_IncreaseSecKillProducts_FullMethodName  = "/pb.secKill/IncreaseSecKillProducts"
+	SecKill_IncreaseSecKillQuota_FullMethodName     = "/pb.secKill/IncreaseSecKillQuota"
+	SecKill_IncreaseSecKillUserQuota_FullMethodName = "/pb.secKill/IncreaseSecKillUserQuota"
+	SecKill_IncreaseSecKillStock_FullMethodName     = "/pb.secKill/IncreaseSecKillStock"
+	SecKill_IncreaseSecKillRecord_FullMethodName    = "/pb.secKill/IncreaseSecKillRecord"
 )
 
 // SecKillClient is the client API for SecKill service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SecKillClient interface {
+	IncreaseSecKillOrder(ctx context.Context, in *IncreaseSecKillOrderReq, opts ...grpc.CallOption) (*IncreaseSecKillOrderResp, error)
 	IncreaseSecKillProducts(ctx context.Context, in *IncreaseSecKillProductsReq, opts ...grpc.CallOption) (*IncreaseSecKillProductsResp, error)
 	IncreaseSecKillQuota(ctx context.Context, in *IncreaseSecKillQuotaReq, opts ...grpc.CallOption) (*IncreaseSecKillQuotaResp, error)
 	IncreaseSecKillUserQuota(ctx context.Context, in *IncreaseSecKillUserQuotaReq, opts ...grpc.CallOption) (*IncreaseSecKillUserQuotaResp, error)
@@ -45,6 +47,16 @@ type secKillClient struct {
 
 func NewSecKillClient(cc grpc.ClientConnInterface) SecKillClient {
 	return &secKillClient{cc}
+}
+
+func (c *secKillClient) IncreaseSecKillOrder(ctx context.Context, in *IncreaseSecKillOrderReq, opts ...grpc.CallOption) (*IncreaseSecKillOrderResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(IncreaseSecKillOrderResp)
+	err := c.cc.Invoke(ctx, SecKill_IncreaseSecKillOrder_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *secKillClient) IncreaseSecKillProducts(ctx context.Context, in *IncreaseSecKillProductsReq, opts ...grpc.CallOption) (*IncreaseSecKillProductsResp, error) {
@@ -101,6 +113,7 @@ func (c *secKillClient) IncreaseSecKillRecord(ctx context.Context, in *IncreaseS
 // All implementations must embed UnimplementedSecKillServer
 // for forward compatibility.
 type SecKillServer interface {
+	IncreaseSecKillOrder(context.Context, *IncreaseSecKillOrderReq) (*IncreaseSecKillOrderResp, error)
 	IncreaseSecKillProducts(context.Context, *IncreaseSecKillProductsReq) (*IncreaseSecKillProductsResp, error)
 	IncreaseSecKillQuota(context.Context, *IncreaseSecKillQuotaReq) (*IncreaseSecKillQuotaResp, error)
 	IncreaseSecKillUserQuota(context.Context, *IncreaseSecKillUserQuotaReq) (*IncreaseSecKillUserQuotaResp, error)
@@ -116,6 +129,9 @@ type SecKillServer interface {
 // pointer dereference when methods are called.
 type UnimplementedSecKillServer struct{}
 
+func (UnimplementedSecKillServer) IncreaseSecKillOrder(context.Context, *IncreaseSecKillOrderReq) (*IncreaseSecKillOrderResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method IncreaseSecKillOrder not implemented")
+}
 func (UnimplementedSecKillServer) IncreaseSecKillProducts(context.Context, *IncreaseSecKillProductsReq) (*IncreaseSecKillProductsResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IncreaseSecKillProducts not implemented")
 }
@@ -150,6 +166,24 @@ func RegisterSecKillServer(s grpc.ServiceRegistrar, srv SecKillServer) {
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&SecKill_ServiceDesc, srv)
+}
+
+func _SecKill_IncreaseSecKillOrder_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(IncreaseSecKillOrderReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SecKillServer).IncreaseSecKillOrder(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SecKill_IncreaseSecKillOrder_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SecKillServer).IncreaseSecKillOrder(ctx, req.(*IncreaseSecKillOrderReq))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _SecKill_IncreaseSecKillProducts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -246,9 +280,13 @@ func _SecKill_IncreaseSecKillRecord_Handler(srv interface{}, ctx context.Context
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
 var SecKill_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "pb.sec_kill",
+	ServiceName: "pb.secKill",
 	HandlerType: (*SecKillServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "IncreaseSecKillOrder",
+			Handler:    _SecKill_IncreaseSecKillOrder_Handler,
+		},
 		{
 			MethodName: "IncreaseSecKillProducts",
 			Handler:    _SecKill_IncreaseSecKillProducts_Handler,

@@ -16,6 +16,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				// 添加秒杀订单
+				Method:  http.MethodPost,
+				Path:    "/increaseSecKillOrder",
+				Handler: seckill.IncreaseSecKillOrderHandler(serverCtx),
+			},
+			{
 				// 添加秒杀商品
 				Method:  http.MethodPost,
 				Path:    "/increaseSecKillProducts",
