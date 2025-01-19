@@ -6,8 +6,8 @@ import (
 	"fmt"
 )
 
-func PbSecKillOrderConvertTypes(secKillOrder *pb.SecKillOrder) *types.SecKillOrder {
-	return &types.SecKillOrder{
+func PbSecKillOrderConvertTypes(secKillOrder *pb.SecKillOrder) types.SecKillOrder {
+	return types.SecKillOrder{
 		Id:          secKillOrder.Id,
 		Seller:      secKillOrder.Seller,
 		Buyer:       secKillOrder.Buyer,

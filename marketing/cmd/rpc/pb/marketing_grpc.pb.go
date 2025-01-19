@@ -21,10 +21,11 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Activity_AddActivity_FullMethodName           = "/pb.activity/AddActivity"
-	Activity_AddActivityTime_FullMethodName       = "/pb.activity/AddActivityTime"
-	Activity_AddActivityProduct_FullMethodName    = "/pb.activity/AddActivityProduct"
-	Activity_AddActivityProductSku_FullMethodName = "/pb.activity/AddActivityProductSku"
+	Activity_AddActivity_FullMethodName            = "/pb.activity/AddActivity"
+	Activity_AddActivityTime_FullMethodName        = "/pb.activity/AddActivityTime"
+	Activity_AddActivityProduct_FullMethodName     = "/pb.activity/AddActivityProduct"
+	Activity_AddActivityProductSku_FullMethodName  = "/pb.activity/AddActivityProductSku"
+	Activity_GetActivityProductById_FullMethodName = "/pb.activity/GetActivityProductById"
 )
 
 // ActivityClient is the client API for Activity service.
@@ -35,6 +36,8 @@ type ActivityClient interface {
 	AddActivityTime(ctx context.Context, in *AddActivityTimeReq, opts ...grpc.CallOption) (*AddActivityTimeResp, error)
 	AddActivityProduct(ctx context.Context, in *AddActivityProductReq, opts ...grpc.CallOption) (*AddActivityProductResp, error)
 	AddActivityProductSku(ctx context.Context, in *AddActivityProductSkuReq, opts ...grpc.CallOption) (*AddActivityProductSkuResp, error)
+	// 查询接口
+	GetActivityProductById(ctx context.Context, in *GetActivityProductByIdReq, opts ...grpc.CallOption) (*GetActivityProductByIdResp, error)
 }
 
 type activityClient struct {
@@ -85,6 +88,16 @@ func (c *activityClient) AddActivityProductSku(ctx context.Context, in *AddActiv
 	return out, nil
 }
 
+func (c *activityClient) GetActivityProductById(ctx context.Context, in *GetActivityProductByIdReq, opts ...grpc.CallOption) (*GetActivityProductByIdResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetActivityProductByIdResp)
+	err := c.cc.Invoke(ctx, Activity_GetActivityProductById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ActivityServer is the server API for Activity service.
 // All implementations must embed UnimplementedActivityServer
 // for forward compatibility.
@@ -93,6 +106,8 @@ type ActivityServer interface {
 	AddActivityTime(context.Context, *AddActivityTimeReq) (*AddActivityTimeResp, error)
 	AddActivityProduct(context.Context, *AddActivityProductReq) (*AddActivityProductResp, error)
 	AddActivityProductSku(context.Context, *AddActivityProductSkuReq) (*AddActivityProductSkuResp, error)
+	// 查询接口
+	GetActivityProductById(context.Context, *GetActivityProductByIdReq) (*GetActivityProductByIdResp, error)
 	mustEmbedUnimplementedActivityServer()
 }
 
@@ -114,6 +129,9 @@ func (UnimplementedActivityServer) AddActivityProduct(context.Context, *AddActiv
 }
 func (UnimplementedActivityServer) AddActivityProductSku(context.Context, *AddActivityProductSkuReq) (*AddActivityProductSkuResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddActivityProductSku not implemented")
+}
+func (UnimplementedActivityServer) GetActivityProductById(context.Context, *GetActivityProductByIdReq) (*GetActivityProductByIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetActivityProductById not implemented")
 }
 func (UnimplementedActivityServer) mustEmbedUnimplementedActivityServer() {}
 func (UnimplementedActivityServer) testEmbeddedByValue()                  {}
@@ -208,6 +226,24 @@ func _Activity_AddActivityProductSku_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Activity_GetActivityProductById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetActivityProductByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActivityServer).GetActivityProductById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Activity_GetActivityProductById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActivityServer).GetActivityProductById(ctx, req.(*GetActivityProductByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Activity_ServiceDesc is the grpc.ServiceDesc for Activity service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -230,6 +266,10 @@ var Activity_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddActivityProductSku",
 			Handler:    _Activity_AddActivityProductSku_Handler,
+		},
+		{
+			MethodName: "GetActivityProductById",
+			Handler:    _Activity_GetActivityProductById_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

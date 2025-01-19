@@ -5,8 +5,8 @@ import (
 	"QMall/seckill/cmd/rpc/pb"
 )
 
-func PbSecKillUserQuotaConvertTypes(secKillUserQuota *pb.SecKillUserQuota) *types.SecKillUserQuota {
-	return &types.SecKillUserQuota{
+func PbSecKillUserQuotaConvertTypes(secKillUserQuota *pb.SecKillUserQuota) types.SecKillUserQuota {
+	return types.SecKillUserQuota{
 		Id:         secKillUserQuota.Id,
 		ProductsId: secKillUserQuota.ProductsId,
 		UserId:     secKillUserQuota.UserId,

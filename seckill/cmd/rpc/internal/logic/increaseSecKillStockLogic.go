@@ -1,7 +1,9 @@
 package logic
 
 import (
+	"QMall/seckill/cmd/domain/convert"
 	"context"
+	"fmt"
 
 	"QMall/seckill/cmd/rpc/internal/svc"
 	"QMall/seckill/cmd/rpc/pb"
@@ -24,7 +26,13 @@ func NewIncreaseSecKillStockLogic(ctx context.Context, svcCtx *svc.ServiceContex
 }
 
 func (l *IncreaseSecKillStockLogic) IncreaseSecKillStock(in *pb.IncreaseSecKillStockReq) (*pb.IncreaseSecKillStockResp, error) {
-	// todo: add your logic here and delete this line
-
-	return &pb.IncreaseSecKillStockResp{}, nil
+	fmt.Printf("[IncreaseSecKillStockLogic] 正在调用持久化数据层.....\n")
+	stock, err := l.svcCtx.SecKillRepository.IncreaseSecKillStock(in)
+	if err != nil {
+		return &pb.IncreaseSecKillStockResp{}, err
+	}
+	fmt.Printf("[IncreaseSecKillStockLogic] 秒杀库存信息添加完成！请求的商品Id：%v，库存数：%v\n", in.ProductsId, in.Stock)
+	return &pb.IncreaseSecKillStockResp{
+		SecKillStock: convert.ModelSecKillStockConvertPb(stock),
+	}, nil
 }
