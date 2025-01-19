@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"QMall/seckill/cmd/domain/convert"
 	"context"
 
 	"QMall/seckill/cmd/rpc/internal/svc"
@@ -24,7 +25,14 @@ func NewIncreaseSecKillOrderLogic(ctx context.Context, svcCtx *svc.ServiceContex
 }
 
 func (l *IncreaseSecKillOrderLogic) IncreaseSecKillOrder(in *pb.IncreaseSecKillOrderReq) (*pb.IncreaseSecKillOrderResp, error) {
-	// todo: add your logic here and delete this line
 
-	return &pb.IncreaseSecKillOrderResp{}, nil
+	order, err := l.svcCtx.SecKillRepository.IncreaseSecKillOrder(in)
+
+	if err != nil {
+		return &pb.IncreaseSecKillOrderResp{}, err
+	}
+
+	return &pb.IncreaseSecKillOrderResp{
+		SecKillOrder: convert.ModelSecKillOrderConvertPb(order),
+	}, nil
 }

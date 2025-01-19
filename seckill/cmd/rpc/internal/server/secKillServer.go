@@ -57,3 +57,19 @@ func (s *SecKillServer) GetSecKillQuotaByProductsId(ctx context.Context, in *pb.
 	l := logic.NewGetSecKillQuotaByProductsIdLogic(ctx, s.svcCtx)
 	return l.GetSecKillQuotaByProductsId(in)
 }
+
+func (s *SecKillServer) GetSecKillProductsByProductsId(ctx context.Context, in *pb.GetSecKillProductsByProductsIdReq) (*pb.GetSecKillProductsByProductsIdResp, error) {
+	l := logic.NewGetSecKillProductsByProductsIdLogic(ctx, s.svcCtx)
+	return l.GetSecKillProductsByProductsId(in)
+}
+
+// 更新接口
+func (s *SecKillServer) UpdateSecKillQuotaById(ctx context.Context, in *pb.UpdateSecKillQuotaByIdReq) (*pb.UpdateSecKillQuotaByIdResp, error) {
+	l := logic.NewUpdateSecKillQuotaByIdLogic(ctx, s.svcCtx)
+	return l.UpdateSecKillQuotaById(in)
+}
+
+func (s *SecKillServer) UpdateSecKillUserQuotaById(ctx context.Context, in *pb.UpdateSecKillUserQuotaByIdReq) (*pb.UpdateSecKillUserQuotaByIdResp, error) {
+	l := logic.NewUpdateSecKillUserQuotaByIdLogic(ctx, s.svcCtx)
+	return l.UpdateSecKillUserQuotaById(in)
+}

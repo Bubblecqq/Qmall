@@ -38,6 +38,12 @@ func (l *AddActivityProductLogic) AddActivityProduct(in *pb.AddActivityProductRe
 		fmt.Printf("当前商品Id：%v不存在！原因见：%v\n", in.ProductId, err)
 		return &pb.AddActivityProductResp{}, err
 	}
+	// 是否上线
+	if !in.IsOnline {
+		fmt.Printf("当前商品Id：%v暂未开启活动！原因见：%v\n", in.ProductId, err)
+		return &pb.AddActivityProductResp{}, err
+	}
+
 	activityProduct.ProductID = in.ProductId
 	activityProduct.ActivityTimeID = in.ActivityTimeId
 	activityProduct.IsDeleted = 0

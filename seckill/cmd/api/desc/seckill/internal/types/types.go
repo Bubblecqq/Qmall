@@ -12,12 +12,12 @@ type GetSecKillQuotaByProductsIdResp struct {
 }
 
 type IncreaseSecKillOrderReq struct {
-	Seller      int64  `gorm:"seller" json:"seller"`             // 买方ID
-	Buyer       int64  `gorm:"buyer" json:"buyer"`               // 卖方ID
-	ProductsId  int64  `gorm:"products_id" json:"products_id"`   // 商品ID
-	ProductsNum string `gorm:"products_num" json:"products_num"` // 商品编号
-	OrderNum    string `gorm:"order_num" json:"order_num"`       // 订单号
-	Price       string `gorm:"price" json:"price"`               // 金额
+	Seller      int64   `gorm:"seller" json:"seller"`             // 买方ID
+	Buyer       int64   `gorm:"buyer" json:"buyer"`               // 卖方ID
+	ProductsId  int64   `gorm:"products_id" json:"products_id"`   // 商品ID
+	ProductsNum string  `gorm:"products_num" json:"products_num"` // 商品编号
+	OrderNum    string  `gorm:"order_num" json:"order_num"`       // 订单号
+	Price       float64 `gorm:"price" json:"price"`               // 金额
 }
 
 type IncreaseSecKillOrderResp struct {

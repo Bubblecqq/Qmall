@@ -4,6 +4,8 @@ import (
 	"QMall/common"
 	"QMall/seckill/cmd/domain/model"
 	"QMall/seckill/cmd/rpc/pb"
+	"errors"
+	"fmt"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
 	"time"
@@ -27,14 +29,90 @@ type ISecKillRepository interface {
 	IncreaseSecKillProducts(in *pb.IncreaseSecKillProductsReq) (*model.SecKillProducts, error)
 
 	// IncreaseSecKillOrder 添加秒杀订单
-	IncreaseSecKillOrder(secKillOrder *model.SecKillOrder) (*model.SecKillOrder, error)
+	IncreaseSecKillOrder(in *pb.IncreaseSecKillOrderReq) (*model.SecKillOrder, error)
 
 	GetSecKillQuotaByProductsId(products_id int64) (*model.SecKillQuota, error)
+
+	GetSecKillProductsByProductsId(products_id int64) (*model.SecKillProducts, error)
+
+	GetSecKillUserQuota(user_id, products_id int64) (*model.SecKillUserQuota, error)
+
+	GetSecKillQuotaById(id int64) (*model.SecKillQuota, error)
+
+	UpdateSecKillUserQuotaById(user_id, products_id, killedNum int64) (*model.SecKillUserQuota, error)
 }
 
 type SecKillRepository struct {
 	mysqlClient *gorm.DB
 	redisClient *redis.Client
+}
+
+func (s *SecKillRepository) GetSecKillUserQuota(user_id, products_id int64) (*model.SecKillUserQuota, error) {
+	userQuota := &model.SecKillUserQuota{}
+	tx := s.mysqlClient.Model(&model.SecKillUserQuota{}).Where("products_id=? and user_id=?", products_id, user_id).Find(&userQuota)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	if userQuota.Id <= 0 {
+		return nil, gorm.ErrRecordNotFound
+	}
+	return userQuota, nil
+}
+
+// UpdateSecKillUserQuotaById TODO 需要增加锁机制，这里暂不加
+func (s *SecKillRepository) UpdateSecKillUserQuotaById(user_id, products_id, killedNum int64) (*model.SecKillUserQuota, error) {
+
+	quotaByProductsId, err := s.GetSecKillQuotaByProductsId(products_id)
+
+	if err != nil {
+		return nil, err
+	}
+	// 是否超过限额
+	if killedNum > quotaByProductsId.Num {
+		return nil, errors.New(fmt.Sprintf("当前用户秒杀的额度超过商品额度！具体用户秒杀数：%v，商品当前限量：%v", killedNum, quotaByProductsId.Num))
+	}
+	userQuota, err := s.GetSecKillUserQuota(user_id, products_id)
+	if err != nil {
+		return nil, gorm.ErrRecordNotFound
+	}
+	if userQuota.KilledNum+killedNum > quotaByProductsId.Num {
+		return nil, errors.New(fmt.Sprintf("当前用户秒杀的额度超过商品额度！具体用户秒杀数：%v，商品当前限量：%v", killedNum, quotaByProductsId.Num))
+	}
+	userQuota.KilledNum += killedNum
+	updateTime := time.Now()
+	userQuota.UpdateTime = &updateTime
+	tx := s.mysqlClient.Model(&model.SecKillUserQuota{}).Updates(&userQuota)
+
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+
+	return userQuota, nil
+}
+
+func (s *SecKillRepository) GetSecKillQuotaById(id int64) (*model.SecKillQuota, error) {
+	quota := &model.SecKillQuota{}
+
+	tx := s.mysqlClient.Model(&model.SecKillQuota{}).Find(&quota, id)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	if quota.Id <= 0 {
+		return nil, gorm.ErrRecordNotFound
+	}
+	return quota, nil
+}
+
+func (s *SecKillRepository) GetSecKillProductsByProductsId(products_id int64) (*model.SecKillProducts, error) {
+	products := &model.SecKillProducts{}
+	tx := s.mysqlClient.Model(&model.SecKillProducts{}).Where("products_id=?", products_id).Find(&products)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	if products.Id <= 0 {
+		return nil, gorm.ErrRecordNotFound
+	}
+	return products, nil
 }
 
 func (s *SecKillRepository) GetSecKillQuotaByProductsId(products_id int64) (*model.SecKillQuota, error) {
@@ -49,7 +127,19 @@ func (s *SecKillRepository) GetSecKillQuotaByProductsId(products_id int64) (*mod
 	return quota, nil
 }
 
-func (s *SecKillRepository) IncreaseSecKillOrder(secKillOrder *model.SecKillOrder) (*model.SecKillOrder, error) {
+func (s *SecKillRepository) IncreaseSecKillOrder(in *pb.IncreaseSecKillOrderReq) (*model.SecKillOrder, error) {
+	now := time.Now()
+	secKillOrder := &model.SecKillOrder{
+		CreateTime:  now,
+		Seller:      in.Seller,
+		Buyer:       in.Buyer,
+		Price:       in.Price,
+		ProductsId:  in.ProductsId,
+		ProductsNum: in.ProductsNum,
+		OrderNum:    in.OrderNum,
+		Status:      1,
+	}
+
 	tx := s.mysqlClient.Model(&model.SecKillOrder{}).Create(secKillOrder)
 	if tx.Error != nil {
 		return nil, tx.Error
