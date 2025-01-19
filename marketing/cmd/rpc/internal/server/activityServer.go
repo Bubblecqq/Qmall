@@ -42,3 +42,9 @@ func (s *ActivityServer) AddActivityProductSku(ctx context.Context, in *pb.AddAc
 	l := logic.NewAddActivityProductSkuLogic(ctx, s.svcCtx)
 	return l.AddActivityProductSku(in)
 }
+
+// 查询接口
+func (s *ActivityServer) GetActivityProductById(ctx context.Context, in *pb.GetActivityProductByIdReq) (*pb.GetActivityProductByIdResp, error) {
+	l := logic.NewGetActivityProductByIdLogic(ctx, s.svcCtx)
+	return l.GetActivityProductById(in)
+}

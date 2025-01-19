@@ -1,7 +1,12 @@
 package seckill
 
 import (
+	"QMall/marketing/cmd/rpc/activity"
+	product2 "QMall/product/cmd/rpc/product/product"
+	"QMall/seckill/cmd/api/desc/seckill/internal/types/convert"
+	"QMall/seckill/cmd/rpc/seckill"
 	"context"
+	"fmt"
 
 	"QMall/seckill/cmd/api/desc/seckill/internal/svc"
 	"QMall/seckill/cmd/api/desc/seckill/internal/types"
@@ -25,7 +30,31 @@ func NewIncreaseSecKillProductsLogic(ctx context.Context, svcCtx *svc.ServiceCon
 }
 
 func (l *IncreaseSecKillProductsLogic) IncreaseSecKillProducts(req *types.IncreaseSecKillProductsReq) (resp *types.IncreaseSecKillProductsResp, err error) {
-	// todo: add your logic here and delete this line
+	resp = new(types.IncreaseSecKillProductsResp)
+	l.Info(fmt.Printf("[*] 正在查询当前请求的秒杀商品是否存在活动....\n"))
 
+	activityProductByIdResp, err := l.svcCtx.ActivityRPC.GetActivityProductById(l.ctx, &activity.GetActivityProductByIdReq{
+		ProductId: req.ProductId,
+	})
+	if activityProductByIdResp.ActivityProduct == nil {
+		return
+	}
+
+	product, err := l.svcCtx.ProductRPC.GetProduct(l.ctx, &product2.GetProductByIdReq{
+		Id: req.ProductId,
+	})
+
+	l.Info(fmt.Printf("[*] 正在添加秒杀商品信息>>>>>>当前访问的商品Id：%v，秒杀价格：%v，卖家信息：%v\n", req.ProductId, req.Price, req.Seller))
+
+	products, err := l.svcCtx.SecKillRpcConf.IncreaseSecKillProducts(l.ctx, &seckill.IncreaseSecKillProductsReq{
+		ProductId:   req.ProductId,
+		Seller:      req.Seller,
+		Price:       req.Price,
+		PictureUrl:  product.Product.MainPicture,
+		ProductName: product.Product.Name,
+	})
+
+	l.Info(fmt.Printf("[INFO] 已添加秒杀商品信息！当前访问的商品Id：%v，秒杀价格：%v，卖家信息：%v\n", req.ProductId, req.Price, req.Seller))
+	resp.SecKillProducts = convert.PbSecKillProductsConvertTypes(products.SecKillProducts)
 	return
 }

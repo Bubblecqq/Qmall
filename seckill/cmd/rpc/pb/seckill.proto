@@ -122,6 +122,8 @@ message IncreaseSecKillProductsReq {
   int64 product_id = 1;
   double price = 2;
   int64 seller = 3;
+  string pictureUrl = 4;
+  string product_name = 5;
 }
 
 // 定义添加秒杀商品的响应消息
@@ -141,6 +143,7 @@ message IncreaseSecKillQuotaReq {
 // 定义添加秒杀限额的响应消息
 message IncreaseSecKillQuotaResp {
   SecKillProducts secKill_products = 1;
+  SecKillQuota secKill_quota = 2;
 }
 
 // 定义添加秒杀用户限额的请求消息

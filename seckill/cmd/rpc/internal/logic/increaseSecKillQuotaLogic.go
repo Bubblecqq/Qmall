@@ -1,7 +1,9 @@
 package logic
 
 import (
+	"QMall/seckill/cmd/domain/convert"
 	"context"
+	"fmt"
 
 	"QMall/seckill/cmd/rpc/internal/svc"
 	"QMall/seckill/cmd/rpc/pb"
@@ -24,7 +26,16 @@ func NewIncreaseSecKillQuotaLogic(ctx context.Context, svcCtx *svc.ServiceContex
 }
 
 func (l *IncreaseSecKillQuotaLogic) IncreaseSecKillQuota(in *pb.IncreaseSecKillQuotaReq) (*pb.IncreaseSecKillQuotaResp, error) {
-	// todo: add your logic here and delete this line
+	fmt.Printf("[IncreaseSecKillQuotaLogic] 正在调用持久化数据层.....\n")
 
-	return &pb.IncreaseSecKillQuotaResp{}, nil
+	quota, err := l.svcCtx.SecKillRepository.IncreaseSecKillQuota(in)
+
+	if err != nil {
+		return &pb.IncreaseSecKillQuotaResp{}, err
+	}
+	fmt.Printf("[IncreaseSecKillQuotaLogic] 秒杀用户限额添加完成！请求的商品Id：%v，限额秒杀数：%v\n", in.ProductId, in.LimitNumber)
+
+	return &pb.IncreaseSecKillQuotaResp{
+		SecKillQuota: convert.ModelSecKillQuotaConvertPb(quota),
+	}, nil
 }

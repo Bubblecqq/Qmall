@@ -5,8 +5,8 @@ import (
 	"QMall/seckill/cmd/rpc/pb"
 )
 
-func PbSecKillRecordConvertTypes(secKillRecord *pb.SecKillRecord) *types.SecKillRecord {
-	return &types.SecKillRecord{
+func PbSecKillRecordConvertTypes(secKillRecord *pb.SecKillRecord) types.SecKillRecord {
+	return types.SecKillRecord{
 		Id:         secKillRecord.Id,
 		UserId:     secKillRecord.UserId,
 		ProductsId: secKillRecord.ProductsId,

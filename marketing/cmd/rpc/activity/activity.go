@@ -14,24 +14,28 @@ import (
 )
 
 type (
-	Activity                  = pb.Activity
-	ActivityProduct           = pb.ActivityProduct
-	ActivityProductSku        = pb.ActivityProductSku
-	ActivityTime              = pb.ActivityTime
-	AddActivityProductReq     = pb.AddActivityProductReq
-	AddActivityProductResp    = pb.AddActivityProductResp
-	AddActivityProductSkuReq  = pb.AddActivityProductSkuReq
-	AddActivityProductSkuResp = pb.AddActivityProductSkuResp
-	AddActivityReq            = pb.AddActivityReq
-	AddActivityResp           = pb.AddActivityResp
-	AddActivityTimeReq        = pb.AddActivityTimeReq
-	AddActivityTimeResp       = pb.AddActivityTimeResp
+	Activity                   = pb.Activity
+	ActivityProduct            = pb.ActivityProduct
+	ActivityProductSku         = pb.ActivityProductSku
+	ActivityTime               = pb.ActivityTime
+	AddActivityProductReq      = pb.AddActivityProductReq
+	AddActivityProductResp     = pb.AddActivityProductResp
+	AddActivityProductSkuReq   = pb.AddActivityProductSkuReq
+	AddActivityProductSkuResp  = pb.AddActivityProductSkuResp
+	AddActivityReq             = pb.AddActivityReq
+	AddActivityResp            = pb.AddActivityResp
+	AddActivityTimeReq         = pb.AddActivityTimeReq
+	AddActivityTimeResp        = pb.AddActivityTimeResp
+	GetActivityProductByIdReq  = pb.GetActivityProductByIdReq
+	GetActivityProductByIdResp = pb.GetActivityProductByIdResp
 
 	ActivityZrpcClient interface {
 		AddActivity(ctx context.Context, in *AddActivityReq, opts ...grpc.CallOption) (*AddActivityResp, error)
 		AddActivityTime(ctx context.Context, in *AddActivityTimeReq, opts ...grpc.CallOption) (*AddActivityTimeResp, error)
 		AddActivityProduct(ctx context.Context, in *AddActivityProductReq, opts ...grpc.CallOption) (*AddActivityProductResp, error)
 		AddActivityProductSku(ctx context.Context, in *AddActivityProductSkuReq, opts ...grpc.CallOption) (*AddActivityProductSkuResp, error)
+		// 查询接口
+		GetActivityProductById(ctx context.Context, in *GetActivityProductByIdReq, opts ...grpc.CallOption) (*GetActivityProductByIdResp, error)
 	}
 
 	defaultActivityZrpcClient struct {
@@ -63,4 +67,10 @@ func (m *defaultActivityZrpcClient) AddActivityProduct(ctx context.Context, in *
 func (m *defaultActivityZrpcClient) AddActivityProductSku(ctx context.Context, in *AddActivityProductSkuReq, opts ...grpc.CallOption) (*AddActivityProductSkuResp, error) {
 	client := pb.NewActivityClient(m.cli.Conn())
 	return client.AddActivityProductSku(ctx, in, opts...)
+}
+
+// 查询接口
+func (m *defaultActivityZrpcClient) GetActivityProductById(ctx context.Context, in *GetActivityProductByIdReq, opts ...grpc.CallOption) (*GetActivityProductByIdResp, error) {
+	client := pb.NewActivityClient(m.cli.Conn())
+	return client.GetActivityProductById(ctx, in, opts...)
 }

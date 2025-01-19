@@ -9,11 +9,13 @@ import (
 )
 
 type IActivityRepository interface {
-	//查询活动
+	// GetActivityById 查询活动
 	GetActivityById(id int64) (*model.Activity, error)
 	DeleteActivityById(id, userId int64) error
 
 	GetActivityProductById(id int64) (*model.ActivityProduct, error)
+	GetActivityProductByProductsId(productId int64) (*model.ActivityProduct, error)
+
 	GetActivityProductSkuById(id int64) (*model.ActivityProductSku, error)
 
 	// AddActivity 添加活动
@@ -29,6 +31,18 @@ type IActivityRepository interface {
 type ActivityRepository struct {
 	mysqlClient *gorm.DB
 	redisClient *redis.Client
+}
+
+func (a *ActivityRepository) GetActivityProductByProductsId(productId int64) (*model.ActivityProduct, error) {
+	activityProduct := &model.ActivityProduct{}
+	tx := a.mysqlClient.Model(&model.ActivityProduct{}).Where("product_id=?", productId).Find(&activityProduct)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	if activityProduct.ID <= 0 {
+		return nil, gorm.ErrRecordNotFound
+	}
+	return activityProduct, nil
 }
 
 func (a *ActivityRepository) GetActivityProductById(id int64) (*model.ActivityProduct, error) {

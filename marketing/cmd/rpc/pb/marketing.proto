@@ -120,9 +120,20 @@ message AddActivityProductSkuResp {
 }
 
 
+message GetActivityProductByIdReq {
+  int64 productId = 1;
+}
+message GetActivityProductByIdResp {
+  ActivityProduct activityProduct = 1;
+}
+
 service activity {
   rpc AddActivity(AddActivityReq) returns (AddActivityResp);
   rpc AddActivityTime(AddActivityTimeReq) returns (AddActivityTimeResp);
   rpc AddActivityProduct(AddActivityProductReq) returns (AddActivityProductResp);
   rpc AddActivityProductSku(AddActivityProductSkuReq) returns (AddActivityProductSkuResp);
+
+
+  //查询接口
+  rpc GetActivityProductById (GetActivityProductByIdReq) returns (GetActivityProductByIdResp);
 }

@@ -156,6 +156,7 @@ type (
     }
     IncreaseSecKillQuotaResp {
         SecKillProducts SecKillProducts `json:"secKill_products"`
+        SecKillQuota SecKillQuota `json:"secKill_quota"`
     }
 )
 

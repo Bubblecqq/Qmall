@@ -23,12 +23,23 @@ type ISecKillRepository interface {
 	IncreaseSecKillRecord(in *pb.IncreaseSecKillRecordReq) (*model.SecKillRecord, error)
 
 	// IncreaseSecKillProducts 添加秒杀商品
-	IncreaseSecKillProducts(secKillProducts *model.SecKillProducts) (*model.SecKillProducts, error)
+	IncreaseSecKillProducts(in *pb.IncreaseSecKillProductsReq) (*model.SecKillProducts, error)
+
+	// IncreaseSecKillOrder 添加秒杀订单
+	IncreaseSecKillOrder(secKillOrder *model.SecKillOrder) (*model.SecKillOrder, error)
 }
 
 type SecKillRepository struct {
 	mysqlClient *gorm.DB
 	redisClient *redis.Client
+}
+
+func (s *SecKillRepository) IncreaseSecKillOrder(secKillOrder *model.SecKillOrder) (*model.SecKillOrder, error) {
+	tx := s.mysqlClient.Model(&model.SecKillOrder{}).Create(secKillOrder)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	return secKillOrder, nil
 }
 
 func (s *SecKillRepository) IncreaseSecKillStock(in *pb.IncreaseSecKillStockReq) (*model.SecKillStock, error) {
@@ -83,12 +94,15 @@ func (s *SecKillRepository) IncreaseSecKillRecord(in *pb.IncreaseSecKillRecordRe
 	return secKillRecord, nil
 }
 
-func (s *SecKillRepository) IncreaseSecKillProducts(secKillProducts *model.SecKillProducts) (*model.SecKillProducts, error) {
-	//&model.SecKillProducts{
-	//	CreateTime: time.Now(),
-	//	Price: in.Price,
-	//	Seller: in.Seller,
-	//}
+func (s *SecKillRepository) IncreaseSecKillProducts(in *pb.IncreaseSecKillProductsReq) (*model.SecKillProducts, error) {
+	secKillProducts := &model.SecKillProducts{
+		CreateTime:   time.Now(),
+		Price:        in.Price,
+		Seller:       in.Seller,
+		PictureUrl:   in.PictureUrl,
+		ProductsName: in.ProductName,
+	}
+
 	tx := s.mysqlClient.Model(&model.SecKillProducts{}).Create(secKillProducts)
 	if tx.Error != nil {
 		return nil, tx.Error

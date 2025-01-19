@@ -5,8 +5,8 @@ import (
 	"QMall/seckill/cmd/rpc/pb"
 )
 
-func PbSecKillProductsConvertTypes(secKillProducts *pb.SecKillProducts) *types.SecKillProducts {
-	return &types.SecKillProducts{
+func PbSecKillProductsConvertTypes(secKillProducts *pb.SecKillProducts) types.SecKillProducts {
+	return types.SecKillProducts{
 		Id:           secKillProducts.Id,
 		Seller:       secKillProducts.Seller,
 		Price:        secKillProducts.Price,

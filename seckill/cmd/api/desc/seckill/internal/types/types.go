@@ -39,6 +39,7 @@ type IncreaseSecKillQuotaReq struct {
 
 type IncreaseSecKillQuotaResp struct {
 	SecKillProducts SecKillProducts `json:"secKill_products"`
+	SecKillQuota    SecKillQuota    `json:"secKill_quota"`
 }
 
 type IncreaseSecKillRecordReq struct {
