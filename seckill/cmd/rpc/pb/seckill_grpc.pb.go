@@ -21,13 +21,16 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SecKill_IncreaseSecKillOrder_FullMethodName        = "/pb.secKill/IncreaseSecKillOrder"
-	SecKill_IncreaseSecKillProducts_FullMethodName     = "/pb.secKill/IncreaseSecKillProducts"
-	SecKill_IncreaseSecKillQuota_FullMethodName        = "/pb.secKill/IncreaseSecKillQuota"
-	SecKill_IncreaseSecKillUserQuota_FullMethodName    = "/pb.secKill/IncreaseSecKillUserQuota"
-	SecKill_IncreaseSecKillStock_FullMethodName        = "/pb.secKill/IncreaseSecKillStock"
-	SecKill_IncreaseSecKillRecord_FullMethodName       = "/pb.secKill/IncreaseSecKillRecord"
-	SecKill_GetSecKillQuotaByProductsId_FullMethodName = "/pb.secKill/GetSecKillQuotaByProductsId"
+	SecKill_IncreaseSecKillOrder_FullMethodName           = "/pb.secKill/IncreaseSecKillOrder"
+	SecKill_IncreaseSecKillProducts_FullMethodName        = "/pb.secKill/IncreaseSecKillProducts"
+	SecKill_IncreaseSecKillQuota_FullMethodName           = "/pb.secKill/IncreaseSecKillQuota"
+	SecKill_IncreaseSecKillUserQuota_FullMethodName       = "/pb.secKill/IncreaseSecKillUserQuota"
+	SecKill_IncreaseSecKillStock_FullMethodName           = "/pb.secKill/IncreaseSecKillStock"
+	SecKill_IncreaseSecKillRecord_FullMethodName          = "/pb.secKill/IncreaseSecKillRecord"
+	SecKill_GetSecKillQuotaByProductsId_FullMethodName    = "/pb.secKill/GetSecKillQuotaByProductsId"
+	SecKill_GetSecKillProductsByProductsId_FullMethodName = "/pb.secKill/GetSecKillProductsByProductsId"
+	SecKill_UpdateSecKillQuotaById_FullMethodName         = "/pb.secKill/UpdateSecKillQuotaById"
+	SecKill_UpdateSecKillUserQuotaById_FullMethodName     = "/pb.secKill/UpdateSecKillUserQuotaById"
 )
 
 // SecKillClient is the client API for SecKill service.
@@ -41,6 +44,10 @@ type SecKillClient interface {
 	IncreaseSecKillStock(ctx context.Context, in *IncreaseSecKillStockReq, opts ...grpc.CallOption) (*IncreaseSecKillStockResp, error)
 	IncreaseSecKillRecord(ctx context.Context, in *IncreaseSecKillRecordReq, opts ...grpc.CallOption) (*IncreaseSecKillRecordResp, error)
 	GetSecKillQuotaByProductsId(ctx context.Context, in *GetSecKillQuotaByProductsIdReq, opts ...grpc.CallOption) (*GetSecKillQuotaByProductsIdResp, error)
+	GetSecKillProductsByProductsId(ctx context.Context, in *GetSecKillProductsByProductsIdReq, opts ...grpc.CallOption) (*GetSecKillProductsByProductsIdResp, error)
+	// 更新接口
+	UpdateSecKillQuotaById(ctx context.Context, in *UpdateSecKillQuotaByIdReq, opts ...grpc.CallOption) (*UpdateSecKillQuotaByIdResp, error)
+	UpdateSecKillUserQuotaById(ctx context.Context, in *UpdateSecKillUserQuotaByIdReq, opts ...grpc.CallOption) (*UpdateSecKillUserQuotaByIdResp, error)
 }
 
 type secKillClient struct {
@@ -121,6 +128,36 @@ func (c *secKillClient) GetSecKillQuotaByProductsId(ctx context.Context, in *Get
 	return out, nil
 }
 
+func (c *secKillClient) GetSecKillProductsByProductsId(ctx context.Context, in *GetSecKillProductsByProductsIdReq, opts ...grpc.CallOption) (*GetSecKillProductsByProductsIdResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetSecKillProductsByProductsIdResp)
+	err := c.cc.Invoke(ctx, SecKill_GetSecKillProductsByProductsId_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *secKillClient) UpdateSecKillQuotaById(ctx context.Context, in *UpdateSecKillQuotaByIdReq, opts ...grpc.CallOption) (*UpdateSecKillQuotaByIdResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateSecKillQuotaByIdResp)
+	err := c.cc.Invoke(ctx, SecKill_UpdateSecKillQuotaById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *secKillClient) UpdateSecKillUserQuotaById(ctx context.Context, in *UpdateSecKillUserQuotaByIdReq, opts ...grpc.CallOption) (*UpdateSecKillUserQuotaByIdResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateSecKillUserQuotaByIdResp)
+	err := c.cc.Invoke(ctx, SecKill_UpdateSecKillUserQuotaById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SecKillServer is the server API for SecKill service.
 // All implementations must embed UnimplementedSecKillServer
 // for forward compatibility.
@@ -132,6 +169,10 @@ type SecKillServer interface {
 	IncreaseSecKillStock(context.Context, *IncreaseSecKillStockReq) (*IncreaseSecKillStockResp, error)
 	IncreaseSecKillRecord(context.Context, *IncreaseSecKillRecordReq) (*IncreaseSecKillRecordResp, error)
 	GetSecKillQuotaByProductsId(context.Context, *GetSecKillQuotaByProductsIdReq) (*GetSecKillQuotaByProductsIdResp, error)
+	GetSecKillProductsByProductsId(context.Context, *GetSecKillProductsByProductsIdReq) (*GetSecKillProductsByProductsIdResp, error)
+	// 更新接口
+	UpdateSecKillQuotaById(context.Context, *UpdateSecKillQuotaByIdReq) (*UpdateSecKillQuotaByIdResp, error)
+	UpdateSecKillUserQuotaById(context.Context, *UpdateSecKillUserQuotaByIdReq) (*UpdateSecKillUserQuotaByIdResp, error)
 	mustEmbedUnimplementedSecKillServer()
 }
 
@@ -162,6 +203,15 @@ func (UnimplementedSecKillServer) IncreaseSecKillRecord(context.Context, *Increa
 }
 func (UnimplementedSecKillServer) GetSecKillQuotaByProductsId(context.Context, *GetSecKillQuotaByProductsIdReq) (*GetSecKillQuotaByProductsIdResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSecKillQuotaByProductsId not implemented")
+}
+func (UnimplementedSecKillServer) GetSecKillProductsByProductsId(context.Context, *GetSecKillProductsByProductsIdReq) (*GetSecKillProductsByProductsIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetSecKillProductsByProductsId not implemented")
+}
+func (UnimplementedSecKillServer) UpdateSecKillQuotaById(context.Context, *UpdateSecKillQuotaByIdReq) (*UpdateSecKillQuotaByIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateSecKillQuotaById not implemented")
+}
+func (UnimplementedSecKillServer) UpdateSecKillUserQuotaById(context.Context, *UpdateSecKillUserQuotaByIdReq) (*UpdateSecKillUserQuotaByIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateSecKillUserQuotaById not implemented")
 }
 func (UnimplementedSecKillServer) mustEmbedUnimplementedSecKillServer() {}
 func (UnimplementedSecKillServer) testEmbeddedByValue()                 {}
@@ -310,6 +360,60 @@ func _SecKill_GetSecKillQuotaByProductsId_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SecKill_GetSecKillProductsByProductsId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetSecKillProductsByProductsIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SecKillServer).GetSecKillProductsByProductsId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SecKill_GetSecKillProductsByProductsId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SecKillServer).GetSecKillProductsByProductsId(ctx, req.(*GetSecKillProductsByProductsIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SecKill_UpdateSecKillQuotaById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateSecKillQuotaByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SecKillServer).UpdateSecKillQuotaById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SecKill_UpdateSecKillQuotaById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SecKillServer).UpdateSecKillQuotaById(ctx, req.(*UpdateSecKillQuotaByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SecKill_UpdateSecKillUserQuotaById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateSecKillUserQuotaByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SecKillServer).UpdateSecKillUserQuotaById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SecKill_UpdateSecKillUserQuotaById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SecKillServer).UpdateSecKillUserQuotaById(ctx, req.(*UpdateSecKillUserQuotaByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SecKill_ServiceDesc is the grpc.ServiceDesc for SecKill service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -344,6 +448,18 @@ var SecKill_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetSecKillQuotaByProductsId",
 			Handler:    _SecKill_GetSecKillQuotaByProductsId_Handler,
+		},
+		{
+			MethodName: "GetSecKillProductsByProductsId",
+			Handler:    _SecKill_GetSecKillProductsByProductsId_Handler,
+		},
+		{
+			MethodName: "UpdateSecKillQuotaById",
+			Handler:    _SecKill_UpdateSecKillQuotaById_Handler,
+		},
+		{
+			MethodName: "UpdateSecKillUserQuotaById",
+			Handler:    _SecKill_UpdateSecKillUserQuotaById_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

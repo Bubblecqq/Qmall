@@ -190,7 +190,7 @@ message IncreaseSecKillOrderReq {
   int64 products_id = 3;  // 商品 ID
   string products_num = 4;  // 商品编号
   string order_num = 5;  // 订单号
-  string price = 6;  // 金额
+  double price = 6;  // 金额
 }
 
 
@@ -211,6 +211,13 @@ service secKill {
   rpc IncreaseSecKillRecord(IncreaseSecKillRecordReq) returns (IncreaseSecKillRecordResp);
 
   rpc GetSecKillQuotaByProductsId (GetSecKillQuotaByProductsIdReq) returns (GetSecKillQuotaByProductsIdResp);
+
+  rpc GetSecKillProductsByProductsId (GetSecKillProductsByProductsIdReq) returns (GetSecKillProductsByProductsIdResp);
+
+  // 更新接口
+  rpc UpdateSecKillQuotaById (UpdateSecKillQuotaByIdReq) returns (UpdateSecKillQuotaByIdResp);
+  rpc UpdateSecKillUserQuotaById (UpdateSecKillUserQuotaByIdReq) returns (UpdateSecKillUserQuotaByIdResp);
+
 }
 
 // 查询接口
@@ -219,4 +226,26 @@ message GetSecKillQuotaByProductsIdReq {
 }
 message GetSecKillQuotaByProductsIdResp {
   SecKillQuota secKill_quota = 1;
+}
+
+message GetSecKillProductsByProductsIdReq {
+  int64 ProductId = 1;
+}
+message GetSecKillProductsByProductsIdResp {
+  SecKillProducts secKill_products = 1;
+}
+
+message UpdateSecKillQuotaByIdReq {
+  int64 id = 1;
+  int64 num = 2;
+}
+message UpdateSecKillQuotaByIdResp {
+  SecKillQuota secKill_quota = 1;
+}
+message UpdateSecKillUserQuotaByIdReq {
+  int64 products_id = 1;
+  int64 num = 2;
+}
+message UpdateSecKillUserQuotaByIdResp {
+  SecKillUserQuota secKill_user_quota = 1;
 }
