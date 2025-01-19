@@ -3,6 +3,14 @@
 
 package types
 
+type GetSecKillQuotaByProductsIdReq struct {
+	ProductId int64 `json:"product_id"`
+}
+
+type GetSecKillQuotaByProductsIdResp struct {
+	SecKillQuota SecKillQuota `json:"secKill_quota"`
+}
+
 type IncreaseSecKillOrderReq struct {
 	Seller      int64  `gorm:"seller" json:"seller"`             // 买方ID
 	Buyer       int64  `gorm:"buyer" json:"buyer"`               // 卖方ID
@@ -43,8 +51,10 @@ type IncreaseSecKillQuotaResp struct {
 }
 
 type IncreaseSecKillRecordReq struct {
-	UserId     int64 `gorm:"user_id" json:"user_id"`         // 用户ID
-	ProductsId int64 `gorm:"products_id" json:"products_id"` // 商品ID
+	UserId     int64   `gorm:"user_id" json:"user_id"`         // 用户ID
+	ProductsId int64   `gorm:"products_id" json:"products_id"` // 商品ID
+	OrderNum   string  `gorm:"order_num" json:"order_num"`     // 订单号
+	Price      float64 `gorm:"price" json:"price"`             // 金额
 }
 
 type IncreaseSecKillRecordResp struct {

@@ -1,9 +1,11 @@
 package seckill
 
 import (
+	"QMall/marketing/cmd/rpc/activity"
 	"QMall/seckill/cmd/api/desc/seckill/internal/types/convert"
 	"QMall/seckill/cmd/rpc/seckill"
 	"context"
+	"errors"
 	"fmt"
 
 	"QMall/seckill/cmd/api/desc/seckill/internal/svc"
@@ -28,6 +30,17 @@ func NewIncreaseSecKillStockLogic(ctx context.Context, svcCtx *svc.ServiceContex
 }
 
 func (l *IncreaseSecKillStockLogic) IncreaseSecKillStock(req *types.IncreaseSecKillStockReq) (resp *types.IncreaseSecKillStockResp, err error) {
+
+	// 判断是否存在活动商品
+	l.Info(fmt.Printf("[*] 正在查询当前请求的秒杀商品是否存在活动....\n"))
+
+	activityProductByIdResp, err := l.svcCtx.ActivityRPC.GetActivityProductById(l.ctx, &activity.GetActivityProductByIdReq{
+		ProductId: req.ProductsId,
+	})
+	if activityProductByIdResp.ActivityProduct == nil {
+		err = errors.New(fmt.Sprintf("当前请求的秒杀商品不存在！请求的商品Id：%v", req.ProductsId))
+		return
+	}
 
 	l.Info(fmt.Printf("[*] 正在添加秒杀库存信息>>>>>>当前需要添加的商品Id：%v，秒杀库存：%v\n", req.ProductsId, req.Stock))
 

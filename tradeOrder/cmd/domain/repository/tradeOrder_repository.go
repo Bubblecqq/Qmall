@@ -27,6 +27,8 @@ type ITradeOrderRepository interface {
 	GetTradeOrderByUserId(id, userId int64) (*model.TradeOrder, error)
 	//GetTotalPrice(userId int64) float64
 	UpdateTradeOrder2(in *pb.UpdateTradeOrderReq) (*model.TradeOrder, error)
+
+	//GetTradeOrderByOrderNo(orderNo string) (*model.TradeOrder, error)
 }
 
 type TradeOrderRepository struct {

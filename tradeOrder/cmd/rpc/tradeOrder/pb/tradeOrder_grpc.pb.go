@@ -30,6 +30,7 @@ const (
 	TradeOrder_BatchCreateOrderProduct_FullMethodName = "/pb.tradeOrder/BatchCreateOrderProduct"
 	TradeOrder_GetProductOrderList_FullMethodName     = "/pb.tradeOrder/GetProductOrderList"
 	TradeOrder_GetProductOrderByUserId_FullMethodName = "/pb.tradeOrder/GetProductOrderByUserId"
+	TradeOrder_GetOrderByOrderNo_FullMethodName       = "/pb.tradeOrder/GetOrderByOrderNo"
 )
 
 // TradeOrderClient is the client API for TradeOrder service.
@@ -45,6 +46,7 @@ type TradeOrderClient interface {
 	BatchCreateOrderProduct(ctx context.Context, in *AddProductOrderReq, opts ...grpc.CallOption) (*AddProductOrderResp, error)
 	GetProductOrderList(ctx context.Context, in *GetProductOrderListReq, opts ...grpc.CallOption) (*GetProductOrderListResp, error)
 	GetProductOrderByUserId(ctx context.Context, in *GetProductOrderByUserIdReq, opts ...grpc.CallOption) (*GetProductOrderByUserIdResp, error)
+	GetOrderByOrderNo(ctx context.Context, in *GetOrderByOrderNoReq, opts ...grpc.CallOption) (*GetOrderByOrderNoResp, error)
 }
 
 type tradeOrderClient struct {
@@ -145,6 +147,16 @@ func (c *tradeOrderClient) GetProductOrderByUserId(ctx context.Context, in *GetP
 	return out, nil
 }
 
+func (c *tradeOrderClient) GetOrderByOrderNo(ctx context.Context, in *GetOrderByOrderNoReq, opts ...grpc.CallOption) (*GetOrderByOrderNoResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetOrderByOrderNoResp)
+	err := c.cc.Invoke(ctx, TradeOrder_GetOrderByOrderNo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // TradeOrderServer is the server API for TradeOrder service.
 // All implementations must embed UnimplementedTradeOrderServer
 // for forward compatibility.
@@ -158,6 +170,7 @@ type TradeOrderServer interface {
 	BatchCreateOrderProduct(context.Context, *AddProductOrderReq) (*AddProductOrderResp, error)
 	GetProductOrderList(context.Context, *GetProductOrderListReq) (*GetProductOrderListResp, error)
 	GetProductOrderByUserId(context.Context, *GetProductOrderByUserIdReq) (*GetProductOrderByUserIdResp, error)
+	GetOrderByOrderNo(context.Context, *GetOrderByOrderNoReq) (*GetOrderByOrderNoResp, error)
 	mustEmbedUnimplementedTradeOrderServer()
 }
 
@@ -194,6 +207,9 @@ func (UnimplementedTradeOrderServer) GetProductOrderList(context.Context, *GetPr
 }
 func (UnimplementedTradeOrderServer) GetProductOrderByUserId(context.Context, *GetProductOrderByUserIdReq) (*GetProductOrderByUserIdResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProductOrderByUserId not implemented")
+}
+func (UnimplementedTradeOrderServer) GetOrderByOrderNo(context.Context, *GetOrderByOrderNoReq) (*GetOrderByOrderNoResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrderByOrderNo not implemented")
 }
 func (UnimplementedTradeOrderServer) mustEmbedUnimplementedTradeOrderServer() {}
 func (UnimplementedTradeOrderServer) testEmbeddedByValue()                    {}
@@ -378,6 +394,24 @@ func _TradeOrder_GetProductOrderByUserId_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _TradeOrder_GetOrderByOrderNo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetOrderByOrderNoReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(TradeOrderServer).GetOrderByOrderNo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: TradeOrder_GetOrderByOrderNo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(TradeOrderServer).GetOrderByOrderNo(ctx, req.(*GetOrderByOrderNoReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // TradeOrder_ServiceDesc is the grpc.ServiceDesc for TradeOrder service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -420,6 +454,10 @@ var TradeOrder_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetProductOrderByUserId",
 			Handler:    _TradeOrder_GetProductOrderByUserId_Handler,
+		},
+		{
+			MethodName: "GetOrderByOrderNo",
+			Handler:    _TradeOrder_GetOrderByOrderNo_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

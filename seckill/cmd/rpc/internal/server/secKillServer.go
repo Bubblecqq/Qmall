@@ -52,3 +52,8 @@ func (s *SecKillServer) IncreaseSecKillRecord(ctx context.Context, in *pb.Increa
 	l := logic.NewIncreaseSecKillRecordLogic(ctx, s.svcCtx)
 	return l.IncreaseSecKillRecord(in)
 }
+
+func (s *SecKillServer) GetSecKillQuotaByProductsId(ctx context.Context, in *pb.GetSecKillQuotaByProductsIdReq) (*pb.GetSecKillQuotaByProductsIdResp, error) {
+	l := logic.NewGetSecKillQuotaByProductsIdLogic(ctx, s.svcCtx)
+	return l.GetSecKillQuotaByProductsId(in)
+}

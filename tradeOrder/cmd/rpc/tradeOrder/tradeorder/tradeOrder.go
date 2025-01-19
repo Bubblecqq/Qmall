@@ -20,6 +20,8 @@ type (
 	AddTradeOrderResp              = pb.AddTradeOrderResp
 	FindOrderReq                   = pb.FindOrderReq
 	FindOrderResp                  = pb.FindOrderResp
+	GetOrderByOrderNoReq           = pb.GetOrderByOrderNoReq
+	GetOrderByOrderNoResp          = pb.GetOrderByOrderNoResp
 	GetProductOrderByOrderIdReq    = pb.GetProductOrderByOrderIdReq
 	GetProductOrderByOrderIdResp   = pb.GetProductOrderByOrderIdResp
 	GetProductOrderByUserIdReq     = pb.GetProductOrderByUserIdReq
@@ -49,6 +51,7 @@ type (
 		BatchCreateOrderProduct(ctx context.Context, in *AddProductOrderReq, opts ...grpc.CallOption) (*AddProductOrderResp, error)
 		GetProductOrderList(ctx context.Context, in *GetProductOrderListReq, opts ...grpc.CallOption) (*GetProductOrderListResp, error)
 		GetProductOrderByUserId(ctx context.Context, in *GetProductOrderByUserIdReq, opts ...grpc.CallOption) (*GetProductOrderByUserIdResp, error)
+		GetOrderByOrderNo(ctx context.Context, in *GetOrderByOrderNoReq, opts ...grpc.CallOption) (*GetOrderByOrderNoResp, error)
 	}
 
 	defaultTradeOrderZrpcClient struct {
@@ -105,4 +108,9 @@ func (m *defaultTradeOrderZrpcClient) GetProductOrderList(ctx context.Context, i
 func (m *defaultTradeOrderZrpcClient) GetProductOrderByUserId(ctx context.Context, in *GetProductOrderByUserIdReq, opts ...grpc.CallOption) (*GetProductOrderByUserIdResp, error) {
 	client := pb.NewTradeOrderClient(m.cli.Conn())
 	return client.GetProductOrderByUserId(ctx, in, opts...)
+}
+
+func (m *defaultTradeOrderZrpcClient) GetOrderByOrderNo(ctx context.Context, in *GetOrderByOrderNoReq, opts ...grpc.CallOption) (*GetOrderByOrderNoResp, error) {
+	client := pb.NewTradeOrderClient(m.cli.Conn())
+	return client.GetOrderByOrderNo(ctx, in, opts...)
 }

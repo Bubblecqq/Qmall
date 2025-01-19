@@ -6,6 +6,7 @@ import (
 	"QMall/seckill/cmd/api/desc/seckill/internal/types/convert"
 	"QMall/seckill/cmd/rpc/seckill"
 	"context"
+	"errors"
 	"fmt"
 
 	"QMall/seckill/cmd/api/desc/seckill/internal/svc"
@@ -37,12 +38,19 @@ func (l *IncreaseSecKillProductsLogic) IncreaseSecKillProducts(req *types.Increa
 		ProductId: req.ProductId,
 	})
 	if activityProductByIdResp.ActivityProduct == nil {
+		err = errors.New(fmt.Sprintf("当前请求的秒杀商品不存在！请求的商品Id：%v", req.ProductId))
 		return
 	}
 
 	product, err := l.svcCtx.ProductRPC.GetProduct(l.ctx, &product2.GetProductByIdReq{
 		Id: req.ProductId,
 	})
+
+	// 检查秒杀价格
+	if req.Price >= product.Product.StartingPrice {
+		err = errors.New(fmt.Sprintf("秒杀价格应低于正常价格，商品ID：%v", req.ProductId))
+		return
+	}
 
 	l.Info(fmt.Printf("[*] 正在添加秒杀商品信息>>>>>>当前访问的商品Id：%v，秒杀价格：%v，卖家信息：%v\n", req.ProductId, req.Price, req.Seller))
 

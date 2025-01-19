@@ -1,9 +1,11 @@
 package seckill
 
 import (
+	"QMall/marketing/cmd/rpc/activity"
 	"QMall/seckill/cmd/api/desc/seckill/internal/types/convert"
 	"QMall/seckill/cmd/rpc/seckill"
 	"context"
+	"errors"
 	"fmt"
 
 	"QMall/seckill/cmd/api/desc/seckill/internal/svc"
@@ -28,6 +30,21 @@ func NewIncreaseSecKillQuotaLogic(ctx context.Context, svcCtx *svc.ServiceContex
 }
 
 func (l *IncreaseSecKillQuotaLogic) IncreaseSecKillQuota(req *types.IncreaseSecKillQuotaReq) (resp *types.IncreaseSecKillQuotaResp, err error) {
+	resp = new(types.IncreaseSecKillQuotaResp)
+	// 判断是否存在活动商品
+	l.Info(fmt.Printf("[*] 正在查询当前请求的秒杀商品是否存在活动....\n"))
+
+	activityProductByIdResp, err := l.svcCtx.ActivityRPC.GetActivityProductById(l.ctx, &activity.GetActivityProductByIdReq{
+		ProductId: req.ProductId,
+	})
+	if activityProductByIdResp.ActivityProduct == nil {
+		return
+	}
+
+	if req.LimitNumber <= 0 {
+		err = errors.New(fmt.Sprintf("当前秒杀商品输入的秒杀限额数量不对！，秒杀限额商品Id：%v，秒杀限额数量：%v\n", req.ProductId, req.LimitNumber))
+		return
+	}
 
 	l.Info(fmt.Printf("[*] 正在添加秒杀限额信息>>>>>>当前访问的商品Id：%v，秒杀限额数量：%v\n", req.ProductId, req.LimitNumber))
 
@@ -37,7 +54,6 @@ func (l *IncreaseSecKillQuotaLogic) IncreaseSecKillQuota(req *types.IncreaseSecK
 	})
 	l.Info(fmt.Printf("[Info] 已添加秒杀限额信息！当前访问的商品Id：%v，秒杀限额数量：%v\n", req.ProductId, req.LimitNumber))
 
-	resp = new(types.IncreaseSecKillQuotaResp)
 	resp.SecKillQuota = convert.PbSecKillQuotaConvertTypes(quota.SecKillQuota)
 	return
 }
