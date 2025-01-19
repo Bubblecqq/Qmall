@@ -53,3 +53,8 @@ func (s *ActivityServer) GetActivityTimeById(ctx context.Context, in *pb.GetActi
 	l := logic.NewGetActivityTimeByIdLogic(ctx, s.svcCtx)
 	return l.GetActivityTimeById(in)
 }
+
+func (s *ActivityServer) GetActivityInfoByProductsNum(ctx context.Context, in *pb.GetActivityInfoByProductsNumReq) (*pb.GetActivityInfoByProductsNumResp, error) {
+	l := logic.NewGetActivityInfoByProductsNumLogic(ctx, s.svcCtx)
+	return l.GetActivityInfoByProductsNum(in)
+}

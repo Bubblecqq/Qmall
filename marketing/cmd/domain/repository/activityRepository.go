@@ -26,11 +26,65 @@ type IActivityRepository interface {
 	AddActivityProductSku(activityProductId, productId, productSkuId, userId int64, price, originalPrice float64, number, stock int64) (*model.ActivityProductSku, error)
 
 	AddActivityTime(activityId int64, TimeName string, isEnable int32) (*model.ActivityTime, error)
+
+	GetActivityInfo(productId int64) ([]model.ActivityInfo, error)
+
+	GetActivityInfoByProductsNum(productId int64, productsNum string) (*model.ActivityInfo, error)
 }
 
 type ActivityRepository struct {
 	mysqlClient *gorm.DB
 	redisClient *redis.Client
+}
+
+func (a *ActivityRepository) GetActivityInfoByProductsNum(productId int64, productsNum string) (*model.ActivityInfo, error) {
+	fmt.Printf("正在获取活动详细信息>>>>>>当前请求的商品Id：%v", productId)
+
+	activityInfo := &model.ActivityInfo{}
+
+	tx := a.mysqlClient.
+		Table("activity ac").
+		Select(`ac.name as activity_name,ap.product_name as product_name,
+       ap.product_starting_price as product_starting_price,
+       ap.category_id as category_id,ap.product_id as product_id,
+       at.id as activity_time_id,at.start_time ,at.end_time ,
+       ac.is_online`).
+		Joins("left join mall_marketing.activity_time at on ac.id = at.activity_id").
+		Joins("left join mall_marketing.activity_product ap on at.id = ap.activity_time_id").
+		Where("ap.product_id =? and ap.products_num=?", productId, productsNum).
+		Find(&activityInfo)
+	fmt.Println("activityInfo>>>>>", activityInfo)
+
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	return activityInfo, nil
+}
+
+func (a *ActivityRepository) GetActivityInfo(productId int64) ([]model.ActivityInfo, error) {
+	fmt.Printf("正在获取活动详细信息>>>>>>当前请求的商品Id：%v", productId)
+
+	//activityInfo := &model.ActivityInfo{}
+
+	var activityInfo []model.ActivityInfo
+
+	tx := a.mysqlClient.
+		Table("activity ac").
+		Select(`ac.name as activity_name,ap.product_name as product_name,
+       ap.product_starting_price as product_starting_price,
+       ap.category_id as category_id,ap.product_id as product_id,
+       at.id as activity_time_id,at.start_time ,at.end_time ,
+       ac.is_online`).
+		Joins("left join mall_marketing.activity_time at on ac.id = at.activity_id").
+		Joins("left join mall_marketing.activity_product ap on at.id = ap.activity_time_id").
+		Where("ap.product_id =?", productId).
+		Find(&activityInfo)
+	fmt.Println("activityInfo>>>>>", activityInfo)
+
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	return activityInfo, nil
 }
 
 func (a *ActivityRepository) GetActivityProductByProductsId(productId int64) (*model.ActivityProduct, error) {

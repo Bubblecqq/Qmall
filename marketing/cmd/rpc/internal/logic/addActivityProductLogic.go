@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"QMall/common"
 	"QMall/marketing/cmd/domain/convert"
 	"QMall/marketing/cmd/domain/model"
 	product2 "QMall/product/cmd/rpc/product/product"
@@ -43,7 +44,7 @@ func (l *AddActivityProductLogic) AddActivityProduct(in *pb.AddActivityProductRe
 		fmt.Printf("当前商品Id：%v暂未开启活动！原因见：%v\n", in.ProductId, err)
 		return &pb.AddActivityProductResp{}, err
 	}
-
+	now := time.Now()
 	activityProduct.ProductID = in.ProductId
 	activityProduct.ActivityTimeID = in.ActivityTimeId
 	activityProduct.IsDeleted = 0
@@ -51,7 +52,8 @@ func (l *AddActivityProductLogic) AddActivityProduct(in *pb.AddActivityProductRe
 	activityProduct.ProductStartingPrice = getProduct.Product.StartingPrice
 	activityProduct.ProductMainPic = getProduct.Product.MainPicture
 	activityProduct.CategoryID = int64(getProduct.Product.CategoryId)
-	activityProduct.CreateTime = time.Now()
+	activityProduct.CreateTime = now
+	activityProduct.ProductsNum = common.GenerateProductsNum(now, in.ProductId)
 	product, err := l.svcCtx.ActivityRepository.AddActivityProduct(activityProduct)
 	if err != nil {
 		return &pb.AddActivityProductResp{}, err
