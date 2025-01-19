@@ -14,28 +14,30 @@ import (
 )
 
 type (
-	IncreaseSecKillOrderReq      = pb.IncreaseSecKillOrderReq
-	IncreaseSecKillOrderResp     = pb.IncreaseSecKillOrderResp
-	IncreaseSecKillProductsReq   = pb.IncreaseSecKillProductsReq
-	IncreaseSecKillProductsResp  = pb.IncreaseSecKillProductsResp
-	IncreaseSecKillQuotaReq      = pb.IncreaseSecKillQuotaReq
-	IncreaseSecKillQuotaResp     = pb.IncreaseSecKillQuotaResp
-	IncreaseSecKillRecordReq     = pb.IncreaseSecKillRecordReq
-	IncreaseSecKillRecordResp    = pb.IncreaseSecKillRecordResp
-	IncreaseSecKillStockReq      = pb.IncreaseSecKillStockReq
-	IncreaseSecKillStockResp     = pb.IncreaseSecKillStockResp
-	IncreaseSecKillUserQuotaReq  = pb.IncreaseSecKillUserQuotaReq
-	IncreaseSecKillUserQuotaResp = pb.IncreaseSecKillUserQuotaResp
-	SecKillActivity              = pb.SecKillActivity
-	SecKillActivityProduct       = pb.SecKillActivityProduct
-	SecKillActivityProductSku    = pb.SecKillActivityProductSku
-	SecKillActivityTime          = pb.SecKillActivityTime
-	SecKillOrder                 = pb.SecKillOrder
-	SecKillProducts              = pb.SecKillProducts
-	SecKillQuota                 = pb.SecKillQuota
-	SecKillRecord                = pb.SecKillRecord
-	SecKillStock                 = pb.SecKillStock
-	SecKillUserQuota             = pb.SecKillUserQuota
+	GetSecKillQuotaByProductsIdReq  = pb.GetSecKillQuotaByProductsIdReq
+	GetSecKillQuotaByProductsIdResp = pb.GetSecKillQuotaByProductsIdResp
+	IncreaseSecKillOrderReq         = pb.IncreaseSecKillOrderReq
+	IncreaseSecKillOrderResp        = pb.IncreaseSecKillOrderResp
+	IncreaseSecKillProductsReq      = pb.IncreaseSecKillProductsReq
+	IncreaseSecKillProductsResp     = pb.IncreaseSecKillProductsResp
+	IncreaseSecKillQuotaReq         = pb.IncreaseSecKillQuotaReq
+	IncreaseSecKillQuotaResp        = pb.IncreaseSecKillQuotaResp
+	IncreaseSecKillRecordReq        = pb.IncreaseSecKillRecordReq
+	IncreaseSecKillRecordResp       = pb.IncreaseSecKillRecordResp
+	IncreaseSecKillStockReq         = pb.IncreaseSecKillStockReq
+	IncreaseSecKillStockResp        = pb.IncreaseSecKillStockResp
+	IncreaseSecKillUserQuotaReq     = pb.IncreaseSecKillUserQuotaReq
+	IncreaseSecKillUserQuotaResp    = pb.IncreaseSecKillUserQuotaResp
+	SecKillActivity                 = pb.SecKillActivity
+	SecKillActivityProduct          = pb.SecKillActivityProduct
+	SecKillActivityProductSku       = pb.SecKillActivityProductSku
+	SecKillActivityTime             = pb.SecKillActivityTime
+	SecKillOrder                    = pb.SecKillOrder
+	SecKillProducts                 = pb.SecKillProducts
+	SecKillQuota                    = pb.SecKillQuota
+	SecKillRecord                   = pb.SecKillRecord
+	SecKillStock                    = pb.SecKillStock
+	SecKillUserQuota                = pb.SecKillUserQuota
 
 	SecKill interface {
 		IncreaseSecKillOrder(ctx context.Context, in *IncreaseSecKillOrderReq, opts ...grpc.CallOption) (*IncreaseSecKillOrderResp, error)
@@ -44,6 +46,7 @@ type (
 		IncreaseSecKillUserQuota(ctx context.Context, in *IncreaseSecKillUserQuotaReq, opts ...grpc.CallOption) (*IncreaseSecKillUserQuotaResp, error)
 		IncreaseSecKillStock(ctx context.Context, in *IncreaseSecKillStockReq, opts ...grpc.CallOption) (*IncreaseSecKillStockResp, error)
 		IncreaseSecKillRecord(ctx context.Context, in *IncreaseSecKillRecordReq, opts ...grpc.CallOption) (*IncreaseSecKillRecordResp, error)
+		GetSecKillQuotaByProductsId(ctx context.Context, in *GetSecKillQuotaByProductsIdReq, opts ...grpc.CallOption) (*GetSecKillQuotaByProductsIdResp, error)
 	}
 
 	defaultSecKill struct {
@@ -85,4 +88,9 @@ func (m *defaultSecKill) IncreaseSecKillStock(ctx context.Context, in *IncreaseS
 func (m *defaultSecKill) IncreaseSecKillRecord(ctx context.Context, in *IncreaseSecKillRecordReq, opts ...grpc.CallOption) (*IncreaseSecKillRecordResp, error) {
 	client := pb.NewSecKillClient(m.cli.Conn())
 	return client.IncreaseSecKillRecord(ctx, in, opts...)
+}
+
+func (m *defaultSecKill) GetSecKillQuotaByProductsId(ctx context.Context, in *GetSecKillQuotaByProductsIdReq, opts ...grpc.CallOption) (*GetSecKillQuotaByProductsIdResp, error) {
+	client := pb.NewSecKillClient(m.cli.Conn())
+	return client.GetSecKillQuotaByProductsId(ctx, in, opts...)
 }

@@ -67,3 +67,8 @@ func (s *TradeOrderServer) GetProductOrderByUserId(ctx context.Context, in *pb.G
 	l := logic.NewGetProductOrderByUserIdLogic(ctx, s.svcCtx)
 	return l.GetProductOrderByUserId(in)
 }
+
+func (s *TradeOrderServer) GetOrderByOrderNo(ctx context.Context, in *pb.GetOrderByOrderNoReq) (*pb.GetOrderByOrderNoResp, error) {
+	l := logic.NewGetOrderByOrderNoLogic(ctx, s.svcCtx)
+	return l.GetOrderByOrderNo(in)
+}

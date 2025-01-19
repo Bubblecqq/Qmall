@@ -15,7 +15,7 @@ type IncreaseSecKillOrderLogic struct {
 	svcCtx *svc.ServiceContext
 }
 
-// 添加秒杀订单
+// NewIncreaseSecKillOrderLogic 添加秒杀订单
 func NewIncreaseSecKillOrderLogic(ctx context.Context, svcCtx *svc.ServiceContext) *IncreaseSecKillOrderLogic {
 	return &IncreaseSecKillOrderLogic{
 		Logger: logx.WithContext(ctx),

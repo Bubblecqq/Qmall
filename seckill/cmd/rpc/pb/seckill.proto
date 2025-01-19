@@ -151,6 +151,7 @@ message IncreaseSecKillUserQuotaReq {
   int64 user_id = 1;
   int64 products_id = 2;
   int64 num = 3;
+  int64 killedNum = 4;
 }
 
 // 定义添加秒杀用户限额的响应消息
@@ -174,6 +175,7 @@ message IncreaseSecKillRecordReq {
   int64 user_id = 1;
   int64 products_id = 2;
   double price = 3;
+  string order_no = 4;
 }
 
 // 定义添加秒杀记录的响应消息
@@ -207,4 +209,14 @@ service secKill {
   rpc IncreaseSecKillUserQuota(IncreaseSecKillUserQuotaReq) returns (IncreaseSecKillUserQuotaResp);
   rpc IncreaseSecKillStock(IncreaseSecKillStockReq) returns (IncreaseSecKillStockResp);
   rpc IncreaseSecKillRecord(IncreaseSecKillRecordReq) returns (IncreaseSecKillRecordResp);
+
+  rpc GetSecKillQuotaByProductsId (GetSecKillQuotaByProductsIdReq) returns (GetSecKillQuotaByProductsIdResp);
+}
+
+// 查询接口
+message GetSecKillQuotaByProductsIdReq {
+  int64 ProductId = 1;
+}
+message GetSecKillQuotaByProductsIdResp {
+  SecKillQuota secKill_quota = 1;
 }

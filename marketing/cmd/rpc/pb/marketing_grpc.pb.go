@@ -26,6 +26,7 @@ const (
 	Activity_AddActivityProduct_FullMethodName     = "/pb.activity/AddActivityProduct"
 	Activity_AddActivityProductSku_FullMethodName  = "/pb.activity/AddActivityProductSku"
 	Activity_GetActivityProductById_FullMethodName = "/pb.activity/GetActivityProductById"
+	Activity_GetActivityTimeById_FullMethodName    = "/pb.activity/GetActivityTimeById"
 )
 
 // ActivityClient is the client API for Activity service.
@@ -38,6 +39,7 @@ type ActivityClient interface {
 	AddActivityProductSku(ctx context.Context, in *AddActivityProductSkuReq, opts ...grpc.CallOption) (*AddActivityProductSkuResp, error)
 	// 查询接口
 	GetActivityProductById(ctx context.Context, in *GetActivityProductByIdReq, opts ...grpc.CallOption) (*GetActivityProductByIdResp, error)
+	GetActivityTimeById(ctx context.Context, in *GetActivityTimeByIdReq, opts ...grpc.CallOption) (*GetActivityTimeByIdResp, error)
 }
 
 type activityClient struct {
@@ -98,6 +100,16 @@ func (c *activityClient) GetActivityProductById(ctx context.Context, in *GetActi
 	return out, nil
 }
 
+func (c *activityClient) GetActivityTimeById(ctx context.Context, in *GetActivityTimeByIdReq, opts ...grpc.CallOption) (*GetActivityTimeByIdResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetActivityTimeByIdResp)
+	err := c.cc.Invoke(ctx, Activity_GetActivityTimeById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ActivityServer is the server API for Activity service.
 // All implementations must embed UnimplementedActivityServer
 // for forward compatibility.
@@ -108,6 +120,7 @@ type ActivityServer interface {
 	AddActivityProductSku(context.Context, *AddActivityProductSkuReq) (*AddActivityProductSkuResp, error)
 	// 查询接口
 	GetActivityProductById(context.Context, *GetActivityProductByIdReq) (*GetActivityProductByIdResp, error)
+	GetActivityTimeById(context.Context, *GetActivityTimeByIdReq) (*GetActivityTimeByIdResp, error)
 	mustEmbedUnimplementedActivityServer()
 }
 
@@ -132,6 +145,9 @@ func (UnimplementedActivityServer) AddActivityProductSku(context.Context, *AddAc
 }
 func (UnimplementedActivityServer) GetActivityProductById(context.Context, *GetActivityProductByIdReq) (*GetActivityProductByIdResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetActivityProductById not implemented")
+}
+func (UnimplementedActivityServer) GetActivityTimeById(context.Context, *GetActivityTimeByIdReq) (*GetActivityTimeByIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetActivityTimeById not implemented")
 }
 func (UnimplementedActivityServer) mustEmbedUnimplementedActivityServer() {}
 func (UnimplementedActivityServer) testEmbeddedByValue()                  {}
@@ -244,6 +260,24 @@ func _Activity_GetActivityProductById_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Activity_GetActivityTimeById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetActivityTimeByIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ActivityServer).GetActivityTimeById(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Activity_GetActivityTimeById_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ActivityServer).GetActivityTimeById(ctx, req.(*GetActivityTimeByIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Activity_ServiceDesc is the grpc.ServiceDesc for Activity service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -270,6 +304,10 @@ var Activity_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetActivityProductById",
 			Handler:    _Activity_GetActivityProductById_Handler,
+		},
+		{
+			MethodName: "GetActivityTimeById",
+			Handler:    _Activity_GetActivityTimeById_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

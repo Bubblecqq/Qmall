@@ -182,7 +182,7 @@ service tradeOrder {
   rpc BatchCreateOrderProduct (AddProductOrderReq) returns (AddProductOrderResp);
   rpc GetProductOrderList (GetProductOrderListReq) returns (GetProductOrderListResp);
   rpc GetProductOrderByUserId(GetProductOrderByUserIdReq) returns (GetProductOrderByUserIdResp);
-
+  rpc GetOrderByOrderNo(GetOrderByOrderNoReq) returns (GetOrderByOrderNoResp);
 }
 
 
@@ -243,3 +243,10 @@ message shoppingCartsProductInfoSimple {
 //  rpc GetProductOrderList (GetProductOrderListReq) returns (GetProductOrderListResp);
 //  rpc GetProductOrderByUserId(GetProductOrderByUserIdReq) returns (GetProductOrderByUserIdResp);
 //}
+
+message GetOrderByOrderNoReq {
+  string order_no = 1;
+}
+message GetOrderByOrderNoResp {
+    TradeOrder tradeOrder = 1;
+}

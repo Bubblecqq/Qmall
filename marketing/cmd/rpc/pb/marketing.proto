@@ -127,6 +127,13 @@ message GetActivityProductByIdResp {
   ActivityProduct activityProduct = 1;
 }
 
+message GetActivityTimeByIdReq {
+  int64 id = 1;
+}
+message GetActivityTimeByIdResp {
+  ActivityTime activityTime = 1;
+}
+
 service activity {
   rpc AddActivity(AddActivityReq) returns (AddActivityResp);
   rpc AddActivityTime(AddActivityTimeReq) returns (AddActivityTimeResp);
@@ -136,4 +143,5 @@ service activity {
 
   //查询接口
   rpc GetActivityProductById (GetActivityProductByIdReq) returns (GetActivityProductByIdResp);
+  rpc GetActivityTimeById (GetActivityTimeByIdReq) returns (GetActivityTimeByIdResp);
 }

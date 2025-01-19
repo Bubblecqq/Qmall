@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"QMall/common"
 	"QMall/seckill/cmd/domain/model"
 	"QMall/seckill/cmd/rpc/pb"
 	"github.com/redis/go-redis/v9"
@@ -27,11 +28,25 @@ type ISecKillRepository interface {
 
 	// IncreaseSecKillOrder 添加秒杀订单
 	IncreaseSecKillOrder(secKillOrder *model.SecKillOrder) (*model.SecKillOrder, error)
+
+	GetSecKillQuotaByProductsId(products_id int64) (*model.SecKillQuota, error)
 }
 
 type SecKillRepository struct {
 	mysqlClient *gorm.DB
 	redisClient *redis.Client
+}
+
+func (s *SecKillRepository) GetSecKillQuotaByProductsId(products_id int64) (*model.SecKillQuota, error) {
+	quota := &model.SecKillQuota{}
+	tx := s.mysqlClient.Model(&model.SecKillQuota{}).Where("products_id=?", products_id).Find(&quota)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	if quota.Id <= 0 {
+		return nil, gorm.ErrRecordNotFound
+	}
+	return quota, nil
 }
 
 func (s *SecKillRepository) IncreaseSecKillOrder(secKillOrder *model.SecKillOrder) (*model.SecKillOrder, error) {
@@ -72,7 +87,9 @@ func (s *SecKillRepository) IncreaseSecKillUserQuota(in *pb.IncreaseSecKillUserQ
 		ProductsId: in.ProductsId,
 		Num:        in.Num,
 		CreateTime: time.Now(),
+		KilledNum:  in.KilledNum,
 	}
+
 	tx := s.mysqlClient.Model(&model.SecKillUserQuota{}).Create(&secKillUserQuota)
 	if tx.Error != nil {
 		return nil, tx.Error
@@ -81,11 +98,15 @@ func (s *SecKillRepository) IncreaseSecKillUserQuota(in *pb.IncreaseSecKillUserQ
 }
 
 func (s *SecKillRepository) IncreaseSecKillRecord(in *pb.IncreaseSecKillRecordReq) (*model.SecKillRecord, error) {
+	now := time.Now()
 	secKillRecord := &model.SecKillRecord{
 		UserId:     in.UserId,
 		ProductsId: in.ProductsId,
 		Price:      in.Price,
-		CreateTime: time.Now(),
+		CreateTime: now,
+		OrderNum:   in.OrderNo,
+		Status:     1,
+		SecNum:     common.GenerateSecKillOrderNo(now, in.UserId),
 	}
 	tx := s.mysqlClient.Model(&model.SecKillRecord{}).Create(&secKillRecord)
 	if tx.Error != nil {
