@@ -23,7 +23,8 @@ func ModelActivityProductConvertPb(activity *model.ActivityProduct) *pb.Activity
 		//	return timestamppb.New(*activity.UpdateTime)
 		//}(activity.UpdateTime),
 		//UpdateTime: timestamppb.New(*activity.UpdateTime),
-		IsDeleted: activity.IsDeleted,
+		IsDeleted:   activity.IsDeleted,
+		ProductsNum: activity.ProductsNum,
 	}
 }
 
@@ -46,6 +47,7 @@ func PbActivityProductConvertModel(activity *pb.ActivityProduct) *model.Activity
 			curUpdateTime := activity.UpdateTime.AsTime()
 			return &curUpdateTime
 		}(activity.UpdateTime),
-		IsDeleted: activity.IsDeleted,
+		IsDeleted:   activity.IsDeleted,
+		ProductsNum: activity.ProductsNum,
 	}
 }

@@ -20,7 +20,8 @@ func PbActivityProductConvertTypes(activity *pb.ActivityProduct) types.ActivityP
 		//UpdateTime: func(update *time.Time) *timestamppb.Timestamp {
 		//	return timestamppb.New(*activity.UpdateTime)
 		//}(activity.UpdateTime),
-		UpdateTime: activity.UpdateTime.AsTime().String(),
-		IsDeleted:  activity.IsDeleted,
+		UpdateTime:  activity.UpdateTime.AsTime().String(),
+		IsDeleted:   activity.IsDeleted,
+		ProductsNum: activity.ProductsNum,
 	}
 }

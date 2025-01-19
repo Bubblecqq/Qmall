@@ -8,6 +8,7 @@ type ActivityProduct struct {
 	ProductID            int64      `gorm:"column:product_id" json:"product_id"`
 	ProductName          string     `gorm:"column:product_name" json:"product_name"`
 	ProductMainPic       string     `gorm:"column:product_main_picture" json:"product_main_picture"`
+	ProductsNum          string     `gorm:"column:products_num" json:"products_num"`
 	ProductStartingPrice float64    `gorm:"column:product_starting_price" json:"product_starting_price"`
 	CategoryID           int64      `gorm:"column:category_id" json:"category_id"`
 	CreateUser           int64      `gorm:"column:create_user" json:"create_user"`

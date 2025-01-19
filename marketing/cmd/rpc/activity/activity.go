@@ -14,22 +14,25 @@ import (
 )
 
 type (
-	Activity                   = pb.Activity
-	ActivityProduct            = pb.ActivityProduct
-	ActivityProductSku         = pb.ActivityProductSku
-	ActivityTime               = pb.ActivityTime
-	AddActivityProductReq      = pb.AddActivityProductReq
-	AddActivityProductResp     = pb.AddActivityProductResp
-	AddActivityProductSkuReq   = pb.AddActivityProductSkuReq
-	AddActivityProductSkuResp  = pb.AddActivityProductSkuResp
-	AddActivityReq             = pb.AddActivityReq
-	AddActivityResp            = pb.AddActivityResp
-	AddActivityTimeReq         = pb.AddActivityTimeReq
-	AddActivityTimeResp        = pb.AddActivityTimeResp
-	GetActivityProductByIdReq  = pb.GetActivityProductByIdReq
-	GetActivityProductByIdResp = pb.GetActivityProductByIdResp
-	GetActivityTimeByIdReq     = pb.GetActivityTimeByIdReq
-	GetActivityTimeByIdResp    = pb.GetActivityTimeByIdResp
+	Activity                         = pb.Activity
+	ActivityInfo                     = pb.ActivityInfo
+	ActivityProduct                  = pb.ActivityProduct
+	ActivityProductSku               = pb.ActivityProductSku
+	ActivityTime                     = pb.ActivityTime
+	AddActivityProductReq            = pb.AddActivityProductReq
+	AddActivityProductResp           = pb.AddActivityProductResp
+	AddActivityProductSkuReq         = pb.AddActivityProductSkuReq
+	AddActivityProductSkuResp        = pb.AddActivityProductSkuResp
+	AddActivityReq                   = pb.AddActivityReq
+	AddActivityResp                  = pb.AddActivityResp
+	AddActivityTimeReq               = pb.AddActivityTimeReq
+	AddActivityTimeResp              = pb.AddActivityTimeResp
+	GetActivityInfoByProductsNumReq  = pb.GetActivityInfoByProductsNumReq
+	GetActivityInfoByProductsNumResp = pb.GetActivityInfoByProductsNumResp
+	GetActivityProductByIdReq        = pb.GetActivityProductByIdReq
+	GetActivityProductByIdResp       = pb.GetActivityProductByIdResp
+	GetActivityTimeByIdReq           = pb.GetActivityTimeByIdReq
+	GetActivityTimeByIdResp          = pb.GetActivityTimeByIdResp
 
 	ActivityZrpcClient interface {
 		AddActivity(ctx context.Context, in *AddActivityReq, opts ...grpc.CallOption) (*AddActivityResp, error)
@@ -39,6 +42,7 @@ type (
 		// 查询接口
 		GetActivityProductById(ctx context.Context, in *GetActivityProductByIdReq, opts ...grpc.CallOption) (*GetActivityProductByIdResp, error)
 		GetActivityTimeById(ctx context.Context, in *GetActivityTimeByIdReq, opts ...grpc.CallOption) (*GetActivityTimeByIdResp, error)
+		GetActivityInfoByProductsNum(ctx context.Context, in *GetActivityInfoByProductsNumReq, opts ...grpc.CallOption) (*GetActivityInfoByProductsNumResp, error)
 	}
 
 	defaultActivityZrpcClient struct {
@@ -81,4 +85,9 @@ func (m *defaultActivityZrpcClient) GetActivityProductById(ctx context.Context, 
 func (m *defaultActivityZrpcClient) GetActivityTimeById(ctx context.Context, in *GetActivityTimeByIdReq, opts ...grpc.CallOption) (*GetActivityTimeByIdResp, error) {
 	client := pb.NewActivityClient(m.cli.Conn())
 	return client.GetActivityTimeById(ctx, in, opts...)
+}
+
+func (m *defaultActivityZrpcClient) GetActivityInfoByProductsNum(ctx context.Context, in *GetActivityInfoByProductsNumReq, opts ...grpc.CallOption) (*GetActivityInfoByProductsNumResp, error) {
+	client := pb.NewActivityClient(m.cli.Conn())
+	return client.GetActivityInfoByProductsNum(ctx, in, opts...)
 }
