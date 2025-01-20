@@ -17,6 +17,7 @@ func ModelActivityInfoConvertPb(activity *model.ActivityInfo) *pb.ActivityInfo {
 		EndTime:              activity.EndTime,
 		IsOnline:             activity.IsOnline,
 		ProductsNum:          activity.ProductsNum,
+		SkuId:                activity.SkuId,
 	}
 }
 
@@ -32,5 +33,6 @@ func PbActivityInfoConvertModel(activity *pb.ActivityInfo) *model.ActivityInfo {
 		EndTime:              activity.EndTime,
 		IsOnline:             activity.IsOnline,
 		ProductsNum:          activity.ProductsNum,
+		SkuId:                activity.SkuId,
 	}
 }

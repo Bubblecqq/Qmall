@@ -163,6 +163,7 @@ message ActivityInfo {
   string end_time = 8;
   int32 is_online = 9;
   string products_num = 10;
+  int64 sku_id = 11;
 }
 message GetActivityInfoByProductsNumReq {
   int64 products_id = 1;

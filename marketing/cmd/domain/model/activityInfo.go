@@ -6,6 +6,7 @@ type ActivityInfo struct {
 	ProductStartingPrice float64 `gorm:"column:product_starting_price" json:"product_starting_price"`
 	CategoryId           int64   `gorm:"column:category_id" json:"category_id"`
 	ProductId            int64   `gorm:"column:product_id" json:"product_id"`
+	SkuId                int64   `gorm:"column:product_sku_id" json:"product_sku_id"`
 	ProductsNum          string  `gorm:"column:products_num" json:"products_num"`
 	ActivityTimeId       int64   `gorm:"column:activity_time_id" json:"activity_time_id"`
 	StartTime            string  `gorm:"column:start_time" json:"start_time"`

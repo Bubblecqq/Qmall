@@ -165,4 +165,15 @@ service product {
   rpc GetProductListSku (GetProductSkuListReq) returns (GetProductSkuListResp);
   rpc DeleteProductSku (DeleteProductSkuReq) returns (DeleteProductSkuResp);
   rpc GetProductSku (GetProductSkuByIdReq) returns (GetProductSkuByIdResp);
+
+  rpc UpdateProductSkuBySkuId (UpdateProductSkuBySkuIdReq) returns (UpdateProductSkuBySkuIdResp);
+}
+
+
+message UpdateProductSkuBySkuIdReq {
+  int64 sku_id = 1;
+  int64 stock = 2;
+}
+message UpdateProductSkuBySkuIdResp {
+  ProductSku productSku = 1;
 }

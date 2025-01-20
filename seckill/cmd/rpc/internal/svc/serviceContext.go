@@ -2,10 +2,12 @@ package svc
 
 import (
 	"QMall/common"
+	"QMall/product/cmd/rpc/product/product"
 	"QMall/seckill/cmd/domain/repository"
 	"QMall/seckill/cmd/rpc/internal/config"
 	"fmt"
 	"github.com/redis/go-redis/v9"
+	"github.com/zeromicro/go-zero/zrpc"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -15,6 +17,7 @@ type ServiceContext struct {
 	Config            config.Config
 	Redis             *redis.Client
 	SecKillRepository repository.ISecKillRepository
+	ProductRPC        product.ProductZrpcClient
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -38,9 +41,13 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		PoolSize:     30,
 		MinIdleConns: 30,
 	})
+	productTarget, _ := zrpc.NewClientWithTarget(c.RemoteCall.ProductRPC)
+	productClient := product.NewProductZrpcClient(productTarget)
+
 	return &ServiceContext{
 		Config:            c,
 		Redis:             redisClient,
 		SecKillRepository: repository.NewSecKillRepository(db, redisClient),
+		ProductRPC:        productClient,
 	}
 }

@@ -48,9 +48,10 @@ func (a *ActivityRepository) GetActivityInfoByProductsNum(productId int64, produ
        ap.product_starting_price as product_starting_price,
        ap.category_id as category_id,ap.product_id as product_id,
        at.id as activity_time_id,at.start_time ,at.end_time ,
-       ac.is_online`).
+       ac.is_online,aps.product_sku_id as product_sku_id`).
 		Joins("left join mall_marketing.activity_time at on ac.id = at.activity_id").
 		Joins("left join mall_marketing.activity_product ap on at.id = ap.activity_time_id").
+		Joins("left join mall_marketing.activity_product_sku aps on ap.id = aps.activity_product_id").
 		Where("ap.product_id =? and ap.products_num=?", productId, productsNum).
 		Find(&activityInfo)
 	fmt.Println("activityInfo>>>>>", activityInfo)

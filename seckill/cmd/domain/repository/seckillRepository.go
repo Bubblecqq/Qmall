@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"QMall/common"
 	"QMall/seckill/cmd/domain/model"
 	"QMall/seckill/cmd/rpc/pb"
 	"errors"
@@ -172,6 +171,15 @@ func (s *SecKillRepository) IncreaseSecKillQuota(in *pb.IncreaseSecKillQuotaReq)
 }
 
 func (s *SecKillRepository) IncreaseSecKillUserQuota(in *pb.IncreaseSecKillUserQuotaReq) (*model.SecKillUserQuota, error) {
+
+	productsId, err := s.GetSecKillQuotaByProductsId(in.ProductsId)
+
+	if err != nil {
+		return nil, gorm.ErrRecordNotFound
+	}
+	if in.Num+in.KilledNum > productsId.Num {
+		return nil, errors.New(fmt.Sprintf("当前用户超出限额：%v", in.Num+in.KilledNum))
+	}
 	secKillUserQuota := &model.SecKillUserQuota{
 		UserId:     in.UserId,
 		ProductsId: in.ProductsId,
@@ -196,12 +204,15 @@ func (s *SecKillRepository) IncreaseSecKillRecord(in *pb.IncreaseSecKillRecordRe
 		CreateTime: now,
 		OrderNum:   in.OrderNo,
 		Status:     1,
-		SecNum:     common.GenerateSecKillOrderNo(now, in.UserId),
+		SecNum:     in.SecNo,
 	}
 	tx := s.mysqlClient.Model(&model.SecKillRecord{}).Create(&secKillRecord)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
+
+	//库存扣
+
 	return secKillRecord, nil
 }
 

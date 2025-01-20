@@ -18,13 +18,15 @@ type IncreaseSecKillOrderReq struct {
 	ProductsNum string  `gorm:"products_num" json:"products_num"` // 商品编号
 	OrderNum    string  `gorm:"order_num" json:"order_num"`       // 订单号
 	Price       float64 `gorm:"price" json:"price"`               // 金额
+	Quantity    int64   `gorm:"quantity" json:"quantity"`         // 秒杀数量
 }
 
 type IncreaseSecKillOrderResp struct {
-	SecKillActivity SecKillActivity `json:"secKill_activity"`
-	SecKillOrder    SecKillOrder    `json:"secKill_order"`
-	SecKillProducts SecKillProducts `json:"secKill_products"`
-	SecKillRecord   SecKillRecord   `json:"secKill_record"`
+	SecKillActivity  SecKillActivity  `json:"secKill_activity"`
+	SecKillOrder     SecKillOrder     `json:"secKill_order"`
+	SecKillProducts  SecKillProducts  `json:"secKill_products"`
+	SecKillRecord    SecKillRecord    `json:"secKill_record"`
+	SecKillUserQuota SecKillUserQuota `json:"secKill_user_quota"`
 }
 
 type IncreaseSecKillProductsReq struct {
@@ -55,6 +57,7 @@ type IncreaseSecKillRecordReq struct {
 	ProductsId int64   `gorm:"products_id" json:"products_id"` // 商品ID
 	OrderNum   string  `gorm:"order_num" json:"order_num"`     // 订单号
 	Price      float64 `gorm:"price" json:"price"`             // 金额
+	Quantity   int64   `gorm:"quantity" json:"quantity"`       // 秒杀数量
 }
 
 type IncreaseSecKillRecordResp struct {
