@@ -18,6 +18,8 @@ type (
 	GetSecKillProductsByProductsIdResp = pb.GetSecKillProductsByProductsIdResp
 	GetSecKillQuotaByProductsIdReq     = pb.GetSecKillQuotaByProductsIdReq
 	GetSecKillQuotaByProductsIdResp    = pb.GetSecKillQuotaByProductsIdResp
+	GetSecKillUserQuotaReq             = pb.GetSecKillUserQuotaReq
+	GetSecKillUserQuotaResp            = pb.GetSecKillUserQuotaResp
 	IncreaseSecKillOrderReq            = pb.IncreaseSecKillOrderReq
 	IncreaseSecKillOrderResp           = pb.IncreaseSecKillOrderResp
 	IncreaseSecKillProductsReq         = pb.IncreaseSecKillProductsReq
@@ -54,6 +56,7 @@ type (
 		IncreaseSecKillRecord(ctx context.Context, in *IncreaseSecKillRecordReq, opts ...grpc.CallOption) (*IncreaseSecKillRecordResp, error)
 		GetSecKillQuotaByProductsId(ctx context.Context, in *GetSecKillQuotaByProductsIdReq, opts ...grpc.CallOption) (*GetSecKillQuotaByProductsIdResp, error)
 		GetSecKillProductsByProductsId(ctx context.Context, in *GetSecKillProductsByProductsIdReq, opts ...grpc.CallOption) (*GetSecKillProductsByProductsIdResp, error)
+		GetSecKillUserQuota(ctx context.Context, in *GetSecKillUserQuotaReq, opts ...grpc.CallOption) (*GetSecKillUserQuotaResp, error)
 		// 更新接口
 		UpdateSecKillQuotaById(ctx context.Context, in *UpdateSecKillQuotaByIdReq, opts ...grpc.CallOption) (*UpdateSecKillQuotaByIdResp, error)
 		UpdateSecKillUserQuotaById(ctx context.Context, in *UpdateSecKillUserQuotaByIdReq, opts ...grpc.CallOption) (*UpdateSecKillUserQuotaByIdResp, error)
@@ -108,6 +111,11 @@ func (m *defaultSecKill) GetSecKillQuotaByProductsId(ctx context.Context, in *Ge
 func (m *defaultSecKill) GetSecKillProductsByProductsId(ctx context.Context, in *GetSecKillProductsByProductsIdReq, opts ...grpc.CallOption) (*GetSecKillProductsByProductsIdResp, error) {
 	client := pb.NewSecKillClient(m.cli.Conn())
 	return client.GetSecKillProductsByProductsId(ctx, in, opts...)
+}
+
+func (m *defaultSecKill) GetSecKillUserQuota(ctx context.Context, in *GetSecKillUserQuotaReq, opts ...grpc.CallOption) (*GetSecKillUserQuotaResp, error) {
+	client := pb.NewSecKillClient(m.cli.Conn())
+	return client.GetSecKillUserQuota(ctx, in, opts...)
 }
 
 // 更新接口

@@ -77,3 +77,8 @@ func (s *ProductServer) GetProductSku(ctx context.Context, in *pb.GetProductSkuB
 	l := logic.NewGetProductSkuLogic(ctx, s.svcCtx)
 	return l.GetProductSku(in)
 }
+
+func (s *ProductServer) UpdateProductSkuBySkuId(ctx context.Context, in *pb.UpdateProductSkuBySkuIdReq) (*pb.UpdateProductSkuBySkuIdResp, error) {
+	l := logic.NewUpdateProductSkuBySkuIdLogic(ctx, s.svcCtx)
+	return l.UpdateProductSkuBySkuId(in)
+}

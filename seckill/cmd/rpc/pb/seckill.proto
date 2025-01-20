@@ -176,6 +176,9 @@ message IncreaseSecKillRecordReq {
   int64 products_id = 2;
   double price = 3;
   string order_no = 4;
+  string sec_no = 5;
+  int64 quantity = 6;
+  int64 sku_id = 7;
 }
 
 // 定义添加秒杀记录的响应消息
@@ -191,6 +194,7 @@ message IncreaseSecKillOrderReq {
   string products_num = 4;  // 商品编号
   string order_num = 5;  // 订单号
   double price = 6;  // 金额
+  int64 quantity = 7;
 }
 
 
@@ -213,6 +217,8 @@ service secKill {
   rpc GetSecKillQuotaByProductsId (GetSecKillQuotaByProductsIdReq) returns (GetSecKillQuotaByProductsIdResp);
 
   rpc GetSecKillProductsByProductsId (GetSecKillProductsByProductsIdReq) returns (GetSecKillProductsByProductsIdResp);
+
+  rpc GetSecKillUserQuota (GetSecKillUserQuotaReq) returns (GetSecKillUserQuotaResp);
 
   // 更新接口
   rpc UpdateSecKillQuotaById (UpdateSecKillQuotaByIdReq) returns (UpdateSecKillQuotaByIdResp);
@@ -247,5 +253,13 @@ message UpdateSecKillUserQuotaByIdReq {
   int64 num = 2;
 }
 message UpdateSecKillUserQuotaByIdResp {
+  SecKillUserQuota secKill_user_quota = 1;
+}
+
+message GetSecKillUserQuotaReq {
+  int64 user_id=1;
+  int64 products_id = 2;
+}
+message GetSecKillUserQuotaResp {
   SecKillUserQuota secKill_user_quota = 1;
 }

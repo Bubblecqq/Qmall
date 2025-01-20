@@ -19,17 +19,18 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	Product_CreateProduct_FullMethodName     = "/pb.product/CreateProduct"
-	Product_GetProductList_FullMethodName    = "/pb.product/GetProductList"
-	Product_DeleteProduct_FullMethodName     = "/pb.product/DeleteProduct"
-	Product_GetProduct_FullMethodName        = "/pb.product/GetProduct"
-	Product_PageIndex_FullMethodName         = "/pb.product/PageIndex"
-	Product_ShowProductDetail_FullMethodName = "/pb.product/ShowProductDetail"
-	Product_UpdateProductSku_FullMethodName  = "/pb.product/UpdateProductSku"
-	Product_CreateProductSku_FullMethodName  = "/pb.product/CreateProductSku"
-	Product_GetProductListSku_FullMethodName = "/pb.product/GetProductListSku"
-	Product_DeleteProductSku_FullMethodName  = "/pb.product/DeleteProductSku"
-	Product_GetProductSku_FullMethodName     = "/pb.product/GetProductSku"
+	Product_CreateProduct_FullMethodName           = "/pb.product/CreateProduct"
+	Product_GetProductList_FullMethodName          = "/pb.product/GetProductList"
+	Product_DeleteProduct_FullMethodName           = "/pb.product/DeleteProduct"
+	Product_GetProduct_FullMethodName              = "/pb.product/GetProduct"
+	Product_PageIndex_FullMethodName               = "/pb.product/PageIndex"
+	Product_ShowProductDetail_FullMethodName       = "/pb.product/ShowProductDetail"
+	Product_UpdateProductSku_FullMethodName        = "/pb.product/UpdateProductSku"
+	Product_CreateProductSku_FullMethodName        = "/pb.product/CreateProductSku"
+	Product_GetProductListSku_FullMethodName       = "/pb.product/GetProductListSku"
+	Product_DeleteProductSku_FullMethodName        = "/pb.product/DeleteProductSku"
+	Product_GetProductSku_FullMethodName           = "/pb.product/GetProductSku"
+	Product_UpdateProductSkuBySkuId_FullMethodName = "/pb.product/UpdateProductSkuBySkuId"
 )
 
 // ProductClient is the client API for Product service.
@@ -47,6 +48,7 @@ type ProductClient interface {
 	GetProductListSku(ctx context.Context, in *GetProductSkuListReq, opts ...grpc.CallOption) (*GetProductSkuListResp, error)
 	DeleteProductSku(ctx context.Context, in *DeleteProductSkuReq, opts ...grpc.CallOption) (*DeleteProductSkuResp, error)
 	GetProductSku(ctx context.Context, in *GetProductSkuByIdReq, opts ...grpc.CallOption) (*GetProductSkuByIdResp, error)
+	UpdateProductSkuBySkuId(ctx context.Context, in *UpdateProductSkuBySkuIdReq, opts ...grpc.CallOption) (*UpdateProductSkuBySkuIdResp, error)
 }
 
 type productClient struct {
@@ -167,6 +169,16 @@ func (c *productClient) GetProductSku(ctx context.Context, in *GetProductSkuById
 	return out, nil
 }
 
+func (c *productClient) UpdateProductSkuBySkuId(ctx context.Context, in *UpdateProductSkuBySkuIdReq, opts ...grpc.CallOption) (*UpdateProductSkuBySkuIdResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateProductSkuBySkuIdResp)
+	err := c.cc.Invoke(ctx, Product_UpdateProductSkuBySkuId_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProductServer is the server API for Product service.
 // All implementations must embed UnimplementedProductServer
 // for forward compatibility.
@@ -182,6 +194,7 @@ type ProductServer interface {
 	GetProductListSku(context.Context, *GetProductSkuListReq) (*GetProductSkuListResp, error)
 	DeleteProductSku(context.Context, *DeleteProductSkuReq) (*DeleteProductSkuResp, error)
 	GetProductSku(context.Context, *GetProductSkuByIdReq) (*GetProductSkuByIdResp, error)
+	UpdateProductSkuBySkuId(context.Context, *UpdateProductSkuBySkuIdReq) (*UpdateProductSkuBySkuIdResp, error)
 	mustEmbedUnimplementedProductServer()
 }
 
@@ -224,6 +237,9 @@ func (UnimplementedProductServer) DeleteProductSku(context.Context, *DeleteProdu
 }
 func (UnimplementedProductServer) GetProductSku(context.Context, *GetProductSkuByIdReq) (*GetProductSkuByIdResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetProductSku not implemented")
+}
+func (UnimplementedProductServer) UpdateProductSkuBySkuId(context.Context, *UpdateProductSkuBySkuIdReq) (*UpdateProductSkuBySkuIdResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateProductSkuBySkuId not implemented")
 }
 func (UnimplementedProductServer) mustEmbedUnimplementedProductServer() {}
 func (UnimplementedProductServer) testEmbeddedByValue()                 {}
@@ -444,6 +460,24 @@ func _Product_GetProductSku_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Product_UpdateProductSkuBySkuId_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateProductSkuBySkuIdReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServer).UpdateProductSkuBySkuId(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Product_UpdateProductSkuBySkuId_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServer).UpdateProductSkuBySkuId(ctx, req.(*UpdateProductSkuBySkuIdReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Product_ServiceDesc is the grpc.ServiceDesc for Product service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -494,6 +528,10 @@ var Product_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetProductSku",
 			Handler:    _Product_GetProductSku_Handler,
+		},
+		{
+			MethodName: "UpdateProductSkuBySkuId",
+			Handler:    _Product_UpdateProductSkuBySkuId_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
