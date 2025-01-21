@@ -2,6 +2,7 @@ package repository
 
 import (
 	"QMall/marketing/cmd/domain/model"
+	"QMall/marketing/cmd/rpc/pb"
 	"fmt"
 	"github.com/redis/go-redis/v9"
 	"gorm.io/gorm"
@@ -30,11 +31,27 @@ type IActivityRepository interface {
 	GetActivityInfo(productId int64) ([]model.ActivityInfo, error)
 
 	GetActivityInfoByProductsNum(productId int64, productsNum string) (*model.ActivityInfo, error)
+
+	GetActivityTimeById(in *pb.GetActivityTimeByIdReq) (*model.ActivityTime, error)
 }
 
 type ActivityRepository struct {
 	mysqlClient *gorm.DB
 	redisClient *redis.Client
+}
+
+func (a *ActivityRepository) GetActivityTimeById(in *pb.GetActivityTimeByIdReq) (*model.ActivityTime, error) {
+	activityTime := &model.ActivityTime{}
+
+	tx := a.mysqlClient.Model(&model.ActivityTime{}).Find(&activityTime, in.Id)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	if activityTime.ID <= 0 {
+		return nil, gorm.ErrRecordNotFound
+	}
+	fmt.Printf("当前提取道到的活动表结果：%v\n", activityTime)
+	return activityTime, nil
 }
 
 func (a *ActivityRepository) GetActivityInfoByProductsNum(productId int64, productsNum string) (*model.ActivityInfo, error) {

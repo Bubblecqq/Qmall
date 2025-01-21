@@ -15,5 +15,6 @@ func PbSecKillRecordConvertTypes(secKillRecord *pb.SecKillRecord) types.SecKillR
 		Price:      secKillRecord.Price,
 		Status:     secKillRecord.Status,
 		CreateTime: secKillRecord.CreateTime.AsTime().String(),
+		UpdateTime: secKillRecord.UpdateTime.AsTime().String(),
 	}
 }

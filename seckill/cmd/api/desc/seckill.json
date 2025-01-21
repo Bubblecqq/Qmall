@@ -1,0 +1,950 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "",
+    "version": ""
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/seckill/v1/increaseSecKillOrder": {
+      "post": {
+        "summary": "添加秒杀订单",
+        "operationId": "increaseSecKillOrder",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/IncreaseSecKillOrderResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IncreaseSecKillOrderReq"
+            }
+          }
+        ],
+        "tags": [
+          "seckill"
+        ]
+      }
+    },
+    "/seckill/v1/increaseSecKillProducts": {
+      "post": {
+        "summary": "添加秒杀商品",
+        "operationId": "increaseSecKillProducts",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/IncreaseSecKillProductsResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "description": " 根据productId 查询mall_marketing的activity_product是否存在，\r, 1存在，--\u003e根据activityTimeId查询activity_time表和activity判断是否存在秒杀活动\r",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IncreaseSecKillProductsReq"
+            }
+          }
+        ],
+        "tags": [
+          "seckill"
+        ]
+      }
+    },
+    "/seckill/v1/increaseSecKillQuota": {
+      "post": {
+        "summary": "添加秒杀限额",
+        "operationId": "increaseSecKillQuota",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/IncreaseSecKillQuotaResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IncreaseSecKillQuotaReq"
+            }
+          }
+        ],
+        "tags": [
+          "seckill"
+        ]
+      }
+    },
+    "/seckill/v1/increaseSecKillRecord": {
+      "post": {
+        "summary": "添加秒杀记录",
+        "operationId": "increaseSecKillRecord",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/IncreaseSecKillRecordResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IncreaseSecKillRecordReq"
+            }
+          }
+        ],
+        "tags": [
+          "seckill"
+        ]
+      }
+    },
+    "/seckill/v1/increaseSecKillStock": {
+      "post": {
+        "summary": "添加秒杀库存",
+        "operationId": "increaseSecKillStock",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/IncreaseSecKillStockResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IncreaseSecKillStockReq"
+            }
+          }
+        ],
+        "tags": [
+          "seckill"
+        ]
+      }
+    },
+    "/seckill/v1/increaseSecKillUserQuota": {
+      "post": {
+        "summary": "添加秒杀用户限额",
+        "operationId": "increaseSecKillUserQuota",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/IncreaseSecKillUserQuotaResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/IncreaseSecKillUserQuotaReq"
+            }
+          }
+        ],
+        "tags": [
+          "seckill"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "GetSecKillQuotaByProductsIdReq": {
+      "type": "object",
+      "properties": {
+        "product_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "GetSecKillQuotaByProductsIdReq",
+      "required": [
+        "product_id"
+      ]
+    },
+    "GetSecKillQuotaByProductsIdResp": {
+      "type": "object",
+      "properties": {
+        "secKill_quota": {
+          "$ref": "#/definitions/SecKillQuota"
+        }
+      },
+      "title": "GetSecKillQuotaByProductsIdResp",
+      "required": [
+        "secKill_quota"
+      ]
+    },
+    "IncreaseSecKillOrderReq": {
+      "type": "object",
+      "properties": {
+        "seller": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 买方ID"
+        },
+        "buyer": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 卖方ID"
+        },
+        "products_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 商品ID"
+        },
+        "products_num": {
+          "type": "string",
+          "description": " 商品编号"
+        },
+        "order_num": {
+          "type": "string",
+          "description": " 订单号"
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": " 金额"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 秒杀数量"
+        }
+      },
+      "title": "IncreaseSecKillOrderReq",
+      "required": [
+        "seller",
+        "buyer",
+        "products_id",
+        "products_num",
+        "order_num",
+        "price",
+        "quantity"
+      ]
+    },
+    "IncreaseSecKillOrderResp": {
+      "type": "object",
+      "properties": {
+        "secKill_activity": {
+          "$ref": "#/definitions/SecKillActivity"
+        },
+        "secKill_order": {
+          "$ref": "#/definitions/SecKillOrder"
+        },
+        "secKill_products": {
+          "$ref": "#/definitions/SecKillProducts"
+        },
+        "secKill_record": {
+          "$ref": "#/definitions/SecKillRecord"
+        },
+        "secKill_user_quota": {
+          "$ref": "#/definitions/SecKillUserQuota"
+        }
+      },
+      "title": "IncreaseSecKillOrderResp",
+      "required": [
+        "secKill_activity",
+        "secKill_order",
+        "secKill_products",
+        "secKill_record",
+        "secKill_user_quota"
+      ]
+    },
+    "IncreaseSecKillProductsReq": {
+      "type": "object",
+      "properties": {
+        "product_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "seller": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "IncreaseSecKillProductsReq",
+      "required": [
+        "product_id",
+        "price",
+        "seller"
+      ]
+    },
+    "IncreaseSecKillProductsResp": {
+      "type": "object",
+      "properties": {
+        "seller": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "secKill_products": {
+          "$ref": "#/definitions/SecKillProducts"
+        },
+        "secKill_activity": {
+          "$ref": "#/definitions/SecKillActivity"
+        },
+        "secKill_activity_product_sku": {
+          "$ref": "#/definitions/SecKillActivityProductSku"
+        }
+      },
+      "title": "IncreaseSecKillProductsResp",
+      "required": [
+        "seller",
+        "secKill_products",
+        "secKill_activity",
+        "secKill_activity_product_sku"
+      ]
+    },
+    "IncreaseSecKillQuotaReq": {
+      "type": "object",
+      "properties": {
+        "product_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "limit_number": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "IncreaseSecKillQuotaReq",
+      "required": [
+        "product_id",
+        "limit_number"
+      ]
+    },
+    "IncreaseSecKillQuotaResp": {
+      "type": "object",
+      "properties": {
+        "secKill_products": {
+          "$ref": "#/definitions/SecKillProducts"
+        },
+        "secKill_quota": {
+          "$ref": "#/definitions/SecKillQuota"
+        }
+      },
+      "title": "IncreaseSecKillQuotaResp",
+      "required": [
+        "secKill_products",
+        "secKill_quota"
+      ]
+    },
+    "IncreaseSecKillRecordReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户ID"
+        },
+        "products_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 商品ID"
+        },
+        "order_num": {
+          "type": "string",
+          "description": " 订单号"
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": " 金额"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 秒杀数量"
+        }
+      },
+      "title": "IncreaseSecKillRecordReq",
+      "required": [
+        "user_id",
+        "products_id",
+        "order_num",
+        "price",
+        "quantity"
+      ]
+    },
+    "IncreaseSecKillRecordResp": {
+      "type": "object",
+      "properties": {
+        "secKill_record": {
+          "$ref": "#/definitions/SecKillRecord"
+        }
+      },
+      "title": "IncreaseSecKillRecordResp",
+      "required": [
+        "secKill_record"
+      ]
+    },
+    "IncreaseSecKillStockReq": {
+      "type": "object",
+      "properties": {
+        "products_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 商品ID"
+        },
+        "stock": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 库存大小"
+        }
+      },
+      "title": "IncreaseSecKillStockReq",
+      "required": [
+        "products_id",
+        "stock"
+      ]
+    },
+    "IncreaseSecKillStockResp": {
+      "type": "object",
+      "properties": {
+        "secKill_stock": {
+          "$ref": "#/definitions/SecKillStock"
+        }
+      },
+      "title": "IncreaseSecKillStockResp",
+      "required": [
+        "secKill_stock"
+      ]
+    },
+    "IncreaseSecKillUserQuotaReq": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "products_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "num": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "IncreaseSecKillUserQuotaReq",
+      "required": [
+        "user_id",
+        "products_id",
+        "num"
+      ]
+    },
+    "IncreaseSecKillUserQuotaResp": {
+      "type": "object",
+      "properties": {
+        "secKill_user_quota": {
+          "$ref": "#/definitions/SecKillUserQuota"
+        }
+      },
+      "title": "IncreaseSecKillUserQuotaResp",
+      "required": [
+        "secKill_user_quota"
+      ]
+    },
+    "SecKillActivity": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "activity_start_time": {
+          "type": "string"
+        },
+        "activity_end_time": {
+          "type": "string"
+        },
+        "is_online": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "SecKillActivity",
+      "required": [
+        "primaryKey;column:id",
+        "id",
+        "column:name",
+        "name",
+        "column:activity_start_time",
+        "activity_start_time",
+        "column:activity_end_time",
+        "activity_end_time",
+        "column:is_online",
+        "is_online"
+      ]
+    },
+    "SecKillActivityProduct": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "activity_time_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_name": {
+          "type": "string"
+        },
+        "product_main_picture": {
+          "type": "string"
+        },
+        "product_starting_price": {
+          "type": "number",
+          "format": "double"
+        },
+        "category_id": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "SecKillActivityProduct",
+      "required": [
+        "primaryKey;column:id",
+        "id",
+        "column:activity_time_id",
+        "activity_time_id",
+        "column:product_id",
+        "product_id",
+        "column:product_name",
+        "product_name",
+        "column:product_main_picture",
+        "product_main_picture",
+        "column:product_starting_price",
+        "product_starting_price",
+        "column:category_id",
+        "category_id"
+      ]
+    },
+    "SecKillActivityProductSku": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "activity_product_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "product_sku_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "price": {
+          "type": "number",
+          "format": "double"
+        },
+        "original_price": {
+          "type": "number",
+          "format": "double"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "stock": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "SecKillActivityProductSku",
+      "required": [
+        "primaryKey;column:id",
+        "id",
+        "column:activity_product_id",
+        "activity_product_id",
+        "column:product_id",
+        "product_id",
+        "column:product_sku_id",
+        "product_sku_id",
+        "column:price",
+        "price",
+        "column:original_price",
+        "original_price",
+        "column:number",
+        "number",
+        "column:stock",
+        "stock"
+      ]
+    },
+    "SecKillActivityTime": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "activity_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "time_name": {
+          "type": "string"
+        },
+        "start_time": {
+          "type": "string"
+        },
+        "end_time": {
+          "type": "string"
+        },
+        "is_enable": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "SecKillActivityTime",
+      "required": [
+        "primaryKey;column:id",
+        "id",
+        "column:activity_id",
+        "activity_id",
+        "column:time_name",
+        "time_name",
+        "column:start_time",
+        "start_time",
+        "column:end_time",
+        "end_time",
+        "column:is_enable",
+        "is_enable"
+      ]
+    },
+    "SecKillOrder": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " ID"
+        },
+        "seller": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 买方ID"
+        },
+        "buyer": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 卖方ID"
+        },
+        "products_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 商品ID"
+        },
+        "products_num": {
+          "type": "string",
+          "description": " 商品编号"
+        },
+        "order_num": {
+          "type": "string",
+          "description": " 订单号"
+        },
+        "price": {
+          "type": "string",
+          "description": " 金额"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态"
+        },
+        "create_time": {
+          "type": "string",
+          "description": " 创建时间"
+        },
+        "update_time": {
+          "type": "string",
+          "description": " 修改时间"
+        }
+      },
+      "title": "SecKillOrder",
+      "required": [
+        "id",
+        "seller",
+        "buyer",
+        "products_id",
+        "products_num",
+        "order_num",
+        "price",
+        "status",
+        "create_time",
+        "update_time"
+      ]
+    },
+    "SecKillProducts": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "products_num": {
+          "type": "string",
+          "description": " 商品编号"
+        },
+        "products_name": {
+          "type": "string",
+          "description": " 商品名字"
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": " 价格"
+        },
+        "picture_url": {
+          "type": "string",
+          "description": " 商品图片"
+        },
+        "seller": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 卖家ID"
+        },
+        "create_time": {
+          "type": "string",
+          "description": " 创建时间"
+        },
+        "update_time": {
+          "type": "string",
+          "description": " 修改时间"
+        }
+      },
+      "title": "SecKillProducts",
+      "required": [
+        "id",
+        "products_num",
+        "products_name",
+        "price",
+        "picture_url",
+        "seller",
+        "create_time",
+        "update_time"
+      ]
+    },
+    "SecKillQuota": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "products_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "num": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "create_time": {
+          "type": "string"
+        },
+        "update_time": {
+          "type": "string"
+        }
+      },
+      "title": "SecKillQuota",
+      "required": [
+        "id",
+        "products_id",
+        "num",
+        "create_time",
+        "update_time"
+      ]
+    },
+    "SecKillRecord": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " ID"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 用户ID"
+        },
+        "products_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 商品ID"
+        },
+        "sec_num": {
+          "type": "string",
+          "description": " 秒杀号"
+        },
+        "order_num": {
+          "type": "string",
+          "description": " 订单号"
+        },
+        "price": {
+          "type": "number",
+          "format": "double",
+          "description": " 金额"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "description": " 状态"
+        },
+        "create_time": {
+          "type": "string",
+          "description": " 创建时间"
+        },
+        "update_time": {
+          "type": "string",
+          "description": " 修改时间"
+        }
+      },
+      "title": "SecKillRecord",
+      "required": [
+        "id",
+        "user_id",
+        "products_id",
+        "sec_num",
+        "order_num",
+        "price",
+        "status",
+        "create_time",
+        "update_time"
+      ]
+    },
+    "SecKillStock": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " ID"
+        },
+        "products_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 商品ID"
+        },
+        "stock": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 库存大小"
+        },
+        "create_time": {
+          "type": "string",
+          "description": " 创建时间"
+        },
+        "update_time": {
+          "type": "string",
+          "description": " 修改时间"
+        }
+      },
+      "title": "SecKillStock",
+      "required": [
+        "id",
+        "products_id",
+        "stock",
+        "create_time",
+        "update_time"
+      ]
+    },
+    "SecKillUserQuota": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "user_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "products_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "num": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "killed_num": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "create_time": {
+          "type": "string"
+        },
+        "update_time": {
+          "type": "string"
+        }
+      },
+      "title": "SecKillUserQuota",
+      "required": [
+        "id",
+        "user_id",
+        "products_id",
+        "num",
+        "killed_num",
+        "create_time",
+        "update_time"
+      ]
+    }
+  },
+  "securityDefinitions": {
+    "apiKey": {
+      "type": "apiKey",
+      "description": "Enter JWT Bearer token **_only_**",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}

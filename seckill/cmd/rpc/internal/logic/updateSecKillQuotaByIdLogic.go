@@ -25,7 +25,6 @@ func NewUpdateSecKillQuotaByIdLogic(ctx context.Context, svcCtx *svc.ServiceCont
 
 // UpdateSecKillQuotaById 更新接口
 func (l *UpdateSecKillQuotaByIdLogic) UpdateSecKillQuotaById(in *pb.UpdateSecKillQuotaByIdReq) (*pb.UpdateSecKillQuotaByIdResp, error) {
-	// todo: add your logic here and delete this line
 
 	return &pb.UpdateSecKillQuotaByIdResp{}, nil
 }

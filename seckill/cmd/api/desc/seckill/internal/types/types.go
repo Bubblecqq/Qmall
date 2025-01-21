@@ -12,13 +12,10 @@ type GetSecKillQuotaByProductsIdResp struct {
 }
 
 type IncreaseSecKillOrderReq struct {
-	Seller      int64   `gorm:"seller" json:"seller"`             // 买方ID
-	Buyer       int64   `gorm:"buyer" json:"buyer"`               // 卖方ID
-	ProductsId  int64   `gorm:"products_id" json:"products_id"`   // 商品ID
-	ProductsNum string  `gorm:"products_num" json:"products_num"` // 商品编号
-	OrderNum    string  `gorm:"order_num" json:"order_num"`       // 订单号
-	Price       float64 `gorm:"price" json:"price"`               // 金额
-	Quantity    int64   `gorm:"quantity" json:"quantity"`         // 秒杀数量
+	Seller     int64 `gorm:"seller" json:"seller"`           // 买方ID
+	Buyer      int64 `gorm:"buyer" json:"buyer"`             // 卖方ID
+	ProductsId int64 `gorm:"products_id" json:"products_id"` // 商品ID
+	Quantity   int64 `gorm:"quantity" json:"quantity"`       // 秒杀数量
 }
 
 type IncreaseSecKillOrderResp struct {
@@ -53,11 +50,12 @@ type IncreaseSecKillQuotaResp struct {
 }
 
 type IncreaseSecKillRecordReq struct {
-	UserId     int64   `gorm:"user_id" json:"user_id"`         // 用户ID
-	ProductsId int64   `gorm:"products_id" json:"products_id"` // 商品ID
-	OrderNum   string  `gorm:"order_num" json:"order_num"`     // 订单号
-	Price      float64 `gorm:"price" json:"price"`             // 金额
-	Quantity   int64   `gorm:"quantity" json:"quantity"`       // 秒杀数量
+	UserId     int64   `gorm:"user_id" json:"user_id"`               // 用户ID
+	ProductsId int64   `gorm:"products_id" json:"products_id"`       // 商品ID
+	SkuId      int64   `gorm:"product_sku_id" json:"product_sku_id"` // 商品库存ID
+	OrderNum   string  `gorm:"order_num" json:"order_num"`           // 订单号
+	Price      float64 `gorm:"price" json:"price"`                   // 金额
+	Quantity   int64   `gorm:"quantity" json:"quantity"`             // 秒杀数量
 }
 
 type IncreaseSecKillRecordResp struct {
@@ -136,6 +134,7 @@ type SecKillOrder struct {
 
 type SecKillProducts struct {
 	Id           int64   `gorm:"id" json:"id"`
+	ProductsId   int64   `gorm:"products_id" json:"products_id"`
 	ProductsNum  string  `gorm:"products_num" json:"products_num"`   // 商品编号
 	ProductsName string  `gorm:"products_name" json:"products_name"` // 商品名字
 	Price        float64 `gorm:"price" json:"price"`                 // 价格
@@ -146,11 +145,12 @@ type SecKillProducts struct {
 }
 
 type SecKillQuota struct {
-	Id         int64  `gorm:"id" json:"id"`
-	ProductsId int64  `gorm:"products_id" json:"products_id"`
-	Num        int64  `gorm:"num" json:"num"`
-	CreateTime string `gorm:"create_time" json:"create_time"`
-	UpdateTime string `gorm:"update_time" json:"update_time"`
+	Id                int64  `gorm:"id" json:"id"`
+	ProductsId        int64  `gorm:"products_id" json:"products_id"`
+	SecKillProductsId int64  `gorm:"seckill_products_id" json:"seckill_products_id"`
+	Num               int64  `gorm:"num" json:"num"`
+	CreateTime        string `gorm:"create_time" json:"create_time"`
+	UpdateTime        string `gorm:"update_time" json:"update_time"`
 }
 
 type SecKillRecord struct {

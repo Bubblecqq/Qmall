@@ -7,9 +7,10 @@ import (
 
 func PbSecKillQuotaConvertTypes(secKillQuota *pb.SecKillQuota) types.SecKillQuota {
 	return types.SecKillQuota{
-		Id:         secKillQuota.Id,
-		ProductsId: secKillQuota.ProductsId,
-		Num:        secKillQuota.Num,
-		CreateTime: secKillQuota.CreateTime.AsTime().String(),
+		Id:                secKillQuota.Id,
+		ProductsId:        secKillQuota.ProductsId,
+		Num:               secKillQuota.Num,
+		SecKillProductsId: secKillQuota.SeckillProductsId,
+		CreateTime:        secKillQuota.CreateTime.AsTime().String(),
 	}
 }

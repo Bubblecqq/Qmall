@@ -41,7 +41,7 @@ func (l *IncreaseSecKillProductsLogic) IncreaseSecKillProducts(req *types.Increa
 		err = errors.New(fmt.Sprintf("当前请求的秒杀商品不存在！请求的商品Id：%v", req.ProductId))
 		return
 	}
-
+	l.Info(fmt.Printf("当前活动商品信息：%v\n", activityProductByIdResp.GetActivityProduct()))
 	product, err := l.svcCtx.ProductRPC.GetProduct(l.ctx, &product2.GetProductByIdReq{
 		Id: req.ProductId,
 	})
@@ -60,6 +60,7 @@ func (l *IncreaseSecKillProductsLogic) IncreaseSecKillProducts(req *types.Increa
 		Price:       req.Price,
 		PictureUrl:  product.Product.MainPicture,
 		ProductName: product.Product.Name,
+		ProductsNum: activityProductByIdResp.ActivityProduct.ProductsNum,
 	})
 
 	l.Info(fmt.Printf("[INFO] 已添加秒杀商品信息！当前访问的商品Id：%v，秒杀价格：%v，卖家信息：%v\n", req.ProductId, req.Price, req.Seller))

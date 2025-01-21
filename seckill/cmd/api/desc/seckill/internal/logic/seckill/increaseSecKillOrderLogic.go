@@ -8,6 +8,7 @@ import (
 	"QMall/seckill/cmd/api/desc/seckill/internal/types/convert"
 	"QMall/seckill/cmd/rpc/seckill"
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
@@ -40,28 +41,42 @@ func (l *IncreaseSecKillOrderLogic) IncreaseSecKillOrder(req *types.IncreaseSecK
 		return
 	}
 
+	//先查秒杀订单商品
+	productsId, err := l.svcCtx.SecKillRpcConf.GetSecKillProductsByProductsId(l.ctx, &seckill.GetSecKillProductsByProductsIdReq{
+		ProductId: req.ProductsId,
+	})
+	if err != nil {
+		return
+	}
+	l.Info(fmt.Printf("[*] 当前商品存在秒杀活动>>>>>>%v\n", req.ProductsId))
 	activityInfoResp, err := l.svcCtx.ActivityRPC.GetActivityInfoByProductsNum(l.ctx, &activity.GetActivityInfoByProductsNumReq{
 		ProductsId:  req.ProductsId,
-		ProductsNum: req.ProductsNum,
+		ProductsNum: productsId.SecKillProducts.ProductsNum,
 	})
+	l.Info(fmt.Printf("当前秒杀活动商品信息：%v\n", activityInfoResp.ActivityInfo))
 	if err != nil {
 		return
 	}
 	// 判断当前时间是否存在于活动时间内
 	secKillTime := time.Now()
-	const timeFormat = "15:04:05"
-	startTime, err := time.Parse(timeFormat, activityInfoResp.ActivityInfo.StartTime)
+	//const timeFormat = "15:04:05"
+
+	startTime, err := time.Parse(time.RFC3339, activityInfoResp.ActivityInfo.StartTime)
 	if err != nil {
+		err = errors.New(fmt.Sprintf("解析开始时间错误: %v", err))
 		// 处理解析错误
 		fmt.Printf("解析开始时间错误: %v", err)
+		return
 	}
-	endTime, err := time.Parse(timeFormat, activityInfoResp.ActivityInfo.EndTime)
+	endTime, err := time.Parse(time.RFC3339, activityInfoResp.ActivityInfo.EndTime)
 	if err != nil {
+		err = errors.New(fmt.Sprintf("解析结束时间错误: %v", err))
 		// 处理解析错误
-		fmt.Printf("解析开始时间错误: %v", err)
+		fmt.Printf("解析结束时间错误: %v", err)
 	}
 	durationActivity := IsDurationActivity(secKillTime, startTime, endTime)
 	if !durationActivity {
+		err = errors.New("当前用户秒杀不在时间段")
 		l.Info(fmt.Printf("当前用户秒杀不在时间段\n"))
 		return
 	}
@@ -76,30 +91,32 @@ func (l *IncreaseSecKillOrderLogic) IncreaseSecKillOrder(req *types.IncreaseSecK
 	// 当前不存在限额
 	if err != nil || userQuota.SecKillUserQuota.Id <= 0 {
 		// 创建 需要判断秒杀数量是否大于限额
-		killUserQuota, err := l.svcCtx.SecKillRpcConf.IncreaseSecKillUserQuota(l.ctx, &seckill.IncreaseSecKillUserQuotaReq{
+		killUserQuota, err2 := l.svcCtx.SecKillRpcConf.IncreaseSecKillUserQuota(l.ctx, &seckill.IncreaseSecKillUserQuotaReq{
 			UserId:     req.Buyer,
 			ProductsId: req.ProductsId,
 			Num:        req.Quantity,
 			KilledNum:  0,
 		})
-		if err != nil {
+		if err2 != nil {
 			return
 		}
 		killedUserQuota = convert.PbSecKillUserQuotaConvertTypes(killUserQuota.SecKillUserQuota)
 	} else {
 		// 存在则修改限额
-		updateSecKillUserQuotaById, err := l.svcCtx.SecKillRpcConf.UpdateSecKillUserQuotaById(l.ctx, &seckill.UpdateSecKillUserQuotaByIdReq{
-			ProductsId: req.ProductsId,
-			Num:        req.Quantity,
+		updateSecKillUserQuotaById, err2 := l.svcCtx.SecKillRpcConf.UpdateSecKillUserQuotaById(l.ctx, &seckill.UpdateSecKillUserQuotaByIdReq{
+			ProductsId:  req.ProductsId,
+			Num:         req.Quantity,
+			UserId:      req.Buyer,
+			ProductsNum: productsId.SecKillProducts.ProductsNum,
 		})
-		if err != nil {
+		if err2 != nil {
 			return
 		}
 		killedUserQuota = convert.PbSecKillUserQuotaConvertTypes(updateSecKillUserQuotaById.SecKillUserQuota)
 	}
 
 	//
-	l.Info(fmt.Printf("正在添加秒杀订单>>>>>>>>，当前买家信息：%v，卖家信息：%v，买家购买的商品Id：%v，购入%v商品的价格：%v\n", req.Buyer, req.Seller, req.ProductsId, req.ProductsId, req.Price))
+	l.Info(fmt.Printf("正在添加秒杀订单>>>>>>>>，当前买家信息：%v，卖家信息：%v，买家购买的商品Id：%v，购入%v商品的价格：%v\n", req.Buyer, req.Seller, req.ProductsId, req.ProductsId, productsId.SecKillProducts.Price))
 	now := time.Now()
 	OrderNum := common.GenerateOrderNum(now, req.Buyer)
 
@@ -107,8 +124,8 @@ func (l *IncreaseSecKillOrderLogic) IncreaseSecKillOrder(req *types.IncreaseSecK
 		Seller:      req.Seller,
 		Buyer:       req.Buyer,
 		ProductsId:  req.ProductsId,
-		Price:       req.Price,
-		ProductsNum: req.ProductsNum,
+		Price:       productsId.SecKillProducts.Price,
+		ProductsNum: productsId.SecKillProducts.ProductsNum,
 		OrderNum:    OrderNum,
 		Quantity:    req.Quantity,
 	})
@@ -117,7 +134,7 @@ func (l *IncreaseSecKillOrderLogic) IncreaseSecKillOrder(req *types.IncreaseSecK
 	// 库存预扣在这里
 	killRecord, err := l.svcCtx.SecKillRpcConf.IncreaseSecKillRecord(l.ctx, &seckill.IncreaseSecKillRecordReq{
 		UserId:     req.Buyer,
-		Price:      req.Price,
+		Price:      productsId.SecKillProducts.Price,
 		ProductsId: req.ProductsId,
 		OrderNo:    OrderNum,
 		SecNo:      common.GenerateSecKillOrderNo(now, req.Buyer),
@@ -144,25 +161,27 @@ func (l *IncreaseSecKillOrderLogic) IncreaseSecKillOrder(req *types.IncreaseSecK
 }
 
 func IsDurationActivity(secKillTime, startTime, endTime time.Time) bool {
-	if secKillTime.Hour() > startTime.Hour() && secKillTime.Hour() < endTime.Hour() {
-		return true
-	}
-	if secKillTime.Hour() == startTime.Hour() {
-		if secKillTime.Minute() > startTime.Minute() {
-			return true
-		}
-		if secKillTime.Minute() == startTime.Minute() && secKillTime.Second() > startTime.Second() {
-			return true
-		}
-	}
-
-	if secKillTime.Hour() == endTime.Hour() {
-		if secKillTime.Minute() < endTime.Minute() {
-			return true
-		}
-		if secKillTime.Minute() == endTime.Minute() && secKillTime.Second() < endTime.Second() {
-			return true
-		}
-	}
-	return false
+	fmt.Printf("当前秒杀时间：%v\n", secKillTime.String())
+	fmt.Printf("活动时间段，开始时间：%v，结束时间：%v\n", startTime, endTime)
+	//if secKillTime.Hour() > startTime.Hour() && secKillTime.Hour() < endTime.Hour() {
+	//	return true
+	//}
+	//if secKillTime.Hour() == startTime.Hour() {
+	//	if secKillTime.Minute() > startTime.Minute() {
+	//		return true
+	//	}
+	//	if secKillTime.Minute() == startTime.Minute() && secKillTime.Second() > startTime.Second() {
+	//		return true
+	//	}
+	//}
+	//
+	//if secKillTime.Hour() == endTime.Hour() {
+	//	if secKillTime.Minute() < endTime.Minute() {
+	//		return true
+	//	}
+	//	if secKillTime.Minute() == endTime.Minute() && secKillTime.Second() < endTime.Second() {
+	//		return true
+	//	}
+	//}
+	return secKillTime.After(startTime) && secKillTime.Before(endTime)
 }
