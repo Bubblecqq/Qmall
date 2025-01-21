@@ -50,6 +50,8 @@ func (l *IncreaseSecKillRecordLogic) IncreaseSecKillRecord(req *types.IncreaseSe
 		ProductsId: req.ProductsId,
 		OrderNo:    req.OrderNum,
 		Price:      req.Price,
+		Quantity:   req.Quantity,
+		SkuId:      req.SkuId,
 	})
 	l.Info(fmt.Printf("[Info] 已在添加用户秒杀记录信息>>>>>>当前访问的用户Id：%v，商品Id：%v\n", req.UserId, req.ProductsId))
 

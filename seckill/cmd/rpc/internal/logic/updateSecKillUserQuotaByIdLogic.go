@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"QMall/seckill/cmd/domain/convert"
 	"context"
 
 	"QMall/seckill/cmd/rpc/internal/svc"
@@ -24,7 +25,14 @@ func NewUpdateSecKillUserQuotaByIdLogic(ctx context.Context, svcCtx *svc.Service
 }
 
 func (l *UpdateSecKillUserQuotaByIdLogic) UpdateSecKillUserQuotaById(in *pb.UpdateSecKillUserQuotaByIdReq) (*pb.UpdateSecKillUserQuotaByIdResp, error) {
-	// todo: add your logic here and delete this line
 
-	return &pb.UpdateSecKillUserQuotaByIdResp{}, nil
+	id, err := l.svcCtx.SecKillRepository.UpdateSecKillUserQuotaById(in)
+
+	if err != nil {
+		return &pb.UpdateSecKillUserQuotaByIdResp{}, err
+	}
+
+	return &pb.UpdateSecKillUserQuotaByIdResp{
+		SecKillUserQuota: convert.ModelSecKillUserQuotaConvertPb(id),
+	}, nil
 }

@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"QMall/marketing/cmd/domain/convert"
 	"context"
 
 	"QMall/marketing/cmd/rpc/internal/svc"
@@ -24,7 +25,13 @@ func NewGetActivityTimeByIdLogic(ctx context.Context, svcCtx *svc.ServiceContext
 }
 
 func (l *GetActivityTimeByIdLogic) GetActivityTimeById(in *pb.GetActivityTimeByIdReq) (*pb.GetActivityTimeByIdResp, error) {
-	// todo: add your logic here and delete this line
+	id, err := l.svcCtx.ActivityRepository.GetActivityTimeById(in)
 
-	return &pb.GetActivityTimeByIdResp{}, nil
+	if err != nil {
+		return &pb.GetActivityTimeByIdResp{}, err
+	}
+	l.Info("成功提取活动表Id：", id)
+	return &pb.GetActivityTimeByIdResp{
+		ActivityTime: convert.ModelActivityTimeConvertPb(id),
+	}, nil
 }

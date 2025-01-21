@@ -206,6 +206,9 @@
         "product_name": {
           "type": "string"
         },
+        "products_num": {
+          "type": "string"
+        },
         "product_main_picture": {
           "type": "string"
         },
@@ -246,6 +249,8 @@
         "product_id",
         "column:product_name",
         "product_name",
+        "column:products_num",
+        "products_num",
         "column:product_main_picture",
         "product_main_picture",
         "column:product_starting_price",

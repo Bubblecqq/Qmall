@@ -5,7 +5,8 @@ import "time"
 // SecKillProducts 秒杀商品表
 type SecKillProducts struct {
 	Id           int64      `gorm:"id" json:"id"`
-	ProductsNum  string     `gorm:"products_num" json:"products_num"`   // 商品编号
+	ProductsNum  string     `gorm:"products_num" json:"products_num"` // 商品编号
+	ProductsId   int64      `gorm:"products_id" json:"products_id"`
 	ProductsName string     `gorm:"products_name" json:"products_name"` // 商品名字
 	Price        float64    `gorm:"price" json:"price"`                 // 价格
 	PictureUrl   string     `gorm:"picture_url" json:"picture_url"`     // 商品图片

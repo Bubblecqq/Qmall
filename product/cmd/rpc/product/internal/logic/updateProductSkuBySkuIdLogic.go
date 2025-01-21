@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"QMall/product/cmd/domain/model"
 	"context"
 	"fmt"
 
@@ -28,5 +29,13 @@ func (l *UpdateProductSkuBySkuIdLogic) UpdateProductSkuBySkuId(in *pb.UpdateProd
 
 	fmt.Printf("正在更新库存中>>>>>>库存Id：%v\n", in.SkuId)
 
-	return &pb.UpdateProductSkuBySkuIdResp{}, nil
+	skuId, err := l.svcCtx.ProductRepository.UpdateProductSkuBySkuId(in)
+
+	if err != nil {
+		return &pb.UpdateProductSkuBySkuIdResp{}, err
+	}
+
+	return &pb.UpdateProductSkuBySkuIdResp{
+		ProductSku: model.ProductSkuModelConvertPbProductSku(skuId),
+	}, nil
 }

@@ -15,6 +15,7 @@ func ModelSecKillRecordConvertPb(data *model.SecKillRecord) *pb.SecKillRecord {
 		Price:      data.Price,
 		Status:     data.Status,
 		CreateTime: timestamppb.New(data.CreateTime),
+		UserId:     data.UserId,
 	}
 }
 
@@ -27,5 +28,6 @@ func PbSecKillRecordConvertModel(data *pb.SecKillRecord) *model.SecKillRecord {
 		Price:      data.Price,
 		Status:     data.Status,
 		CreateTime: data.CreateTime.AsTime(),
+		UserId:     data.UserId,
 	}
 }

@@ -72,6 +72,7 @@ message SecKillProducts {
   int64 seller = 6; // 卖家ID
   google.protobuf.Timestamp create_time = 7; // 创建时间
   google.protobuf.Timestamp update_time = 8; // 修改时间
+  int64 products_id = 9;
 }
 
 // 定义秒杀配额消息
@@ -79,8 +80,9 @@ message SecKillQuota {
   int64 id = 1;
   int64 products_id = 2;
   int64 num = 3;
-  google.protobuf.Timestamp create_time = 4;
-  google.protobuf.Timestamp update_time = 5;
+  int64 seckill_products_id = 4;
+  google.protobuf.Timestamp create_time = 5;
+  google.protobuf.Timestamp update_time = 6;
 }
 
 // 定义秒杀记录消息
@@ -124,6 +126,7 @@ message IncreaseSecKillProductsReq {
   int64 seller = 3;
   string pictureUrl = 4;
   string product_name = 5;
+  string products_num=6;
 }
 
 // 定义添加秒杀商品的响应消息
@@ -250,7 +253,9 @@ message UpdateSecKillQuotaByIdResp {
 }
 message UpdateSecKillUserQuotaByIdReq {
   int64 products_id = 1;
-  int64 num = 2;
+  int64 user_id = 2;
+  int64 num = 3;
+  string productsNum = 4;
 }
 message UpdateSecKillUserQuotaByIdResp {
   SecKillUserQuota secKill_user_quota = 1;

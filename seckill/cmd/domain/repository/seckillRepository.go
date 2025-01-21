@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"QMall/common"
 	"QMall/seckill/cmd/domain/model"
 	"QMall/seckill/cmd/rpc/pb"
 	"errors"
@@ -38,7 +39,7 @@ type ISecKillRepository interface {
 
 	GetSecKillQuotaById(id int64) (*model.SecKillQuota, error)
 
-	UpdateSecKillUserQuotaById(user_id, products_id, killedNum int64) (*model.SecKillUserQuota, error)
+	UpdateSecKillUserQuotaById(in *pb.UpdateSecKillUserQuotaByIdReq) (*model.SecKillUserQuota, error)
 }
 
 type SecKillRepository struct {
@@ -59,28 +60,30 @@ func (s *SecKillRepository) GetSecKillUserQuota(user_id, products_id int64) (*mo
 }
 
 // UpdateSecKillUserQuotaById TODO 需要增加锁机制，这里暂不加
-func (s *SecKillRepository) UpdateSecKillUserQuotaById(user_id, products_id, killedNum int64) (*model.SecKillUserQuota, error) {
+func (s *SecKillRepository) UpdateSecKillUserQuotaById(in *pb.UpdateSecKillUserQuotaByIdReq) (*model.SecKillUserQuota, error) {
 
-	quotaByProductsId, err := s.GetSecKillQuotaByProductsId(products_id)
+	quotaByProductsId, err := s.GetSecKillQuotaByProductsId(in.ProductsId)
 
 	if err != nil {
 		return nil, err
 	}
 	// 是否超过限额
-	if killedNum > quotaByProductsId.Num {
-		return nil, errors.New(fmt.Sprintf("当前用户秒杀的额度超过商品额度！具体用户秒杀数：%v，商品当前限量：%v", killedNum, quotaByProductsId.Num))
+	if in.Num > quotaByProductsId.Num {
+		return nil, errors.New(fmt.Sprintf("当前用户秒杀的额度超过商品额度！具体用户秒杀数：%v，商品当前限量：%v", in.Num, quotaByProductsId.Num))
 	}
-	userQuota, err := s.GetSecKillUserQuota(user_id, products_id)
+	userQuota, err := s.GetSecKillUserQuota(in.UserId, in.ProductsId)
 	if err != nil {
 		return nil, gorm.ErrRecordNotFound
 	}
-	if userQuota.KilledNum+killedNum > quotaByProductsId.Num {
-		return nil, errors.New(fmt.Sprintf("当前用户秒杀的额度超过商品额度！具体用户秒杀数：%v，商品当前限量：%v", killedNum, quotaByProductsId.Num))
+	if userQuota.KilledNum+in.Num > quotaByProductsId.Num {
+		return nil, errors.New(fmt.Sprintf("当前用户秒杀的额度超过商品额度！具体用户秒杀数：%v，商品当前限量：%v", in.Num, quotaByProductsId.Num))
 	}
-	userQuota.KilledNum += killedNum
+	userQuota.KilledNum += in.Num
 	updateTime := time.Now()
 	userQuota.UpdateTime = &updateTime
-	tx := s.mysqlClient.Model(&model.SecKillUserQuota{}).Updates(&userQuota)
+	tx := s.mysqlClient.Model(&model.SecKillUserQuota{}).
+		Where("user_id=? and products_id=?", in.UserId, in.ProductsId).
+		Updates(&userQuota)
 
 	if tx.Error != nil {
 		return nil, tx.Error
@@ -116,7 +119,7 @@ func (s *SecKillRepository) GetSecKillProductsByProductsId(products_id int64) (*
 
 func (s *SecKillRepository) GetSecKillQuotaByProductsId(products_id int64) (*model.SecKillQuota, error) {
 	quota := &model.SecKillQuota{}
-	tx := s.mysqlClient.Model(&model.SecKillQuota{}).Where("products_id=?", products_id).Find(&quota)
+	tx := s.mysqlClient.Model(&model.SecKillQuota{}).Where("products_id=? ", products_id).Find(&quota)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
@@ -137,6 +140,7 @@ func (s *SecKillRepository) IncreaseSecKillOrder(in *pb.IncreaseSecKillOrderReq)
 		ProductsNum: in.ProductsNum,
 		OrderNum:    in.OrderNum,
 		Status:      1,
+		UpdateTime:  &now,
 	}
 
 	tx := s.mysqlClient.Model(&model.SecKillOrder{}).Create(secKillOrder)
@@ -150,7 +154,9 @@ func (s *SecKillRepository) IncreaseSecKillStock(in *pb.IncreaseSecKillStockReq)
 	secKillStock := &model.SecKillStock{}
 	secKillStock.ProductsId = in.ProductsId
 	secKillStock.Stock = in.Stock
-	secKillStock.CreateTime = time.Now()
+	now := time.Now()
+	secKillStock.CreateTime = now
+	secKillStock.UpdateTime = &now
 	tx := s.mysqlClient.Model(&model.SecKillStock{}).Create(&secKillStock)
 	if tx.Error != nil {
 		return nil, tx.Error
@@ -160,7 +166,9 @@ func (s *SecKillRepository) IncreaseSecKillStock(in *pb.IncreaseSecKillStockReq)
 
 func (s *SecKillRepository) IncreaseSecKillQuota(in *pb.IncreaseSecKillQuotaReq) (*model.SecKillQuota, error) {
 	secKillQuota := &model.SecKillQuota{}
-	secKillQuota.CreateTime = time.Now()
+	now := time.Now()
+	secKillQuota.CreateTime = now
+	secKillQuota.UpdateTime = &now
 	secKillQuota.Num = in.LimitNumber
 	secKillQuota.ProductsId = in.ProductId
 	tx := s.mysqlClient.Model(&model.SecKillQuota{}).Create(&secKillQuota)
@@ -180,11 +188,13 @@ func (s *SecKillRepository) IncreaseSecKillUserQuota(in *pb.IncreaseSecKillUserQ
 	if in.Num+in.KilledNum > productsId.Num {
 		return nil, errors.New(fmt.Sprintf("当前用户超出限额：%v", in.Num+in.KilledNum))
 	}
+	now := time.Now()
 	secKillUserQuota := &model.SecKillUserQuota{
 		UserId:     in.UserId,
 		ProductsId: in.ProductsId,
 		Num:        in.Num,
-		CreateTime: time.Now(),
+		CreateTime: now,
+		UpdateTime: &now,
 		KilledNum:  in.KilledNum,
 	}
 
@@ -204,7 +214,8 @@ func (s *SecKillRepository) IncreaseSecKillRecord(in *pb.IncreaseSecKillRecordRe
 		CreateTime: now,
 		OrderNum:   in.OrderNo,
 		Status:     1,
-		SecNum:     in.SecNo,
+		SecNum:     common.GenerateSecKillOrderNo(now, in.UserId),
+		UpdateTime: &now,
 	}
 	tx := s.mysqlClient.Model(&model.SecKillRecord{}).Create(&secKillRecord)
 	if tx.Error != nil {
@@ -217,12 +228,15 @@ func (s *SecKillRepository) IncreaseSecKillRecord(in *pb.IncreaseSecKillRecordRe
 }
 
 func (s *SecKillRepository) IncreaseSecKillProducts(in *pb.IncreaseSecKillProductsReq) (*model.SecKillProducts, error) {
+	now := time.Now()
 	secKillProducts := &model.SecKillProducts{
-		CreateTime:   time.Now(),
+		CreateTime:   now,
 		Price:        in.Price,
 		Seller:       in.Seller,
 		PictureUrl:   in.PictureUrl,
 		ProductsName: in.ProductName,
+		UpdateTime:   &now,
+		ProductsNum:  in.ProductsNum,
 	}
 
 	tx := s.mysqlClient.Model(&model.SecKillProducts{}).Create(secKillProducts)
