@@ -12,6 +12,7 @@ type Config struct {
 	Cache          cache.CacheConf
 	SecKillRpcConf zrpc.RpcClientConf
 	RemoteCall     RemoteCall
+	KqPusherConf   KqPusherConf
 }
 type Mysql struct {
 	Host     string `json:"host"`
@@ -27,4 +28,9 @@ type RemoteCall struct {
 	ActivityRPC     string `json:"ActivityRPC"`
 	OrderRPC        string `json:"OrderRPC"`
 	ShoppingCartRPC string `json:"ShoppingCartRPC"`
+}
+
+type KqPusherConf struct {
+	Brokers []string `json:"brokers"`
+	Topic   string   `json:"topic"`
 }

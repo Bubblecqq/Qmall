@@ -3,6 +3,7 @@ package svc
 import (
 	"QMall/common"
 	"QMall/product/cmd/rpc/product/product"
+	kafka2 "QMall/seckill/cmd/domain/kafka"
 	"QMall/seckill/cmd/domain/repository"
 	"QMall/seckill/cmd/rpc/internal/config"
 	"fmt"
@@ -18,6 +19,8 @@ type ServiceContext struct {
 	Redis             *redis.Client
 	SecKillRepository repository.ISecKillRepository
 	ProductRPC        product.ProductZrpcClient
+	//KqPusherClient    *kafka.Writer
+	KqPusherClient2 kafka2.ISecKillOrderPusher
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -49,5 +52,13 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		Redis:             redisClient,
 		SecKillRepository: repository.NewSecKillRepository(db, redisClient),
 		ProductRPC:        productClient,
+		KqPusherClient2:   kafka2.NewSecKillOrderPusher(c.KqPusherConf.Brokers, c.KqPusherConf.Topic),
+		//KqPusherClient: &kafka.Writer{
+		//	Addr:         kafka.TCP(c.KqPusherConf.Brokers...),
+		//	Topic:        c.KqPusherConf.Topic,
+		//	RequiredAcks: kafka.RequireAll,
+		//	Async:        true,
+		//	Balancer:     &kafka.LeastBytes{},
+		//},
 	}
 }

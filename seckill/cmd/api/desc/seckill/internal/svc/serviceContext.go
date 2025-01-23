@@ -8,6 +8,7 @@ import (
 	"QMall/shoppingCart/cmd/rpc/shoppingcart/shoppingcart"
 	"QMall/tradeOrder/cmd/rpc/tradeOrder/tradeorder"
 	"QMall/user/cmd/rpc/user"
+	"github.com/segmentio/kafka-go"
 	"github.com/zeromicro/go-zero/zrpc"
 )
 
@@ -19,6 +20,7 @@ type ServiceContext struct {
 	UserRPC         user.UserZrpcClient
 	ShoppingCartRPC shoppingcart.ShoppingCartZrpcClient
 	ActivityRPC     activity.ActivityZrpcClient
+	KqPusherClient  *kafka.Writer
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -45,5 +47,12 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		OrderRPC:        orderClient,
 		ShoppingCartRPC: shoppingCartClient,
 		ActivityRPC:     activityClient,
+		KqPusherClient: &kafka.Writer{
+			Addr:         kafka.TCP(c.KqPusherConf.Brokers...),
+			Topic:        c.KqPusherConf.Topic,
+			RequiredAcks: kafka.RequireAll,
+			Async:        true,
+			Balancer:     &kafka.LeastBytes{},
+		},
 	}
 }
