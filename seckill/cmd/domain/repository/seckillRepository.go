@@ -35,16 +35,42 @@ type ISecKillRepository interface {
 
 	GetSecKillProductsByProductsId(products_id int64) (*model.SecKillProducts, error)
 
+	GetSecKillProductsByProductsNum(productsNum string) (*model.SecKillProducts, error)
+
 	GetSecKillUserQuota(user_id, products_id int64) (*model.SecKillUserQuota, error)
 
 	GetSecKillQuotaById(id int64) (*model.SecKillQuota, error)
 
 	UpdateSecKillUserQuotaById(in *pb.UpdateSecKillUserQuotaByIdReq) (*model.SecKillUserQuota, error)
+
+	// IncreaseSecKillOrderWithKafka 添加秒杀订单
+	IncreaseSecKillOrderWithKafka(order *model.SecKillOrder) (*model.SecKillOrder, error)
 }
 
 type SecKillRepository struct {
 	mysqlClient *gorm.DB
 	redisClient *redis.Client
+}
+
+func (s *SecKillRepository) GetSecKillProductsByProductsNum(productsNum string) (*model.SecKillProducts, error) {
+	products := &model.SecKillProducts{}
+
+	tx := s.mysqlClient.Model(&model.SecKillProducts{}).Where("products_num=?", productsNum).Find(&products)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	if products.Id <= 0 {
+		return nil, gorm.ErrRecordNotFound
+	}
+	return products, nil
+}
+
+func (s *SecKillRepository) IncreaseSecKillOrderWithKafka(order *model.SecKillOrder) (*model.SecKillOrder, error) {
+	tx := s.mysqlClient.Model(&model.SecKillOrder{}).Create(order)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	return order, nil
 }
 
 func (s *SecKillRepository) GetSecKillUserQuota(user_id, products_id int64) (*model.SecKillUserQuota, error) {
@@ -171,6 +197,7 @@ func (s *SecKillRepository) IncreaseSecKillQuota(in *pb.IncreaseSecKillQuotaReq)
 	secKillQuota.UpdateTime = &now
 	secKillQuota.Num = in.LimitNumber
 	secKillQuota.ProductsId = in.ProductId
+
 	tx := s.mysqlClient.Model(&model.SecKillQuota{}).Create(&secKillQuota)
 	if tx.Error != nil {
 		return nil, tx.Error
@@ -237,6 +264,7 @@ func (s *SecKillRepository) IncreaseSecKillProducts(in *pb.IncreaseSecKillProduc
 		ProductsName: in.ProductName,
 		UpdateTime:   &now,
 		ProductsNum:  in.ProductsNum,
+		ProductsId:   in.ProductId,
 	}
 
 	tx := s.mysqlClient.Model(&model.SecKillProducts{}).Create(secKillProducts)

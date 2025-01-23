@@ -219,6 +219,9 @@ service secKill {
 
   rpc GetSecKillQuotaByProductsId (GetSecKillQuotaByProductsIdReq) returns (GetSecKillQuotaByProductsIdResp);
 
+  rpc GetSecKillQuotaByProductsNum (GetSecKillQuotaByProductsIdReq) returns (GetSecKillQuotaByProductsIdResp);
+
+
   rpc GetSecKillProductsByProductsId (GetSecKillProductsByProductsIdReq) returns (GetSecKillProductsByProductsIdResp);
 
   rpc GetSecKillUserQuota (GetSecKillUserQuotaReq) returns (GetSecKillUserQuotaResp);
@@ -236,6 +239,14 @@ message GetSecKillQuotaByProductsIdReq {
 message GetSecKillQuotaByProductsIdResp {
   SecKillQuota secKill_quota = 1;
 }
+
+//message GetSecKillQuotaByProductsNumReq {
+//  int64 ProductId = 1;
+//}
+//message GetSecKillQuotaByProductsNumResp {
+//  SecKillQuota secKill_quota = 1;
+//}
+
 
 message GetSecKillProductsByProductsIdReq {
   int64 ProductId = 1;

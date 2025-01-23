@@ -63,7 +63,7 @@ func (l *IncreaseSecKillProductsLogic) IncreaseSecKillProducts(req *types.Increa
 		ProductsNum: activityProductByIdResp.ActivityProduct.ProductsNum,
 	})
 
-	l.Info(fmt.Printf("[INFO] 已添加秒杀商品信息！当前访问的商品Id：%v，秒杀价格：%v，卖家信息：%v\n", req.ProductId, req.Price, req.Seller))
+	l.Info(fmt.Printf("[INFO] 已添加秒杀商品信息！当前访问的商品Id：%v，秒杀价格：%v，卖家信息：%v\n", products.SecKillProducts.ProductsId, products.SecKillProducts.Price, products.SecKillProducts.Seller))
 	resp.SecKillProducts = convert.PbSecKillProductsConvertTypes(products.SecKillProducts)
 	return
 }

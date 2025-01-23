@@ -1,1 +1,1 @@
-这是字节青训营电商项目，通过GoZero、GORM、Mysql、Redis完成的。
+微服务电商项目（基于GoZero、Gorm、Consul、Mysql、Redis、Kafka构建的电商平台）

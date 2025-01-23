@@ -50,7 +50,7 @@ func (a *ActivityRepository) GetActivityTimeById(in *pb.GetActivityTimeByIdReq) 
 	if activityTime.ID <= 0 {
 		return nil, gorm.ErrRecordNotFound
 	}
-	fmt.Printf("当前提取道到的活动表结果：%v\n", activityTime)
+	fmt.Printf("当前提取到的活动表结果：%v\n", activityTime)
 	return activityTime, nil
 }
 

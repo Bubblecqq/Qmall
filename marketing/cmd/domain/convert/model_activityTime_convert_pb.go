@@ -4,7 +4,6 @@ import (
 	"QMall/marketing/cmd/domain/model"
 	"QMall/marketing/cmd/rpc/pb"
 	"google.golang.org/protobuf/types/known/timestamppb"
-	"time"
 )
 
 func ModelActivityTimeConvertPb(activity *model.ActivityTime) *pb.ActivityTime {
@@ -21,8 +20,8 @@ func ModelActivityTimeConvertPb(activity *model.ActivityTime) *pb.ActivityTime {
 		//UpdateTime: func(update *time.Time) *timestamppb.Timestamp {
 		//	return timestamppb.New(*activity.UpdateTime)
 		//}(activity.UpdateTime),
-		UpdateTime: timestamppb.New(*activity.UpdateTime),
-		IsDeleted:  activity.IsDeleted,
+		//UpdateTime: timestamppb.New(*activity.UpdateTime),
+		IsDeleted: activity.IsDeleted,
 	}
 }
 
@@ -37,10 +36,10 @@ func PbActivityTimeConvertModel(activity *pb.ActivityTime) *model.ActivityTime {
 		CreateUser: activity.CreateUser,
 		CreateTime: activity.CreateTime.AsTime(),
 		UpdateUser: activity.UpdateUser,
-		UpdateTime: func(updateTime *timestamppb.Timestamp) *time.Time {
-			curUpdateTime := activity.UpdateTime.AsTime()
-			return &curUpdateTime
-		}(activity.UpdateTime),
+		//UpdateTime: func(updateTime *timestamppb.Timestamp) *time.Time {
+		//	curUpdateTime := activity.UpdateTime.AsTime()
+		//	return &curUpdateTime
+		//}(activity.UpdateTime),
 		//UpdateTime: activity.UpdateTime.AsTime(),
 		IsDeleted: activity.IsDeleted,
 	}
