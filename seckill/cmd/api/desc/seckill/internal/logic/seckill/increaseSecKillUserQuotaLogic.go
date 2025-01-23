@@ -36,15 +36,16 @@ func (l *IncreaseSecKillUserQuotaLogic) IncreaseSecKillUserQuota(req *types.Incr
 		ProductsId: req.ProductsId,
 	})
 	if err != nil {
-		err = errors.New(fmt.Sprintf("当前用户请求的秒杀商品不存在！用户请求的商品Id：%v，秒杀数量：%v", req.ProductsId, req.Num))
-		return
-	}
-	if isExistUserQuota.SecKillUserQuota != nil {
+		fmt.Printf("当前用户请求的秒杀商品不存在！用户请求的商品Id：%v，秒杀数量：%v\n", req.ProductsId, req.Num)
+		//err = errors.New(fmt.Sprintf("当前用户请求的秒杀商品不存在！用户请求的商品Id：%v，秒杀数量：%v", req.ProductsId, req.Num))
+		//return
+	} else if isExistUserQuota.SecKillUserQuota != nil {
 		err = errors.New(fmt.Sprintf("当前用户Id：%v，商品Id：%v存在限额，请勿重复添加！", req.UserId, req.ProductsId))
 		resp.SecKillUserQuota = convert.PbSecKillUserQuotaConvertTypes(isExistUserQuota.SecKillUserQuota)
 		return
 	}
-	l.Info(fmt.Printf("[*] 正在添加用户秒杀限额信息>>>>>>当前访问的用户Id：%v，商品Id：%v，秒杀数量：%v\n", req.UserId, req.ProductsId, req.Num))
+
+	fmt.Printf("[*] 正在添加用户秒杀限额信息>>>>>>当前访问的用户Id：%v，商品Id：%v，秒杀数量：%v\n", req.UserId, req.ProductsId, req.Num)
 
 	// 判断Num是否大于限额
 	quotaByProductsIdResp, err := l.svcCtx.SecKillRpcConf.GetSecKillQuotaByProductsId(l.ctx, &seckill.GetSecKillQuotaByProductsIdReq{
@@ -54,7 +55,7 @@ func (l *IncreaseSecKillUserQuotaLogic) IncreaseSecKillUserQuota(req *types.Incr
 		err = errors.New(fmt.Sprintf("当前用户请求的秒杀商品不存在！用户请求的商品Id：%v，秒杀数量：%v", req.ProductsId, req.Num))
 		return
 	}
-
+	fmt.Printf("正在判断限额是否超过上限.....\n")
 	if req.Num <= 0 {
 		err = errors.New(fmt.Sprintf("当前用户秒杀限额设置参数不正确！当前输入的用户限额数：%v", req.Num))
 		return
@@ -64,7 +65,7 @@ func (l *IncreaseSecKillUserQuotaLogic) IncreaseSecKillUserQuota(req *types.Incr
 		err = errors.New(fmt.Sprintf("当前用户已经达到了限额！用户请求的秒杀数量：%v，最大限额：%v", req.Num, quotaByProductsIdResp.SecKillQuota.Num))
 		return
 	}
-
+	fmt.Printf("正在添加用户限额表.....\n")
 	quota, err := l.svcCtx.SecKillRpcConf.IncreaseSecKillUserQuota(l.ctx, &seckill.IncreaseSecKillUserQuotaReq{
 		UserId:     req.UserId,
 		ProductsId: req.ProductsId,

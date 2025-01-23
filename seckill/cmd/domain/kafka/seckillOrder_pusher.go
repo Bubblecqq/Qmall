@@ -46,7 +46,7 @@ func (s *SecKillOrderPusher) PusherWaitForPaymentSecKillOrder(ctx context.Contex
 		},
 	)
 	fmt.Printf("发送第订单中....\n")
-	fmt.Printf("当前订单详情：%v\n", secKillOrder)
+	//fmt.Printf("当前订单详情：%v\n", secKillOrder)
 	if err != nil {
 		log.Fatal("failed to write messages:", err)
 		return nil, err

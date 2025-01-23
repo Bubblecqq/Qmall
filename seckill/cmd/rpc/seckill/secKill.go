@@ -55,6 +55,7 @@ type (
 		IncreaseSecKillStock(ctx context.Context, in *IncreaseSecKillStockReq, opts ...grpc.CallOption) (*IncreaseSecKillStockResp, error)
 		IncreaseSecKillRecord(ctx context.Context, in *IncreaseSecKillRecordReq, opts ...grpc.CallOption) (*IncreaseSecKillRecordResp, error)
 		GetSecKillQuotaByProductsId(ctx context.Context, in *GetSecKillQuotaByProductsIdReq, opts ...grpc.CallOption) (*GetSecKillQuotaByProductsIdResp, error)
+		GetSecKillQuotaByProductsNum(ctx context.Context, in *GetSecKillQuotaByProductsIdReq, opts ...grpc.CallOption) (*GetSecKillQuotaByProductsIdResp, error)
 		GetSecKillProductsByProductsId(ctx context.Context, in *GetSecKillProductsByProductsIdReq, opts ...grpc.CallOption) (*GetSecKillProductsByProductsIdResp, error)
 		GetSecKillUserQuota(ctx context.Context, in *GetSecKillUserQuotaReq, opts ...grpc.CallOption) (*GetSecKillUserQuotaResp, error)
 		// 更新接口
@@ -106,6 +107,11 @@ func (m *defaultSecKill) IncreaseSecKillRecord(ctx context.Context, in *Increase
 func (m *defaultSecKill) GetSecKillQuotaByProductsId(ctx context.Context, in *GetSecKillQuotaByProductsIdReq, opts ...grpc.CallOption) (*GetSecKillQuotaByProductsIdResp, error) {
 	client := pb.NewSecKillClient(m.cli.Conn())
 	return client.GetSecKillQuotaByProductsId(ctx, in, opts...)
+}
+
+func (m *defaultSecKill) GetSecKillQuotaByProductsNum(ctx context.Context, in *GetSecKillQuotaByProductsIdReq, opts ...grpc.CallOption) (*GetSecKillQuotaByProductsIdResp, error) {
+	client := pb.NewSecKillClient(m.cli.Conn())
+	return client.GetSecKillQuotaByProductsNum(ctx, in, opts...)
 }
 
 func (m *defaultSecKill) GetSecKillProductsByProductsId(ctx context.Context, in *GetSecKillProductsByProductsIdReq, opts ...grpc.CallOption) (*GetSecKillProductsByProductsIdResp, error) {

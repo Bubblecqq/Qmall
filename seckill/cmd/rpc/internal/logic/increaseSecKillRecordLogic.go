@@ -36,6 +36,7 @@ func (l *IncreaseSecKillRecordLogic) IncreaseSecKillRecord(in *pb.IncreaseSecKil
 	}
 	fmt.Printf("[IncreaseSecKillRecordLogic] 用户秒杀记录添加完成！请求的用户Id：%v，商品Id：%v，秒杀价格：%v\n", in.UserId, in.ProductsId, in.Price)
 
+	fmt.Printf("当前要更新的商品SKU库存，SkuId：%v，需要减少：%v的库存\n", in.SkuId, in.Quantity)
 	skuId, err := l.svcCtx.ProductRPC.UpdateProductSkuBySkuId(l.ctx, &product2.UpdateProductSkuBySkuIdReq{
 		Stock: in.Quantity,
 		SkuId: in.SkuId,

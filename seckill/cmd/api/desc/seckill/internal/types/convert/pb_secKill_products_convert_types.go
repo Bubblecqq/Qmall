@@ -14,5 +14,6 @@ func PbSecKillProductsConvertTypes(secKillProducts *pb.SecKillProducts) types.Se
 		ProductsName: secKillProducts.ProductsName,
 		PictureUrl:   secKillProducts.PictureUrl,
 		CreateTime:   secKillProducts.CreateTime.AsTime().String(),
+		ProductsId:   secKillProducts.ProductsId,
 	}
 }

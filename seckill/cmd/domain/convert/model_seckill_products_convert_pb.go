@@ -15,6 +15,7 @@ func ModelSecKillProductsConvertPb(data *model.SecKillProducts) *pb.SecKillProdu
 		ProductsNum:  data.ProductsNum,
 		PictureUrl:   data.PictureUrl,
 		CreateTime:   timestamppb.New(data.CreateTime),
+		ProductsId:   data.ProductsId,
 	}
 }
 
@@ -27,5 +28,6 @@ func PbSecKillProductsConvertModel(data *pb.SecKillProducts) *model.SecKillProdu
 		ProductsNum:  data.ProductsNum,
 		PictureUrl:   data.PictureUrl,
 		CreateTime:   data.CreateTime.AsTime(),
+		ProductsId:   data.ProductsId,
 	}
 }

@@ -43,6 +43,7 @@ func (l *AddActivityProductLogic) AddActivityProduct(req *types.AddActivityProdu
 		err = errors.New(fmt.Sprintf("当前请求的商品Id：%v,活动Id：%v暂未开启活动！", req.ProductId, req.ActivityTimeId))
 		return
 	}
+	l.Info(fmt.Printf("成功获取到活动时间表：%v\n", activityTimeById.GetActivityTime()))
 	isOnline := activityTimeById.ActivityTime.IsEnable == 1
 	l.Info(fmt.Printf("正在添加活动商品信息>>>>,当前请求的活动表ID：%v，商品Id：%v，当前商品是否可上线：%v", req.ActivityTimeId, req.ProductId, isOnline))
 	product, err := l.svcCtx.ActivityRpcConf.AddActivityProduct(l.ctx, &activity.AddActivityProductReq{

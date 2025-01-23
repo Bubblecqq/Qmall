@@ -33,4 +33,5 @@ type RemoteCall struct {
 type KqPusherConf struct {
 	Brokers []string `json:"brokers"`
 	Topic   string   `json:"topic"`
+	GroupId string   `json:"groupId"`
 }

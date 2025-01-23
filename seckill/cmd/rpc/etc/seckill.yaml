@@ -31,6 +31,7 @@ KqPusherConf:
   Brokers:
     - 192.168.23.233:9092
   Topic: "secKillOrder"
+  GroupId: "waitForPayment"
 #Etcd:
 #  Hosts:
 #  - 127.0.0.1:2379

@@ -307,7 +307,7 @@
         },
         "total_stock": {
           "type": "integer",
-          "format": "int32"
+          "format": "int64"
         },
         "main_picture": {
           "type": "string"
@@ -364,7 +364,7 @@
         },
         "stock": {
           "type": "integer",
-          "format": "int32"
+          "format": "int64"
         },
         "stock_warn": {
           "type": "integer",
@@ -444,7 +444,7 @@
         },
         "total_stock": {
           "type": "integer",
-          "format": "int32"
+          "format": "int64"
         },
         "main_picture": {
           "type": "string"
@@ -466,9 +466,9 @@
         "update_time": {
           "type": "string"
         },
-        "is_enable;default:1": {
-          "type": "integer",
-          "format": "int32"
+        "is_enable": {
+          "type": "boolean",
+          "format": "boolean"
         },
         "create_user": {
           "type": "string"
@@ -500,7 +500,7 @@
         "remark",
         "create_time",
         "update_time",
-        "is_enable;default:1",
+        "is_enable",
         "create_user",
         "update_user",
         "detail",
@@ -652,7 +652,7 @@
         },
         "total_stock": {
           "type": "integer",
-          "format": "int32"
+          "format": "int64"
         },
         "main_picture": {
           "type": "string"
@@ -674,15 +674,17 @@
         "update_time": {
           "type": "string"
         },
-        "is_enable;default:1": {
-          "type": "integer",
-          "format": "int32"
+        "is_enable": {
+          "type": "boolean",
+          "format": "boolean"
         },
         "create_user": {
-          "type": "string"
+          "type": "integer",
+          "format": "int64"
         },
         "update_user": {
-          "type": "string"
+          "type": "integer",
+          "format": "int64"
         }
       },
       "title": "Product",
@@ -699,7 +701,7 @@
         "remark",
         "create_time",
         "update_time",
-        "is_enable;default:1",
+        "is_enable",
         "create_user",
         "update_user"
       ]
@@ -731,7 +733,7 @@
         },
         "stock": {
           "type": "integer",
-          "format": "int32"
+          "format": "int64"
         },
         "stock_warn": {
           "type": "integer",
@@ -748,10 +750,12 @@
           "format": "int32"
         },
         "create_user": {
-          "type": "string"
+          "type": "integer",
+          "format": "int64"
         },
         "update_user": {
-          "type": "string"
+          "type": "integer",
+          "format": "int64"
         }
       },
       "title": "ProductSku",
@@ -787,13 +791,13 @@
     "ShowProductDetailResp": {
       "type": "object",
       "properties": {
-        "product_detail": {
+        "detail_product": {
           "$ref": "#/definitions/DetailProduct"
         }
       },
       "title": "ShowProductDetailResp",
       "required": [
-        "product_detail"
+        "detail_product"
       ]
     }
   },

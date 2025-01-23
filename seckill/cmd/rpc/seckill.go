@@ -1,8 +1,11 @@
 package main
 
 import (
+	kafka2 "QMall/seckill/cmd/domain/kafka"
+	"context"
 	"flag"
 	"fmt"
+	"github.com/zeromicro/zero-contrib/zrpc/registry/consul"
 
 	"QMall/seckill/cmd/rpc/internal/config"
 	"QMall/seckill/cmd/rpc/internal/server"
@@ -33,6 +36,29 @@ func main() {
 		}
 	})
 	defer s.Stop()
+	_ = consul.RegisterService(c.ListenOn, c.Consul)
+	fmt.Println("正在启动Kafka消费者实例......")
+	consumerConfig := &kafka2.ConsumerConfig{
+		MysqlConfig: kafka2.Mysql{
+			Host:     c.Mysql.Host,
+			User:     c.Mysql.User,
+			Pass:     c.Mysql.Pass,
+			Database: c.Mysql.Database,
+			Charset:  c.Mysql.Charset,
+		},
+		RedisConfig: kafka2.Redis{
+			Host: c.Redis.Host,
+			Pass: c.Redis.Pass,
+		},
+		KafkaConfig: kafka2.Kafka{
+			Brokers: c.KqPusherConf.Brokers,
+			Topic:   c.KqPusherConf.Topic,
+			GroupId: c.KqPusherConf.GroupId,
+		},
+	}
+	consumer := kafka2.NewSecKillOrderConsumer(consumerConfig)
+
+	go consumer.ReaderSecKillOrder(context.Background())
 
 	fmt.Printf("Starting rpc server at %s...\n", c.ListenOn)
 	s.Start()
