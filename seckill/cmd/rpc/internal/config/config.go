@@ -8,10 +8,11 @@ import (
 
 type Config struct {
 	zrpc.RpcServerConf
-	Mysql      Mysql
-	Cache      cache.CacheConf
-	Consul     consul.Conf
-	RemoteCall RemoteCall
+	Mysql        Mysql
+	Cache        cache.CacheConf
+	Consul       consul.Conf
+	RemoteCall   RemoteCall
+	KqPusherConf KqPusherConf
 }
 
 type Mysql struct {
@@ -27,4 +28,9 @@ type RemoteCall struct {
 	ActivityRPC     string `json:"ActivityRPC"`
 	OrderRPC        string `json:"OrderRPC"`
 	ShoppingCartRPC string `json:"ShoppingCartRPC"`
+}
+
+type KqPusherConf struct {
+	Brokers []string `json:"brokers"`
+	Topic   string   `json:"topic"`
 }

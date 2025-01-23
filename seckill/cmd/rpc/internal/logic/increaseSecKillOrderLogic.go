@@ -26,7 +26,9 @@ func NewIncreaseSecKillOrderLogic(ctx context.Context, svcCtx *svc.ServiceContex
 
 func (l *IncreaseSecKillOrderLogic) IncreaseSecKillOrder(in *pb.IncreaseSecKillOrderReq) (*pb.IncreaseSecKillOrderResp, error) {
 
-	order, err := l.svcCtx.SecKillRepository.IncreaseSecKillOrder(in)
+	//order, err := l.svcCtx.SecKillRepository.IncreaseSecKillOrder(in)
+
+	order, err := l.svcCtx.KqPusherClient2.PusherWaitForPaymentSecKillOrder(l.ctx, in)
 
 	if err != nil {
 		return &pb.IncreaseSecKillOrderResp{}, err

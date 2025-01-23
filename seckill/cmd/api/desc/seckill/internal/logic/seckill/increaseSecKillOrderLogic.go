@@ -32,20 +32,13 @@ func NewIncreaseSecKillOrderLogic(ctx context.Context, svcCtx *svc.ServiceContex
 
 func (l *IncreaseSecKillOrderLogic) IncreaseSecKillOrder(req *types.IncreaseSecKillOrderReq) (resp *types.IncreaseSecKillOrderResp, err error) {
 	resp = new(types.IncreaseSecKillOrderResp)
-	// 查看商品是否上线
-	secKillProductsByProductsId, err := l.svcCtx.SecKillRpcConf.GetSecKillProductsByProductsId(l.ctx, &seckill.GetSecKillProductsByProductsIdReq{
-		ProductId: req.ProductsId,
-	})
-	if err != nil || secKillProductsByProductsId.SecKillProducts == nil {
-		fmt.Printf("当前请求的秒杀商品不存在>>>>>>，请求的商品Id：%v\n", req.ProductsId)
-		return
-	}
 
 	//先查秒杀订单商品
 	productsId, err := l.svcCtx.SecKillRpcConf.GetSecKillProductsByProductsId(l.ctx, &seckill.GetSecKillProductsByProductsIdReq{
 		ProductId: req.ProductsId,
 	})
-	if err != nil {
+	if err != nil || productsId.SecKillProducts == nil {
+		fmt.Printf("当前请求的秒杀商品不存在>>>>>>，请求的商品Id：%v\n", req.ProductsId)
 		return
 	}
 	l.Info(fmt.Printf("[*] 当前商品存在秒杀活动>>>>>>%v\n", req.ProductsId))
@@ -139,6 +132,7 @@ func (l *IncreaseSecKillOrderLogic) IncreaseSecKillOrder(req *types.IncreaseSecK
 		OrderNo:    OrderNum,
 		SecNo:      common.GenerateSecKillOrderNo(now, req.Buyer),
 		SkuId:      activityInfoResp.ActivityInfo.SkuId,
+		Quantity:   req.Quantity,
 	})
 	if err != nil {
 		return
@@ -154,7 +148,7 @@ func (l *IncreaseSecKillOrderLogic) IncreaseSecKillOrder(req *types.IncreaseSecK
 		return
 	}
 	resp.SecKillOrder = convert.PbSecKillOrderConvertTypes(order.SecKillOrder)
-	resp.SecKillProducts = convert.PbSecKillProductsConvertTypes(secKillProductsByProductsId.SecKillProducts)
+	resp.SecKillProducts = convert.PbSecKillProductsConvertTypes(productsId.SecKillProducts)
 	resp.SecKillUserQuota = killedUserQuota
 	resp.SecKillRecord = convert.PbSecKillRecordConvertTypes(killRecord.SecKillRecord)
 	return

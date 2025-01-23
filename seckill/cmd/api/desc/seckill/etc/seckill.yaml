@@ -23,3 +23,8 @@ RemoteCall:
   ActivityRPC: consul://192.168.23.233:8500/activity.rpc?wait=14s
   OrderRPC: consul://192.168.23.233:8500/tradeOrder.rpc?wait=14s
   ShoppingCartRPC: consul://192.168.23.233:8500/shoppingCart.rpc?wait=14s
+# kafka
+KqPusherConf:
+  Brokers:
+    - 192.168.23.233:9092
+  Topic: "secKillOrder"
