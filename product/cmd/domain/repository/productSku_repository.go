@@ -80,8 +80,8 @@ func (p *ProductRepository) UpdateProductSkuBySkuId(in *pb.UpdateProductSkuBySku
 		return rollbackAndReturnError(tx, tx.Error)
 	}
 
-	err := tx.Model(&model.ProductSku{}).Find(&sku, in.SkuId).Error
-
+	//err := tx.Model(&model.ProductSku{}).Find(&sku, in.SkuId).Error
+	err := tx.Model(&model.ProductSku{}).Set("gorm:query_option", "FOR UPDATE").Where("id=?", in.SkuId).First(&sku).Error
 	if err != nil {
 		return rollbackAndReturnError(tx, err)
 	}
@@ -95,7 +95,7 @@ func (p *ProductRepository) UpdateProductSkuBySkuId(in *pb.UpdateProductSkuBySku
 	sku.Stock -= in.Stock
 	sku.UpdateTime = time.Now()
 
-	err = tx.Updates(&sku).Error
+	err = tx.Save(&sku).Error
 	if err != nil {
 		return rollbackAndReturnError(tx, err)
 	}

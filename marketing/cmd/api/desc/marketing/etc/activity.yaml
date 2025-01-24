@@ -1,5 +1,5 @@
 Name: activity
-Host: 127.0.0.1
+Host: 0.0.0.0
 Port: 1005
 Mode: dev
 Mysql:
@@ -13,7 +13,7 @@ Cache:
     Pass: "123456"
 ActivityRpcConf:
   Endpoints:
-    - 127.0.0.1:2005
+    - 0.0.0.0:2005
   NonBlock: true
 #  # 不使用Consul时注释掉target
 #  Target: consul://192.168.23.233:8500/product.rpc?wait=14s

@@ -32,6 +32,8 @@ type (
 	IncreaseSecKillStockResp           = pb.IncreaseSecKillStockResp
 	IncreaseSecKillUserQuotaReq        = pb.IncreaseSecKillUserQuotaReq
 	IncreaseSecKillUserQuotaResp       = pb.IncreaseSecKillUserQuotaResp
+	SaveSecKillUserQuotaReq            = pb.SaveSecKillUserQuotaReq
+	SaveSecKillUserQuotaResp           = pb.SaveSecKillUserQuotaResp
 	SecKillActivity                    = pb.SecKillActivity
 	SecKillActivityProduct             = pb.SecKillActivityProduct
 	SecKillActivityProductSku          = pb.SecKillActivityProductSku
@@ -61,6 +63,7 @@ type (
 		// 更新接口
 		UpdateSecKillQuotaById(ctx context.Context, in *UpdateSecKillQuotaByIdReq, opts ...grpc.CallOption) (*UpdateSecKillQuotaByIdResp, error)
 		UpdateSecKillUserQuotaById(ctx context.Context, in *UpdateSecKillUserQuotaByIdReq, opts ...grpc.CallOption) (*UpdateSecKillUserQuotaByIdResp, error)
+		SaveSecKillUserQuota(ctx context.Context, in *SaveSecKillUserQuotaReq, opts ...grpc.CallOption) (*SaveSecKillUserQuotaResp, error)
 	}
 
 	defaultSecKill struct {
@@ -133,4 +136,9 @@ func (m *defaultSecKill) UpdateSecKillQuotaById(ctx context.Context, in *UpdateS
 func (m *defaultSecKill) UpdateSecKillUserQuotaById(ctx context.Context, in *UpdateSecKillUserQuotaByIdReq, opts ...grpc.CallOption) (*UpdateSecKillUserQuotaByIdResp, error) {
 	client := pb.NewSecKillClient(m.cli.Conn())
 	return client.UpdateSecKillUserQuotaById(ctx, in, opts...)
+}
+
+func (m *defaultSecKill) SaveSecKillUserQuota(ctx context.Context, in *SaveSecKillUserQuotaReq, opts ...grpc.CallOption) (*SaveSecKillUserQuotaResp, error) {
+	client := pb.NewSecKillClient(m.cli.Conn())
+	return client.SaveSecKillUserQuota(ctx, in, opts...)
 }

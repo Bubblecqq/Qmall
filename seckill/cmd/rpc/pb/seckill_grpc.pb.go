@@ -33,6 +33,7 @@ const (
 	SecKill_GetSecKillUserQuota_FullMethodName            = "/pb.secKill/GetSecKillUserQuota"
 	SecKill_UpdateSecKillQuotaById_FullMethodName         = "/pb.secKill/UpdateSecKillQuotaById"
 	SecKill_UpdateSecKillUserQuotaById_FullMethodName     = "/pb.secKill/UpdateSecKillUserQuotaById"
+	SecKill_SaveSecKillUserQuota_FullMethodName           = "/pb.secKill/SaveSecKillUserQuota"
 )
 
 // SecKillClient is the client API for SecKill service.
@@ -52,6 +53,7 @@ type SecKillClient interface {
 	// 更新接口
 	UpdateSecKillQuotaById(ctx context.Context, in *UpdateSecKillQuotaByIdReq, opts ...grpc.CallOption) (*UpdateSecKillQuotaByIdResp, error)
 	UpdateSecKillUserQuotaById(ctx context.Context, in *UpdateSecKillUserQuotaByIdReq, opts ...grpc.CallOption) (*UpdateSecKillUserQuotaByIdResp, error)
+	SaveSecKillUserQuota(ctx context.Context, in *SaveSecKillUserQuotaReq, opts ...grpc.CallOption) (*SaveSecKillUserQuotaResp, error)
 }
 
 type secKillClient struct {
@@ -182,6 +184,16 @@ func (c *secKillClient) UpdateSecKillUserQuotaById(ctx context.Context, in *Upda
 	return out, nil
 }
 
+func (c *secKillClient) SaveSecKillUserQuota(ctx context.Context, in *SaveSecKillUserQuotaReq, opts ...grpc.CallOption) (*SaveSecKillUserQuotaResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SaveSecKillUserQuotaResp)
+	err := c.cc.Invoke(ctx, SecKill_SaveSecKillUserQuota_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SecKillServer is the server API for SecKill service.
 // All implementations must embed UnimplementedSecKillServer
 // for forward compatibility.
@@ -199,6 +211,7 @@ type SecKillServer interface {
 	// 更新接口
 	UpdateSecKillQuotaById(context.Context, *UpdateSecKillQuotaByIdReq) (*UpdateSecKillQuotaByIdResp, error)
 	UpdateSecKillUserQuotaById(context.Context, *UpdateSecKillUserQuotaByIdReq) (*UpdateSecKillUserQuotaByIdResp, error)
+	SaveSecKillUserQuota(context.Context, *SaveSecKillUserQuotaReq) (*SaveSecKillUserQuotaResp, error)
 	mustEmbedUnimplementedSecKillServer()
 }
 
@@ -244,6 +257,9 @@ func (UnimplementedSecKillServer) UpdateSecKillQuotaById(context.Context, *Updat
 }
 func (UnimplementedSecKillServer) UpdateSecKillUserQuotaById(context.Context, *UpdateSecKillUserQuotaByIdReq) (*UpdateSecKillUserQuotaByIdResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateSecKillUserQuotaById not implemented")
+}
+func (UnimplementedSecKillServer) SaveSecKillUserQuota(context.Context, *SaveSecKillUserQuotaReq) (*SaveSecKillUserQuotaResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SaveSecKillUserQuota not implemented")
 }
 func (UnimplementedSecKillServer) mustEmbedUnimplementedSecKillServer() {}
 func (UnimplementedSecKillServer) testEmbeddedByValue()                 {}
@@ -482,6 +498,24 @@ func _SecKill_UpdateSecKillUserQuotaById_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SecKill_SaveSecKillUserQuota_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SaveSecKillUserQuotaReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SecKillServer).SaveSecKillUserQuota(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SecKill_SaveSecKillUserQuota_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SecKillServer).SaveSecKillUserQuota(ctx, req.(*SaveSecKillUserQuotaReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SecKill_ServiceDesc is the grpc.ServiceDesc for SecKill service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -536,6 +570,10 @@ var SecKill_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateSecKillUserQuotaById",
 			Handler:    _SecKill_UpdateSecKillUserQuotaById_Handler,
+		},
+		{
+			MethodName: "SaveSecKillUserQuota",
+			Handler:    _SecKill_SaveSecKillUserQuota_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -83,3 +83,8 @@ func (s *SecKillServer) UpdateSecKillUserQuotaById(ctx context.Context, in *pb.U
 	l := logic.NewUpdateSecKillUserQuotaByIdLogic(ctx, s.svcCtx)
 	return l.UpdateSecKillUserQuotaById(in)
 }
+
+func (s *SecKillServer) SaveSecKillUserQuota(ctx context.Context, in *pb.SaveSecKillUserQuotaReq) (*pb.SaveSecKillUserQuotaResp, error) {
+	l := logic.NewSaveSecKillUserQuotaLogic(ctx, s.svcCtx)
+	return l.SaveSecKillUserQuota(in)
+}

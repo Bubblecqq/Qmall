@@ -46,6 +46,7 @@ func (l *IncreaseSecKillOrderLogic) IncreaseSecKillOrder(req *types.IncreaseSecK
 		ProductsId:  req.ProductsId,
 		ProductsNum: productsId.SecKillProducts.ProductsNum,
 	})
+
 	l.Info(fmt.Printf("当前秒杀活动商品信息：%v\n", activityInfoResp.ActivityInfo))
 	if err != nil {
 		return
@@ -75,38 +76,46 @@ func (l *IncreaseSecKillOrderLogic) IncreaseSecKillOrder(req *types.IncreaseSecK
 	}
 	// 添加秒杀用户限额
 	// 查询限额
-	// 不存在则添加
-	var killedUserQuota types.SecKillUserQuota
-	userQuota, err := l.svcCtx.SecKillRpcConf.GetSecKillUserQuota(l.ctx, &seckill.GetSecKillUserQuotaReq{
+	//var killedUserQuota types.SecKillUserQuota
+	killedUserQuota, err := l.svcCtx.SecKillRpcConf.SaveSecKillUserQuota(l.ctx, &seckill.SaveSecKillUserQuotaReq{
 		UserId:     req.Buyer,
 		ProductsId: req.ProductsId,
+		Num:        req.Quantity,
+		KilledNum:  0,
 	})
-	// 当前不存在限额
-	if err != nil || userQuota.SecKillUserQuota.Id <= 0 {
-		// 创建 需要判断秒杀数量是否大于限额
-		killUserQuota, err2 := l.svcCtx.SecKillRpcConf.IncreaseSecKillUserQuota(l.ctx, &seckill.IncreaseSecKillUserQuotaReq{
-			UserId:     req.Buyer,
-			ProductsId: req.ProductsId,
-			Num:        req.Quantity,
-			KilledNum:  0,
-		})
-		if err2 != nil {
-			return
-		}
-		killedUserQuota = convert.PbSecKillUserQuotaConvertTypes(killUserQuota.SecKillUserQuota)
-	} else {
-		// 存在则修改限额
-		updateSecKillUserQuotaById, err2 := l.svcCtx.SecKillRpcConf.UpdateSecKillUserQuotaById(l.ctx, &seckill.UpdateSecKillUserQuotaByIdReq{
-			ProductsId:  req.ProductsId,
-			Num:         req.Quantity,
-			UserId:      req.Buyer,
-			ProductsNum: productsId.SecKillProducts.ProductsNum,
-		})
-		if err2 != nil {
-			return
-		}
-		killedUserQuota = convert.PbSecKillUserQuotaConvertTypes(updateSecKillUserQuotaById.SecKillUserQuota)
+	if err != nil {
+		return
 	}
+	//userQuota, err := l.svcCtx.SecKillRpcConf.GetSecKillUserQuota(l.ctx, &seckill.GetSecKillUserQuotaReq{
+	//	UserId:     req.Buyer,
+	//	ProductsId: req.ProductsId,
+	//})
+	//// 当前不存在限额
+	//if err != nil || userQuota.SecKillUserQuota.Id <= 0 {
+	//	// 创建 需要判断秒杀数量是否大于限额
+	//	killUserQuota, err2 := l.svcCtx.SecKillRpcConf.IncreaseSecKillUserQuota(l.ctx, &seckill.IncreaseSecKillUserQuotaReq{
+	//		UserId:     req.Buyer,
+	//		ProductsId: req.ProductsId,
+	//		Num:        req.Quantity,
+	//		KilledNum:  0,
+	//	})
+	//	if err2 != nil {
+	//		return
+	//	}
+	//	killedUserQuota = convert.PbSecKillUserQuotaConvertTypes(killUserQuota.SecKillUserQuota)
+	//} else {
+	//	// 存在则修改限额
+	//	updateSecKillUserQuotaById, err2 := l.svcCtx.SecKillRpcConf.UpdateSecKillUserQuotaById(l.ctx, &seckill.UpdateSecKillUserQuotaByIdReq{
+	//		ProductsId:  req.ProductsId,
+	//		Num:         req.Quantity,
+	//		UserId:      req.Buyer,
+	//		ProductsNum: productsId.SecKillProducts.ProductsNum,
+	//	})
+	//	if err2 != nil {
+	//		return
+	//	}
+	//	killedUserQuota = convert.PbSecKillUserQuotaConvertTypes(updateSecKillUserQuotaById.SecKillUserQuota)
+	//}
 
 	//
 	l.Info(fmt.Printf("正在添加秒杀订单>>>>>>>>，当前买家信息：%v，卖家信息：%v，买家购买的商品Id：%v，购入%v商品的价格：%v\n", req.Buyer, req.Seller, req.ProductsId, req.ProductsId, productsId.SecKillProducts.Price))
@@ -149,7 +158,7 @@ func (l *IncreaseSecKillOrderLogic) IncreaseSecKillOrder(req *types.IncreaseSecK
 	}
 	resp.SecKillOrder = convert.PbSecKillOrderConvertTypes(order.SecKillOrder)
 	resp.SecKillProducts = convert.PbSecKillProductsConvertTypes(productsId.SecKillProducts)
-	resp.SecKillUserQuota = killedUserQuota
+	resp.SecKillUserQuota = convert.PbSecKillUserQuotaConvertTypes(killedUserQuota.SecKillUserQuota)
 	resp.SecKillRecord = convert.PbSecKillRecordConvertTypes(killRecord.SecKillRecord)
 	return
 }

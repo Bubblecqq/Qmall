@@ -1,5 +1,5 @@
 Name: secKill.rpc
-ListenOn: 127.0.0.1:2006
+ListenOn: 0.0.0.0:2006
 Redis:
   Host: 192.168.23.233:6379
   Type: node
