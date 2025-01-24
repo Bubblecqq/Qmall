@@ -1,5 +1,5 @@
 Name: activity.rpc
-ListenOn: 127.0.0.1:2005
+ListenOn: 0.0.0.0:2005
 Redis:
   Host: 192.168.23.233:6379
   Type: node

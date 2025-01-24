@@ -38,8 +38,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 	redisClient := redis.NewClient(&redis.Options{
 		Addr:         c.Redis.Host,
 		Password:     c.Redis.Pass,
-		PoolSize:     30,
-		MinIdleConns: 30,
+		PoolSize:     100,
+		MinIdleConns: 50,
 	})
 	productTarget, _ := zrpc.NewClientWithTarget(c.RemoteCall.ProductRPC)
 	productClient := product.NewProductZrpcClient(productTarget)

@@ -4,6 +4,7 @@ import (
 	"QMall/common"
 	"QMall/seckill/cmd/domain/model"
 	"QMall/seckill/cmd/rpc/pb"
+	"QMall/seckill/cmd/rpc/seckill"
 	"errors"
 	"fmt"
 	"github.com/redis/go-redis/v9"
@@ -12,7 +13,7 @@ import (
 )
 
 type ISecKillRepository interface {
-
+	ISecKillProducts
 	// IncreaseSecKillStock 添加秒杀库存
 	IncreaseSecKillStock(in *pb.IncreaseSecKillStockReq) (*model.SecKillStock, error)
 
@@ -45,11 +46,60 @@ type ISecKillRepository interface {
 
 	// IncreaseSecKillOrderWithKafka 添加秒杀订单
 	IncreaseSecKillOrderWithKafka(order *model.SecKillOrder) (*model.SecKillOrder, error)
+
+	SaveSecKillUserQuota(in *pb.SaveSecKillUserQuotaReq) (*model.SecKillUserQuota, error)
 }
 
 type SecKillRepository struct {
 	mysqlClient *gorm.DB
 	redisClient *redis.Client
+}
+
+func (s *SecKillRepository) SaveSecKillUserQuota(in *pb.SaveSecKillUserQuotaReq) (*model.SecKillUserQuota, error) {
+	fmt.Printf("[MySQL] 正在判断当前用户Id：%v及商品Id：%v是否存在限额....\n", in.UserId, in.ProductsId)
+	// 先查询是否存在
+	userQuota := &model.SecKillUserQuota{}
+	tx := s.mysqlClient.Model(&model.SecKillUserQuota{}).Begin()
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	err := tx.Where("products_id=? and user_id=?", in.ProductsId, in.UserId).Find(&userQuota).Error
+	if err != nil || userQuota.Id <= 0 {
+		userQuota, err = s.IncreaseSecKillUserQuota(&seckill.IncreaseSecKillUserQuotaReq{
+			UserId:     in.UserId,
+			ProductsId: in.ProductsId,
+			Num:        in.Num,
+			KilledNum:  in.KilledNum,
+		})
+		if err != nil {
+			return nil, err
+		}
+
+	} else {
+		quotaByProductsId, err := s.GetSecKillQuotaByProductsId(in.ProductsId)
+
+		// 是否超过限额
+		if err != nil {
+			return nil, err
+		}
+		// 是否超过限额
+		if in.Num > quotaByProductsId.Num || userQuota.KilledNum+in.Num > quotaByProductsId.Num {
+			return nil, fmt.Errorf("当前用户秒杀的额度超过商品额度！具体用户秒杀数：%v，商品当前限量：%v", in.Num, quotaByProductsId.Num)
+		}
+		userQuota.KilledNum += in.Num
+		updateTime := time.Now()
+		userQuota.UpdateTime = &updateTime
+		err = tx.Where("products_id=? and user_id=?", in.ProductsId, in.UserId).Updates(&userQuota).Error
+		if err != nil {
+			tx.Rollback()
+			return nil, err
+		}
+	}
+	if err = tx.Commit().Error; err != nil {
+		tx.Rollback()
+		return nil, err
+	}
+	return userQuota, nil
 }
 
 func (s *SecKillRepository) GetSecKillProductsByProductsNum(productsNum string) (*model.SecKillProducts, error) {

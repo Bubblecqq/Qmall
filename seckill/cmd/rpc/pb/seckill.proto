@@ -229,7 +229,7 @@ service secKill {
   // 更新接口
   rpc UpdateSecKillQuotaById (UpdateSecKillQuotaByIdReq) returns (UpdateSecKillQuotaByIdResp);
   rpc UpdateSecKillUserQuotaById (UpdateSecKillUserQuotaByIdReq) returns (UpdateSecKillUserQuotaByIdResp);
-
+  rpc SaveSecKillUserQuota (SaveSecKillUserQuotaReq) returns (SaveSecKillUserQuotaResp);
 }
 
 // 查询接口
@@ -277,5 +277,18 @@ message GetSecKillUserQuotaReq {
   int64 products_id = 2;
 }
 message GetSecKillUserQuotaResp {
+  SecKillUserQuota secKill_user_quota = 1;
+}
+
+// 定义添加秒杀用户限额的请求消息
+message SaveSecKillUserQuotaReq {
+  int64 user_id = 1;
+  int64 products_id = 2;
+  int64 num = 3;
+  int64 killedNum = 4;
+}
+
+// 定义添加秒杀用户限额的响应消息
+message SaveSecKillUserQuotaResp {
   SecKillUserQuota secKill_user_quota = 1;
 }

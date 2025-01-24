@@ -10,6 +10,7 @@ import (
 )
 
 type IActivityRepository interface {
+	IActivityInfoRepo
 	// GetActivityById 查询活动
 	GetActivityById(id int64) (*model.Activity, error)
 	DeleteActivityById(id, userId int64) error
