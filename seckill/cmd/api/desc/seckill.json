@@ -177,6 +177,33 @@
           "seckill"
         ]
       }
+    },
+    "/seckill/v1/secKill": {
+      "post": {
+        "summary": "添加秒杀订单V2",
+        "operationId": "secKill",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/SecKillResp"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/SecKillReq"
+            }
+          }
+        ],
+        "tags": [
+          "seckill"
+        ]
+      }
     }
   },
   "definitions": {
@@ -223,19 +250,6 @@
           "format": "int64",
           "description": " 商品ID"
         },
-        "products_num": {
-          "type": "string",
-          "description": " 商品编号"
-        },
-        "order_num": {
-          "type": "string",
-          "description": " 订单号"
-        },
-        "price": {
-          "type": "number",
-          "format": "double",
-          "description": " 金额"
-        },
         "quantity": {
           "type": "integer",
           "format": "int64",
@@ -247,9 +261,6 @@
         "seller",
         "buyer",
         "products_id",
-        "products_num",
-        "order_num",
-        "price",
         "quantity"
       ]
     },
@@ -376,6 +387,11 @@
           "format": "int64",
           "description": " 商品ID"
         },
+        "product_sku_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 商品库存ID"
+        },
         "order_num": {
           "type": "string",
           "description": " 订单号"
@@ -395,6 +411,7 @@
       "required": [
         "user_id",
         "products_id",
+        "product_sku_id",
         "order_num",
         "price",
         "quantity"
@@ -729,6 +746,10 @@
           "type": "integer",
           "format": "int64"
         },
+        "products_id": {
+          "type": "integer",
+          "format": "int64"
+        },
         "products_num": {
           "type": "string",
           "description": " 商品编号"
@@ -763,6 +784,7 @@
       "title": "SecKillProducts",
       "required": [
         "id",
+        "products_id",
         "products_num",
         "products_name",
         "price",
@@ -783,6 +805,10 @@
           "type": "integer",
           "format": "int64"
         },
+        "seckill_products_id": {
+          "type": "integer",
+          "format": "int64"
+        },
         "num": {
           "type": "integer",
           "format": "int64"
@@ -798,6 +824,7 @@
       "required": [
         "id",
         "products_id",
+        "seckill_products_id",
         "num",
         "create_time",
         "update_time"
@@ -859,6 +886,71 @@
         "status",
         "create_time",
         "update_time"
+      ]
+    },
+    "SecKillReq": {
+      "type": "object",
+      "properties": {
+        "seller": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 买方ID"
+        },
+        "buyer": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 卖方ID"
+        },
+        "products_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 商品ID        Price       float64     `gorm:\"price\" json:\"price\"`                金额"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int64",
+          "description": " 秒杀数量"
+        }
+      },
+      "title": "SecKillReq",
+      "required": [
+        "seller",
+        "buyer",
+        "products_id",
+        "quantity"
+      ]
+    },
+    "SecKillResp": {
+      "type": "object",
+      "properties": {
+        "secKill_activity": {
+          "$ref": "#/definitions/SecKillActivity"
+        },
+        "secKill_order": {
+          "$ref": "#/definitions/SecKillOrder"
+        },
+        "secKill_products": {
+          "$ref": "#/definitions/SecKillProducts"
+        },
+        "secKill_record": {
+          "$ref": "#/definitions/SecKillRecord"
+        },
+        "secKill_user_quota": {
+          "$ref": "#/definitions/SecKillUserQuota"
+        },
+        "remind_stock": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "SecKillResp",
+      "required": [
+        "secKill_activity",
+        "secKill_order",
+        "secKill_products",
+        "secKill_record",
+        "secKill_user_quota",
+        "remind_stock"
       ]
     },
     "SecKillStock": {

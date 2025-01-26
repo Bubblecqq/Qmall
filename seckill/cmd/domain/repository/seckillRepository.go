@@ -13,7 +13,10 @@ import (
 )
 
 type ISecKillRepository interface {
-	ISecKillProducts
+	ISecKillProductsRepo
+	IPreSecKillStockRepo
+	ISecKillUserQuotaRepo
+	ISecKillQuotaRepo
 	// IncreaseSecKillStock 添加秒杀库存
 	IncreaseSecKillStock(in *pb.IncreaseSecKillStockReq) (*model.SecKillStock, error)
 
@@ -48,11 +51,98 @@ type ISecKillRepository interface {
 	IncreaseSecKillOrderWithKafka(order *model.SecKillOrder) (*model.SecKillOrder, error)
 
 	SaveSecKillUserQuota(in *pb.SaveSecKillUserQuotaReq) (*model.SecKillUserQuota, error)
+
+	GetSecKillStockByProductsId(products_id int64) (*model.SecKillStock, error)
+
+	UpdateSecKillStockByProductsId(products_id, quantity int64) error
+
+	UpdateSecKillUserQuotaFromStock(user_id, products_id, quantity, limitSecKill int64) error
 }
 
 type SecKillRepository struct {
 	mysqlClient *gorm.DB
 	redisClient *redis.Client
+}
+
+func (s *SecKillRepository) UpdateSecKillUserQuotaFromStock(user_id, products_id, quantity, limitSecKill int64) error {
+	fmt.Printf("[MySQL] 正在判断当前用户Id：%v及商品Id：%v是否存在限额....\n", user_id, products_id)
+
+	userQuota := &model.SecKillUserQuota{}
+	var err error
+	tx := s.mysqlClient.Begin()
+	if tx.Error != nil {
+		return tx.Error
+	}
+
+	find := tx.Model(&model.SecKillUserQuota{}).Where("products_id=? and user_id=?", products_id, user_id).Find(&userQuota)
+	if find.Error != nil || userQuota.Id <= 0 {
+		userQuota, err = s.IncreaseSecKillUserQuota(&seckill.IncreaseSecKillUserQuotaReq{
+			UserId:     user_id,
+			ProductsId: products_id,
+			Num:        quantity,
+			KilledNum:  0,
+		})
+		if err != nil {
+			return err
+		}
+	} else {
+		if quantity > limitSecKill || quantity+userQuota.KilledNum > limitSecKill {
+			return fmt.Errorf("当前用户秒杀的额度超过商品额度！具体用户秒杀数：%v，商品当前限量：%v", quantity, limitSecKill)
+		}
+		userQuota.KilledNum += quantity
+		updateTime := time.Now()
+		userQuota.UpdateTime = &updateTime
+		err = tx.Where("products_id=? and user_id=?", products_id, user_id).Updates(&userQuota).Error
+		if err != nil {
+			tx.Rollback()
+			return err
+		}
+	}
+	if err = tx.Commit().Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (s *SecKillRepository) UpdateSecKillStockByProductsId(products_id, quantity int64) error {
+
+	tx := s.mysqlClient.Begin()
+	if tx.Error != nil {
+		return tx.Error
+	}
+	var stock *model.SecKillStock
+	find := tx.Model(&model.SecKillStock{}).Where("products_id=?", products_id).Find(&stock)
+
+	if find.Error != nil {
+		return find.Error
+	}
+	if stock.Id <= 0 {
+		return gorm.ErrRecordNotFound
+	}
+	stock.Stock -= quantity
+	updateTime := time.Now()
+	stock.UpdateTime = &updateTime
+
+	updates := tx.Where("products_id=?", products_id).Updates(stock)
+	if updates.Error != nil {
+		tx.Rollback()
+		return updates.Error
+	}
+	if err := tx.Commit().Error; err != nil {
+		tx.Rollback()
+		return err
+	}
+	return nil
+}
+
+func (s *SecKillRepository) GetSecKillStockByProductsId(products_id int64) (*model.SecKillStock, error) {
+	stock := &model.SecKillStock{}
+
+	tx := s.mysqlClient.Model(&model.SecKillStock{}).Where("products_id=?", products_id).Find(&stock)
+	if tx.Error != nil {
+		return nil, gorm.ErrRecordNotFound
+	}
+	return stock, nil
 }
 
 func (s *SecKillRepository) SaveSecKillUserQuota(in *pb.SaveSecKillUserQuotaReq) (*model.SecKillUserQuota, error) {
@@ -76,7 +166,9 @@ func (s *SecKillRepository) SaveSecKillUserQuota(in *pb.SaveSecKillUserQuotaReq)
 		}
 
 	} else {
-		quotaByProductsId, err := s.GetSecKillQuotaByProductsId(in.ProductsId)
+		// 需要替换
+		quotaByProductsId := in.SecKillQuota
+		//quotaByProductsId, err := s.GetSecKillQuotaByProductsId(in.ProductsId)
 
 		// 是否超过限额
 		if err != nil {

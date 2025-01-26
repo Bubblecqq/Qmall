@@ -34,6 +34,10 @@ const (
 	SecKill_UpdateSecKillQuotaById_FullMethodName         = "/pb.secKill/UpdateSecKillQuotaById"
 	SecKill_UpdateSecKillUserQuotaById_FullMethodName     = "/pb.secKill/UpdateSecKillUserQuotaById"
 	SecKill_SaveSecKillUserQuota_FullMethodName           = "/pb.secKill/SaveSecKillUserQuota"
+	SecKill_SaveSecKillStock_FullMethodName               = "/pb.secKill/SaveSecKillStock"
+	SecKill_SaveSecKillQuota_FullMethodName               = "/pb.secKill/SaveSecKillQuota"
+	SecKill_GetDecreaseQuantity_FullMethodName            = "/pb.secKill/GetDecreaseQuantity"
+	SecKill_CheckAndDeductQuotaAndStock_FullMethodName    = "/pb.secKill/CheckAndDeductQuotaAndStock"
 )
 
 // SecKillClient is the client API for SecKill service.
@@ -54,6 +58,10 @@ type SecKillClient interface {
 	UpdateSecKillQuotaById(ctx context.Context, in *UpdateSecKillQuotaByIdReq, opts ...grpc.CallOption) (*UpdateSecKillQuotaByIdResp, error)
 	UpdateSecKillUserQuotaById(ctx context.Context, in *UpdateSecKillUserQuotaByIdReq, opts ...grpc.CallOption) (*UpdateSecKillUserQuotaByIdResp, error)
 	SaveSecKillUserQuota(ctx context.Context, in *SaveSecKillUserQuotaReq, opts ...grpc.CallOption) (*SaveSecKillUserQuotaResp, error)
+	SaveSecKillStock(ctx context.Context, in *SaveSecKillStockReq, opts ...grpc.CallOption) (*SaveSecKillStockResp, error)
+	SaveSecKillQuota(ctx context.Context, in *SaveSecKillQuotaReq, opts ...grpc.CallOption) (*SaveSecKillQuotaResp, error)
+	GetDecreaseQuantity(ctx context.Context, in *GetDecreaseQuantityReq, opts ...grpc.CallOption) (*GetDecreaseQuantityResp, error)
+	CheckAndDeductQuotaAndStock(ctx context.Context, in *CheckAndDeductQuotaAndStockReq, opts ...grpc.CallOption) (*CheckAndDeductQuotaAndStockResp, error)
 }
 
 type secKillClient struct {
@@ -194,6 +202,46 @@ func (c *secKillClient) SaveSecKillUserQuota(ctx context.Context, in *SaveSecKil
 	return out, nil
 }
 
+func (c *secKillClient) SaveSecKillStock(ctx context.Context, in *SaveSecKillStockReq, opts ...grpc.CallOption) (*SaveSecKillStockResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SaveSecKillStockResp)
+	err := c.cc.Invoke(ctx, SecKill_SaveSecKillStock_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *secKillClient) SaveSecKillQuota(ctx context.Context, in *SaveSecKillQuotaReq, opts ...grpc.CallOption) (*SaveSecKillQuotaResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SaveSecKillQuotaResp)
+	err := c.cc.Invoke(ctx, SecKill_SaveSecKillQuota_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *secKillClient) GetDecreaseQuantity(ctx context.Context, in *GetDecreaseQuantityReq, opts ...grpc.CallOption) (*GetDecreaseQuantityResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDecreaseQuantityResp)
+	err := c.cc.Invoke(ctx, SecKill_GetDecreaseQuantity_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *secKillClient) CheckAndDeductQuotaAndStock(ctx context.Context, in *CheckAndDeductQuotaAndStockReq, opts ...grpc.CallOption) (*CheckAndDeductQuotaAndStockResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(CheckAndDeductQuotaAndStockResp)
+	err := c.cc.Invoke(ctx, SecKill_CheckAndDeductQuotaAndStock_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SecKillServer is the server API for SecKill service.
 // All implementations must embed UnimplementedSecKillServer
 // for forward compatibility.
@@ -212,6 +260,10 @@ type SecKillServer interface {
 	UpdateSecKillQuotaById(context.Context, *UpdateSecKillQuotaByIdReq) (*UpdateSecKillQuotaByIdResp, error)
 	UpdateSecKillUserQuotaById(context.Context, *UpdateSecKillUserQuotaByIdReq) (*UpdateSecKillUserQuotaByIdResp, error)
 	SaveSecKillUserQuota(context.Context, *SaveSecKillUserQuotaReq) (*SaveSecKillUserQuotaResp, error)
+	SaveSecKillStock(context.Context, *SaveSecKillStockReq) (*SaveSecKillStockResp, error)
+	SaveSecKillQuota(context.Context, *SaveSecKillQuotaReq) (*SaveSecKillQuotaResp, error)
+	GetDecreaseQuantity(context.Context, *GetDecreaseQuantityReq) (*GetDecreaseQuantityResp, error)
+	CheckAndDeductQuotaAndStock(context.Context, *CheckAndDeductQuotaAndStockReq) (*CheckAndDeductQuotaAndStockResp, error)
 	mustEmbedUnimplementedSecKillServer()
 }
 
@@ -260,6 +312,18 @@ func (UnimplementedSecKillServer) UpdateSecKillUserQuotaById(context.Context, *U
 }
 func (UnimplementedSecKillServer) SaveSecKillUserQuota(context.Context, *SaveSecKillUserQuotaReq) (*SaveSecKillUserQuotaResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SaveSecKillUserQuota not implemented")
+}
+func (UnimplementedSecKillServer) SaveSecKillStock(context.Context, *SaveSecKillStockReq) (*SaveSecKillStockResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SaveSecKillStock not implemented")
+}
+func (UnimplementedSecKillServer) SaveSecKillQuota(context.Context, *SaveSecKillQuotaReq) (*SaveSecKillQuotaResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SaveSecKillQuota not implemented")
+}
+func (UnimplementedSecKillServer) GetDecreaseQuantity(context.Context, *GetDecreaseQuantityReq) (*GetDecreaseQuantityResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDecreaseQuantity not implemented")
+}
+func (UnimplementedSecKillServer) CheckAndDeductQuotaAndStock(context.Context, *CheckAndDeductQuotaAndStockReq) (*CheckAndDeductQuotaAndStockResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CheckAndDeductQuotaAndStock not implemented")
 }
 func (UnimplementedSecKillServer) mustEmbedUnimplementedSecKillServer() {}
 func (UnimplementedSecKillServer) testEmbeddedByValue()                 {}
@@ -516,6 +580,78 @@ func _SecKill_SaveSecKillUserQuota_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SecKill_SaveSecKillStock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SaveSecKillStockReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SecKillServer).SaveSecKillStock(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SecKill_SaveSecKillStock_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SecKillServer).SaveSecKillStock(ctx, req.(*SaveSecKillStockReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SecKill_SaveSecKillQuota_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SaveSecKillQuotaReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SecKillServer).SaveSecKillQuota(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SecKill_SaveSecKillQuota_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SecKillServer).SaveSecKillQuota(ctx, req.(*SaveSecKillQuotaReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SecKill_GetDecreaseQuantity_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDecreaseQuantityReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SecKillServer).GetDecreaseQuantity(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SecKill_GetDecreaseQuantity_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SecKillServer).GetDecreaseQuantity(ctx, req.(*GetDecreaseQuantityReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SecKill_CheckAndDeductQuotaAndStock_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CheckAndDeductQuotaAndStockReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SecKillServer).CheckAndDeductQuotaAndStock(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SecKill_CheckAndDeductQuotaAndStock_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SecKillServer).CheckAndDeductQuotaAndStock(ctx, req.(*CheckAndDeductQuotaAndStockReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SecKill_ServiceDesc is the grpc.ServiceDesc for SecKill service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -574,6 +710,22 @@ var SecKill_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SaveSecKillUserQuota",
 			Handler:    _SecKill_SaveSecKillUserQuota_Handler,
+		},
+		{
+			MethodName: "SaveSecKillStock",
+			Handler:    _SecKill_SaveSecKillStock_Handler,
+		},
+		{
+			MethodName: "SaveSecKillQuota",
+			Handler:    _SecKill_SaveSecKillQuota_Handler,
+		},
+		{
+			MethodName: "GetDecreaseQuantity",
+			Handler:    _SecKill_GetDecreaseQuantity_Handler,
+		},
+		{
+			MethodName: "CheckAndDeductQuotaAndStock",
+			Handler:    _SecKill_CheckAndDeductQuotaAndStock_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

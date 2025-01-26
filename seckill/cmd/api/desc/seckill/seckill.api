@@ -216,3 +216,24 @@ type (
         SecKillQuota SecKillQuota `json:"secKill_quota"`
     }
 )
+
+
+
+// 添加秒杀订单V2
+type (
+    SecKillReq {
+        Seller      int64      `gorm:"seller" json:"seller"`             // 买方ID
+        Buyer       int64      `gorm:"buyer" json:"buyer"`               // 卖方ID
+        ProductsId  int64      `gorm:"products_id" json:"products_id"`   // 商品ID//        Price       float64     `gorm:"price" json:"price"`               // 金额
+        Quantity  int64   `gorm:"quantity" json:"quantity"`         // 秒杀数量
+    }
+    SecKillResp {
+        SecKillActivity SecKillActivity `json:"secKill_activity"`
+        SecKillOrder SecKillOrder `json:"secKill_order"`
+        SecKillProducts SecKillProducts `json:"secKill_products"`
+        SecKillRecord SecKillRecord `json:"secKill_record"`
+        SecKillUserQuota SecKillUserQuota `json:"secKill_user_quota"`
+//        SecKillStock SecKillStock `json:"secKill_stock"`
+        RemindStock int64 `json:"remind_stock"`
+    }
+)

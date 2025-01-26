@@ -167,6 +167,8 @@ service product {
   rpc GetProductSku (GetProductSkuByIdReq) returns (GetProductSkuByIdResp);
 
   rpc UpdateProductSkuBySkuId (UpdateProductSkuBySkuIdReq) returns (UpdateProductSkuBySkuIdResp);
+
+  rpc SaveProductSkuWithCache (SaveProductSkuWithCacheReq) returns (SaveProductSkuWithCacheResp);
 }
 
 
@@ -176,4 +178,12 @@ message UpdateProductSkuBySkuIdReq {
 }
 message UpdateProductSkuBySkuIdResp {
   ProductSku productSku = 1;
+}
+
+
+message SaveProductSkuWithCacheReq {
+  int64 sku_id = 1;
+}
+message SaveProductSkuWithCacheResp {
+  int64 stock=1;
 }

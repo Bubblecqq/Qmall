@@ -40,7 +40,7 @@ func (l *GetActivityInfoByProductsNumLogic) GetActivityInfoByProductsNum(in *pb.
 		}
 		// 缓存未命中，从数据库查询
 		fmt.Printf("当前缓存未命中，正在查询MYSQL....\n")
-		activityInfo, err := l.svcCtx.ActivityRepository.GetActivityInfoByProductsNum(in.ProductsId, in.ProductsNum)
+		activityInfo, err = l.svcCtx.ActivityRepository.GetActivityInfoByProductsNum(in.ProductsId, in.ProductsNum)
 
 		if err != nil {
 			return &pb.GetActivityInfoByProductsNumResp{}, err
@@ -52,6 +52,8 @@ func (l *GetActivityInfoByProductsNumLogic) GetActivityInfoByProductsNum(in *pb.
 			fmt.Printf("设置活动商品信息缓存失败：%v\n", err)
 		}
 		fmt.Printf("设置活动商品信息缓存成功！\n")
+		// 将库存存入缓存
+
 	}
 	//activityInfo, err := l.svcCtx.ActivityRepository.GetActivityInfoByProductsNum(in.ProductsId, in.ProductsNum)
 	//

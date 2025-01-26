@@ -31,6 +31,7 @@ const (
 	Product_DeleteProductSku_FullMethodName        = "/pb.product/DeleteProductSku"
 	Product_GetProductSku_FullMethodName           = "/pb.product/GetProductSku"
 	Product_UpdateProductSkuBySkuId_FullMethodName = "/pb.product/UpdateProductSkuBySkuId"
+	Product_SaveProductSkuWithCache_FullMethodName = "/pb.product/SaveProductSkuWithCache"
 )
 
 // ProductClient is the client API for Product service.
@@ -49,6 +50,7 @@ type ProductClient interface {
 	DeleteProductSku(ctx context.Context, in *DeleteProductSkuReq, opts ...grpc.CallOption) (*DeleteProductSkuResp, error)
 	GetProductSku(ctx context.Context, in *GetProductSkuByIdReq, opts ...grpc.CallOption) (*GetProductSkuByIdResp, error)
 	UpdateProductSkuBySkuId(ctx context.Context, in *UpdateProductSkuBySkuIdReq, opts ...grpc.CallOption) (*UpdateProductSkuBySkuIdResp, error)
+	SaveProductSkuWithCache(ctx context.Context, in *SaveProductSkuWithCacheReq, opts ...grpc.CallOption) (*SaveProductSkuWithCacheResp, error)
 }
 
 type productClient struct {
@@ -179,6 +181,16 @@ func (c *productClient) UpdateProductSkuBySkuId(ctx context.Context, in *UpdateP
 	return out, nil
 }
 
+func (c *productClient) SaveProductSkuWithCache(ctx context.Context, in *SaveProductSkuWithCacheReq, opts ...grpc.CallOption) (*SaveProductSkuWithCacheResp, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SaveProductSkuWithCacheResp)
+	err := c.cc.Invoke(ctx, Product_SaveProductSkuWithCache_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ProductServer is the server API for Product service.
 // All implementations must embed UnimplementedProductServer
 // for forward compatibility.
@@ -195,6 +207,7 @@ type ProductServer interface {
 	DeleteProductSku(context.Context, *DeleteProductSkuReq) (*DeleteProductSkuResp, error)
 	GetProductSku(context.Context, *GetProductSkuByIdReq) (*GetProductSkuByIdResp, error)
 	UpdateProductSkuBySkuId(context.Context, *UpdateProductSkuBySkuIdReq) (*UpdateProductSkuBySkuIdResp, error)
+	SaveProductSkuWithCache(context.Context, *SaveProductSkuWithCacheReq) (*SaveProductSkuWithCacheResp, error)
 	mustEmbedUnimplementedProductServer()
 }
 
@@ -240,6 +253,9 @@ func (UnimplementedProductServer) GetProductSku(context.Context, *GetProductSkuB
 }
 func (UnimplementedProductServer) UpdateProductSkuBySkuId(context.Context, *UpdateProductSkuBySkuIdReq) (*UpdateProductSkuBySkuIdResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateProductSkuBySkuId not implemented")
+}
+func (UnimplementedProductServer) SaveProductSkuWithCache(context.Context, *SaveProductSkuWithCacheReq) (*SaveProductSkuWithCacheResp, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SaveProductSkuWithCache not implemented")
 }
 func (UnimplementedProductServer) mustEmbedUnimplementedProductServer() {}
 func (UnimplementedProductServer) testEmbeddedByValue()                 {}
@@ -478,6 +494,24 @@ func _Product_UpdateProductSkuBySkuId_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Product_SaveProductSkuWithCache_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SaveProductSkuWithCacheReq)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ProductServer).SaveProductSkuWithCache(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Product_SaveProductSkuWithCache_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ProductServer).SaveProductSkuWithCache(ctx, req.(*SaveProductSkuWithCacheReq))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Product_ServiceDesc is the grpc.ServiceDesc for Product service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -532,6 +566,10 @@ var Product_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateProductSkuBySkuId",
 			Handler:    _Product_UpdateProductSkuBySkuId_Handler,
+		},
+		{
+			MethodName: "SaveProductSkuWithCache",
+			Handler:    _Product_SaveProductSkuWithCache_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

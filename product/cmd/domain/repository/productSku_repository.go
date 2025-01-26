@@ -10,6 +10,7 @@ import (
 )
 
 type IProductSkuRepository interface {
+	ProductSkuRepo
 	FindProductSku(id int64) (*model.ProductSku, error)
 	GetProductSkuList() []model.ProductSku
 	DeleteProductSku(id int64) error
@@ -17,6 +18,39 @@ type IProductSkuRepository interface {
 	UpdateProductSku(in *pb.UpdateProductSkuReq) error
 	//UpdateProduct(product *model.Product)
 	UpdateProductSkuBySkuId(in *pb.UpdateProductSkuBySkuIdReq) (*model.ProductSku, error)
+
+	GetProductSkuStock(skuId int64) (int64, error)
+	UpdateProductSkuStock(skuId, quantity int64) error
+}
+
+func (p *ProductRepository) UpdateProductSkuStock(skuId, quantity int64) error {
+	tx := p.mysqlClient.Begin()
+	sku := &model.ProductSku{}
+	find := tx.Model(&model.ProductSku{}).Find(&sku, skuId)
+	if find.Error != nil {
+		return find.Error
+	}
+	sku.Stock -= quantity
+	sku.UpdateTime = time.Now()
+	updates := tx.Model(&model.ProductSku{}).Where("id=?", skuId).Updates(&sku)
+
+	if updates.Error != nil {
+		tx.Rollback()
+		return updates.Error
+	}
+	tx.Commit()
+	return nil
+}
+
+func (p *ProductRepository) GetProductSkuStock(skuId int64) (int64, error) {
+	sku := &model.ProductSku{}
+
+	tx := p.mysqlClient.Model(&model.ProductSku{}).Find(&sku, skuId)
+
+	if tx.Error != nil {
+		return 0, tx.Error
+	}
+	return sku.Stock, nil
 }
 
 //type ProductSkuRepository struct {

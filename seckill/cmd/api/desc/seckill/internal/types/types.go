@@ -165,6 +165,22 @@ type SecKillRecord struct {
 	UpdateTime string  `gorm:"update_time" json:"update_time"` // 修改时间
 }
 
+type SecKillReq struct {
+	Seller     int64 `gorm:"seller" json:"seller"`           // 买方ID
+	Buyer      int64 `gorm:"buyer" json:"buyer"`             // 卖方ID
+	ProductsId int64 `gorm:"products_id" json:"products_id"` // 商品ID//        Price       float64     `gorm:"price" json:"price"`               // 金额
+	Quantity   int64 `gorm:"quantity" json:"quantity"`       // 秒杀数量
+}
+
+type SecKillResp struct {
+	SecKillActivity  SecKillActivity  `json:"secKill_activity"`
+	SecKillOrder     SecKillOrder     `json:"secKill_order"`
+	SecKillProducts  SecKillProducts  `json:"secKill_products"`
+	SecKillRecord    SecKillRecord    `json:"secKill_record"`
+	SecKillUserQuota SecKillUserQuota `json:"secKill_user_quota"`
+	RemindStock      int64            `json:"remind_stock"`
+}
+
 type SecKillStock struct {
 	Id         int64  `gorm:"id" json:"id"`                   // ID
 	ProductsId int64  `gorm:"products_id" json:"products_id"` // 商品ID
