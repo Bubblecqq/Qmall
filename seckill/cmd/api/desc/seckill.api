@@ -40,5 +40,9 @@ service seckill {
 	@doc "添加秒杀记录"
 	@handler increaseSecKillRecord
 	post /increaseSecKillRecord (IncreaseSecKillRecordReq) returns (IncreaseSecKillRecordResp)
+
+	@doc "添加秒杀订单V2"
+	@handler secKill
+	post /secKill (SecKillReq) returns (SecKillResp)
 }
 

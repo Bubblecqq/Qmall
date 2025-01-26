@@ -88,3 +88,23 @@ func (s *SecKillServer) SaveSecKillUserQuota(ctx context.Context, in *pb.SaveSec
 	l := logic.NewSaveSecKillUserQuotaLogic(ctx, s.svcCtx)
 	return l.SaveSecKillUserQuota(in)
 }
+
+func (s *SecKillServer) SaveSecKillStock(ctx context.Context, in *pb.SaveSecKillStockReq) (*pb.SaveSecKillStockResp, error) {
+	l := logic.NewSaveSecKillStockLogic(ctx, s.svcCtx)
+	return l.SaveSecKillStock(in)
+}
+
+func (s *SecKillServer) SaveSecKillQuota(ctx context.Context, in *pb.SaveSecKillQuotaReq) (*pb.SaveSecKillQuotaResp, error) {
+	l := logic.NewSaveSecKillQuotaLogic(ctx, s.svcCtx)
+	return l.SaveSecKillQuota(in)
+}
+
+func (s *SecKillServer) GetDecreaseQuantity(ctx context.Context, in *pb.GetDecreaseQuantityReq) (*pb.GetDecreaseQuantityResp, error) {
+	l := logic.NewGetDecreaseQuantityLogic(ctx, s.svcCtx)
+	return l.GetDecreaseQuantity(in)
+}
+
+func (s *SecKillServer) CheckAndDeductQuotaAndStock(ctx context.Context, in *pb.CheckAndDeductQuotaAndStockReq) (*pb.CheckAndDeductQuotaAndStockResp, error) {
+	l := logic.NewCheckAndDeductQuotaAndStockLogic(ctx, s.svcCtx)
+	return l.CheckAndDeductQuotaAndStock(in)
+}

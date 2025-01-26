@@ -134,6 +134,7 @@ func (l *IncreaseSecKillOrderLogic) IncreaseSecKillOrder(req *types.IncreaseSecK
 	// 创建秒杀记录
 
 	// 库存预扣在这里
+	// TODO 库存扣减需要和用户限额一起操作
 	killRecord, err := l.svcCtx.SecKillRpcConf.IncreaseSecKillRecord(l.ctx, &seckill.IncreaseSecKillRecordReq{
 		UserId:     req.Buyer,
 		Price:      productsId.SecKillProducts.Price,

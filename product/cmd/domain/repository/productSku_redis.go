@@ -1,7 +1,6 @@
 package repository
 
 import (
-	"QMall/seckill/cmd/domain/model"
 	"context"
 	"encoding/json"
 	"errors"
@@ -10,42 +9,42 @@ import (
 	"time"
 )
 
-type ISecKillProductsRepo interface {
-	GetSecKillProductsByProductsIdWithCache(ctx context.Context, cacheKey string) (*model.SecKillProducts, error)
-	SetSecKillProductsByProductsIdWithCache(ctx context.Context, cacheKey string, secKillProducts *model.SecKillProducts) error
+type ProductSkuRepo interface {
+	GetProductSkuWithCache(ctx context.Context, cacheKey string) (int64, error)
+	SetProductSkuWithCache(ctx context.Context, cacheKey string, quantity int64) error
 }
 
-func (s *SecKillRepository) GetSecKillProductsByProductsIdWithCache(ctx context.Context, cacheKey string) (*model.SecKillProducts, error) {
+func (p *ProductRepository) GetProductSkuWithCache(ctx context.Context, cacheKey string) (int64, error) {
 	fmt.Printf("[Redis] 正在查询缓存中...key：%v\n", cacheKey)
-	secKillProducts := &model.SecKillProducts{}
+	quantity := int64(0)
 
-	result, err := s.redisClient.Get(ctx, cacheKey).Result()
+	result, err := p.redisClient.Get(ctx, cacheKey).Result()
 	if err != nil {
 		if err == redis.Nil {
 			fmt.Printf("Cache miss for key: %s\n", cacheKey)
-			return nil, errors.New("cache miss")
+			return 0, errors.New("cache miss")
 		}
 		fmt.Printf("Error getting data from Redis for key %s: %v\n", cacheKey, err)
-		return nil, err
+		return 0, err
 	}
 
-	err = json.Unmarshal([]byte(result), secKillProducts)
+	err = json.Unmarshal([]byte(result), quantity)
 	if err != nil {
 		// 反序列化出错，返回错误信息
 		fmt.Printf("Error unmarshaling data from Redis for key %s: %v\n", cacheKey, err)
-		return nil, err
+		return 0, err
 	}
-	return secKillProducts, nil
+	return quantity, nil
 }
 
-func (s *SecKillRepository) SetSecKillProductsByProductsIdWithCache(ctx context.Context, cacheKey string, secKillProducts *model.SecKillProducts) error {
+func (p *ProductRepository) SetProductSkuWithCache(ctx context.Context, cacheKey string, quantity int64) error {
 	fmt.Printf("[Redis] 正在设置缓存中...key：%v\n", cacheKey)
-	data, err := json.Marshal(secKillProducts)
+	data, err := json.Marshal(quantity)
 	if err != nil {
 		fmt.Printf("Error marshaling activity info for key %s: %v\n", cacheKey, err)
 		return err
 	}
-	setNX := s.redisClient.SetNX(ctx, cacheKey, string(data), 5*time.Minute)
+	setNX := p.redisClient.SetNX(ctx, cacheKey, string(data), 5*time.Minute)
 	if setNX.Err() != nil {
 		fmt.Printf("Error setting data in Redis for key %s: %v\n", cacheKey, setNX.Err())
 		return setNX.Err()

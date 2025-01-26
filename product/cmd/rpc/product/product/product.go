@@ -35,6 +35,8 @@ type (
 	PageResp                    = pb.PageResp
 	Product                     = pb.Product
 	ProductSku                  = pb.ProductSku
+	SaveProductSkuWithCacheReq  = pb.SaveProductSkuWithCacheReq
+	SaveProductSkuWithCacheResp = pb.SaveProductSkuWithCacheResp
 	ShowProductDetailReq        = pb.ShowProductDetailReq
 	ShowProductDetailResp       = pb.ShowProductDetailResp
 	UpdateProductSkuBySkuIdReq  = pb.UpdateProductSkuBySkuIdReq
@@ -55,6 +57,7 @@ type (
 		DeleteProductSku(ctx context.Context, in *DeleteProductSkuReq, opts ...grpc.CallOption) (*DeleteProductSkuResp, error)
 		GetProductSku(ctx context.Context, in *GetProductSkuByIdReq, opts ...grpc.CallOption) (*GetProductSkuByIdResp, error)
 		UpdateProductSkuBySkuId(ctx context.Context, in *UpdateProductSkuBySkuIdReq, opts ...grpc.CallOption) (*UpdateProductSkuBySkuIdResp, error)
+		SaveProductSkuWithCache(ctx context.Context, in *SaveProductSkuWithCacheReq, opts ...grpc.CallOption) (*SaveProductSkuWithCacheResp, error)
 	}
 
 	defaultProductZrpcClient struct {
@@ -126,4 +129,9 @@ func (m *defaultProductZrpcClient) GetProductSku(ctx context.Context, in *GetPro
 func (m *defaultProductZrpcClient) UpdateProductSkuBySkuId(ctx context.Context, in *UpdateProductSkuBySkuIdReq, opts ...grpc.CallOption) (*UpdateProductSkuBySkuIdResp, error) {
 	client := pb.NewProductClient(m.cli.Conn())
 	return client.UpdateProductSkuBySkuId(ctx, in, opts...)
+}
+
+func (m *defaultProductZrpcClient) SaveProductSkuWithCache(ctx context.Context, in *SaveProductSkuWithCacheReq, opts ...grpc.CallOption) (*SaveProductSkuWithCacheResp, error) {
+	client := pb.NewProductClient(m.cli.Conn())
+	return client.SaveProductSkuWithCache(ctx, in, opts...)
 }

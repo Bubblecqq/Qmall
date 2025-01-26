@@ -82,3 +82,8 @@ func (s *ProductServer) UpdateProductSkuBySkuId(ctx context.Context, in *pb.Upda
 	l := logic.NewUpdateProductSkuBySkuIdLogic(ctx, s.svcCtx)
 	return l.UpdateProductSkuBySkuId(in)
 }
+
+func (s *ProductServer) SaveProductSkuWithCache(ctx context.Context, in *pb.SaveProductSkuWithCacheReq) (*pb.SaveProductSkuWithCacheResp, error) {
+	l := logic.NewSaveProductSkuWithCacheLogic(ctx, s.svcCtx)
+	return l.SaveProductSkuWithCache(in)
+}

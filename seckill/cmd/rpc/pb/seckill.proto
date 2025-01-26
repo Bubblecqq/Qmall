@@ -230,6 +230,15 @@ service secKill {
   rpc UpdateSecKillQuotaById (UpdateSecKillQuotaByIdReq) returns (UpdateSecKillQuotaByIdResp);
   rpc UpdateSecKillUserQuotaById (UpdateSecKillUserQuotaByIdReq) returns (UpdateSecKillUserQuotaByIdResp);
   rpc SaveSecKillUserQuota (SaveSecKillUserQuotaReq) returns (SaveSecKillUserQuotaResp);
+
+  rpc SaveSecKillStock (SaveSecKillStockReq) returns (SaveSecKillStockResp);
+
+  rpc SaveSecKillQuota (SaveSecKillQuotaReq) returns (SaveSecKillQuotaResp);
+
+
+  rpc GetDecreaseQuantity (GetDecreaseQuantityReq) returns (GetDecreaseQuantityResp);
+
+  rpc CheckAndDeductQuotaAndStock (CheckAndDeductQuotaAndStockReq) returns (CheckAndDeductQuotaAndStockResp);
 }
 
 // 查询接口
@@ -286,9 +295,65 @@ message SaveSecKillUserQuotaReq {
   int64 products_id = 2;
   int64 num = 3;
   int64 killedNum = 4;
+  SecKillQuota secKill_quota = 5;
 }
 
 // 定义添加秒杀用户限额的响应消息
 message SaveSecKillUserQuotaResp {
   SecKillUserQuota secKill_user_quota = 1;
+}
+
+
+message SaveSecKillStockReq {
+  int64 products_id=1;
+  int64 quantity = 2;
+  int64 user_id = 3;
+  int64 limit = 4;
+}
+message SaveSecKillStockResp {
+  SecKillStock secKill_stock = 1;
+  int64 stock=2;
+}
+
+
+// 秒杀V2
+message SecKillReq {
+  int64 seller = 1;  // 买方 ID
+  int64 buyer = 2;   // 卖方 ID
+  int64 products_id = 3;  // 商品 ID
+  string products_num = 4;  // 商品编号
+  string order_num = 5;  // 订单号
+  double price = 6;  // 金额
+  int64 quantity = 7;
+}
+message SecKillResp {
+  SecKillActivity secKill_activity = 1;
+  SecKillOrder secKill_order = 2;
+  SecKillProducts secKill_products = 3;
+  SecKillRecord secKill_record = 4;
+}
+
+message SaveSecKillQuotaReq {
+  int64 products_id = 1;
+}
+message SaveSecKillQuotaResp {
+  SecKillQuota secKill_quota = 1;
+}
+
+
+message CheckAndDeductQuotaAndStockReq {
+  int64 products_id = 1;
+  int64 user_id = 2;
+  int64 quantity = 3;
+}
+message CheckAndDeductQuotaAndStockResp {
+  bool success = 1;
+}
+
+
+message GetDecreaseQuantityReq {
+
+}
+message GetDecreaseQuantityResp {
+
 }

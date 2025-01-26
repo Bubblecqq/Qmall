@@ -51,6 +51,12 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/increaseSecKillUserQuota",
 				Handler: seckill.IncreaseSecKillUserQuotaHandler(serverCtx),
 			},
+			{
+				// 添加秒杀订单V2
+				Method:  http.MethodPost,
+				Path:    "/secKill",
+				Handler: seckill.SecKillHandler(serverCtx),
+			},
 		},
 		rest.WithPrefix("/seckill/v1"),
 	)

@@ -14,6 +14,10 @@ import (
 )
 
 type (
+	CheckAndDeductQuotaAndStockReq     = pb.CheckAndDeductQuotaAndStockReq
+	CheckAndDeductQuotaAndStockResp    = pb.CheckAndDeductQuotaAndStockResp
+	GetDecreaseQuantityReq             = pb.GetDecreaseQuantityReq
+	GetDecreaseQuantityResp            = pb.GetDecreaseQuantityResp
 	GetSecKillProductsByProductsIdReq  = pb.GetSecKillProductsByProductsIdReq
 	GetSecKillProductsByProductsIdResp = pb.GetSecKillProductsByProductsIdResp
 	GetSecKillQuotaByProductsIdReq     = pb.GetSecKillQuotaByProductsIdReq
@@ -32,6 +36,10 @@ type (
 	IncreaseSecKillStockResp           = pb.IncreaseSecKillStockResp
 	IncreaseSecKillUserQuotaReq        = pb.IncreaseSecKillUserQuotaReq
 	IncreaseSecKillUserQuotaResp       = pb.IncreaseSecKillUserQuotaResp
+	SaveSecKillQuotaReq                = pb.SaveSecKillQuotaReq
+	SaveSecKillQuotaResp               = pb.SaveSecKillQuotaResp
+	SaveSecKillStockReq                = pb.SaveSecKillStockReq
+	SaveSecKillStockResp               = pb.SaveSecKillStockResp
 	SaveSecKillUserQuotaReq            = pb.SaveSecKillUserQuotaReq
 	SaveSecKillUserQuotaResp           = pb.SaveSecKillUserQuotaResp
 	SecKillActivity                    = pb.SecKillActivity
@@ -42,6 +50,8 @@ type (
 	SecKillProducts                    = pb.SecKillProducts
 	SecKillQuota                       = pb.SecKillQuota
 	SecKillRecord                      = pb.SecKillRecord
+	SecKillReq                         = pb.SecKillReq
+	SecKillResp                        = pb.SecKillResp
 	SecKillStock                       = pb.SecKillStock
 	SecKillUserQuota                   = pb.SecKillUserQuota
 	UpdateSecKillQuotaByIdReq          = pb.UpdateSecKillQuotaByIdReq
@@ -64,6 +74,10 @@ type (
 		UpdateSecKillQuotaById(ctx context.Context, in *UpdateSecKillQuotaByIdReq, opts ...grpc.CallOption) (*UpdateSecKillQuotaByIdResp, error)
 		UpdateSecKillUserQuotaById(ctx context.Context, in *UpdateSecKillUserQuotaByIdReq, opts ...grpc.CallOption) (*UpdateSecKillUserQuotaByIdResp, error)
 		SaveSecKillUserQuota(ctx context.Context, in *SaveSecKillUserQuotaReq, opts ...grpc.CallOption) (*SaveSecKillUserQuotaResp, error)
+		SaveSecKillStock(ctx context.Context, in *SaveSecKillStockReq, opts ...grpc.CallOption) (*SaveSecKillStockResp, error)
+		SaveSecKillQuota(ctx context.Context, in *SaveSecKillQuotaReq, opts ...grpc.CallOption) (*SaveSecKillQuotaResp, error)
+		GetDecreaseQuantity(ctx context.Context, in *GetDecreaseQuantityReq, opts ...grpc.CallOption) (*GetDecreaseQuantityResp, error)
+		CheckAndDeductQuotaAndStock(ctx context.Context, in *CheckAndDeductQuotaAndStockReq, opts ...grpc.CallOption) (*CheckAndDeductQuotaAndStockResp, error)
 	}
 
 	defaultSecKill struct {
@@ -141,4 +155,24 @@ func (m *defaultSecKill) UpdateSecKillUserQuotaById(ctx context.Context, in *Upd
 func (m *defaultSecKill) SaveSecKillUserQuota(ctx context.Context, in *SaveSecKillUserQuotaReq, opts ...grpc.CallOption) (*SaveSecKillUserQuotaResp, error) {
 	client := pb.NewSecKillClient(m.cli.Conn())
 	return client.SaveSecKillUserQuota(ctx, in, opts...)
+}
+
+func (m *defaultSecKill) SaveSecKillStock(ctx context.Context, in *SaveSecKillStockReq, opts ...grpc.CallOption) (*SaveSecKillStockResp, error) {
+	client := pb.NewSecKillClient(m.cli.Conn())
+	return client.SaveSecKillStock(ctx, in, opts...)
+}
+
+func (m *defaultSecKill) SaveSecKillQuota(ctx context.Context, in *SaveSecKillQuotaReq, opts ...grpc.CallOption) (*SaveSecKillQuotaResp, error) {
+	client := pb.NewSecKillClient(m.cli.Conn())
+	return client.SaveSecKillQuota(ctx, in, opts...)
+}
+
+func (m *defaultSecKill) GetDecreaseQuantity(ctx context.Context, in *GetDecreaseQuantityReq, opts ...grpc.CallOption) (*GetDecreaseQuantityResp, error) {
+	client := pb.NewSecKillClient(m.cli.Conn())
+	return client.GetDecreaseQuantity(ctx, in, opts...)
+}
+
+func (m *defaultSecKill) CheckAndDeductQuotaAndStock(ctx context.Context, in *CheckAndDeductQuotaAndStockReq, opts ...grpc.CallOption) (*CheckAndDeductQuotaAndStockResp, error) {
+	client := pb.NewSecKillClient(m.cli.Conn())
+	return client.CheckAndDeductQuotaAndStock(ctx, in, opts...)
 }
